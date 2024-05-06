@@ -2,6 +2,10 @@
 import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { link } from "fs";
+import Link from "next/link";
+import useApiAuth from "./../../hooks/auth/useApiAuth";
 
 type Inputs = {
   username: string;
@@ -9,16 +13,18 @@ type Inputs = {
 };
 
 export function Login() {
+  const axios = useApiAuth();
   const { control, register, handleSubmit } = useForm<Inputs>({
     mode: "onChange",
   });
-  const handleResgistration: SubmitHandler<Inputs> = (data) =>
+  const handleResgistration: SubmitHandler<Inputs> = (data) => {
     console.log(data);
+  };
   return (
-    <div className="border-2 rounded-md h-full bg-white">
-      <div className="px-10 my-6 flex flex-col text-black">
-        <div className="mb-9 justify-center align-middle text-center">
-          <h1 className="text-2xl font-semibold pb-2">Login to Account</h1>
+    <div className="border-2 rounded-md h-full xl:h-[450px] w-full xl:w-[550px] bg-white">
+      <div className="pt-10 pb-10 px-10 flex flex-col text-black">
+        <div className="mb-10 justify-center align-middle text-center">
+          <h1 className="text-3xl font-semibold pb-2">Login to Account</h1>
           <p className="font-medium text-sm px-6">
             Please enter your email and password to continue
           </p>
@@ -46,7 +52,7 @@ export function Login() {
                     Password:
                   </Label>
                   <Label htmlFor="password" className="font-medium">
-                    Forgor Password?
+                    <a href="/register">Forgor Password? </a>
                   </Label>
                 </div>
                 <Controller
@@ -57,9 +63,24 @@ export function Login() {
                   )}
                 />
               </div>
-              <button type="submit">Submit</button>
             </div>
           </form>
+          <div>
+            <div className="flex justify-center mt-6 px-16">
+              <Button variant={"loginButton"}>Login</Button>
+            </div>
+            <div className="flex justify-center mt-4 px-16">
+              <p>
+                Don't have an account?{" "}
+                <Link
+                  href="/auth/signup"
+                  className="text-blue-500 underline underline-offset-4"
+                >
+                  Create Account
+                </Link>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
