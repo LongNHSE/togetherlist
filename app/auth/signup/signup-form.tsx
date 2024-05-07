@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Label } from '@/components/ui/label';
 import {
   InputOTP,
@@ -271,6 +271,19 @@ export default function SignUpForm() {
     }
   }
 
+  //handle go back
+  const handleGoBack = () => {
+    window.history.back();
+  };
+
+  //Reset form and state
+  // useEffect(() => {
+  //   setError('');
+  //   setMail('');
+  //   setOtp('');
+  //   form.reset();
+  // }, []);
+
   //
   function EmailSubmit() {
     return (
@@ -372,7 +385,7 @@ export default function SignUpForm() {
   return (
     <div className="border-2 rounded-md h-full w-full xl:w-[650px] bg-white">
       <div className="pt-10 pb-10 px-10 flex flex-col text-black">
-        <div>
+        <div onClick={() => handleGoBack()}>
           <CircleArrowLeft
             className="cursor-pointer  hover:opacity-50 w-fit"
             size="2rem"
