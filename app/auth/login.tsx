@@ -1,11 +1,9 @@
-"use client";
-import { SubmitHandler, useForm, Controller } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { link } from "fs";
-import Link from "next/link";
-import useApiAuth from "./../../hooks/auth/useApiAuth";
+'use client';
+import { SubmitHandler, useForm, Controller } from 'react-hook-form';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 type Inputs = {
   username: string;
@@ -13,9 +11,9 @@ type Inputs = {
 };
 
 export function Login() {
-  const axios = useApiAuth();
+  // const axios = useApiAuth();
   const { control, register, handleSubmit } = useForm<Inputs>({
-    mode: "onChange",
+    mode: 'onChange',
   });
   const handleResgistration: SubmitHandler<Inputs> = (data) => {
     console.log(data);
@@ -67,11 +65,11 @@ export function Login() {
           </form>
           <div>
             <div className="flex justify-center mt-6 px-16">
-              <Button variant={"loginButton"}>Login</Button>
+              <Button variant={'loginButton'}>Login</Button>
             </div>
             <div className="flex justify-center mt-4 px-16">
               <p>
-                Don't have an account?{" "}
+                Don't have an account?{' '}
                 <Link
                   href="/auth/signup"
                   className="text-blue-500 underline underline-offset-4"

@@ -4,12 +4,10 @@ import { z } from 'zod';
 import { emailRegex } from '@/components/const';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -28,7 +26,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { CalendarIcon, Check, ChevronsUpDown } from 'lucide-react';
+import {
+  CalendarIcon,
+  Check,
+  ChevronsUpDown,
+  CircleArrowLeft,
+} from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
@@ -101,6 +104,7 @@ export default function SignUpForm() {
 
   //function use on submit
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true);
     try {
       const result = await fetch(
         `
@@ -114,11 +118,7 @@ export default function SignUpForm() {
           },
         },
       ).then((res) => res.json());
-      toast({
-        variant: 'default',
-        title: 'Account created',
-        description: 'Your account has been created',
-      });
+
       if (result.statusCode === 201) {
         toast({
           variant: 'success',
@@ -135,6 +135,8 @@ export default function SignUpForm() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -182,25 +184,90 @@ export default function SignUpForm() {
       setLoading(false);
     }
   }
-  //handdle otp submit
-  async function handleOtpSubmit() {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/verifyOTP`,
-      {
-        body: JSON.stringify({ email: mail, OTP: otp }),
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
 
-    const result = await response.json();
-    if (result.statusCode === 200) {
-      form.setValue('email', mail);
-      setStage(3);
-    } else {
-      console.log('error');
+  //handle resend OTP
+  async function handleResendOTP() {
+    if (!emailRegex.test(mail)) {
+      // toast({
+      //   variant: 'destructive',
+      //   title: 'Invalid email',
+      //   description: 'Please enter a valid email',
+      //   duration: 5000,
+      // });
+      setError('Please enter a valid email');
+      return;
+    }
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/sendOTP`,
+        {
+          body: JSON.stringify({ email: mail }),
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      const result = await response.json();
+
+      if (result.statusCode === 200) {
+        toast({
+          variant: 'success',
+          title: 'Successful',
+          description: 'OTP resend successfully',
+          duration: 5000,
+        });
+      } else {
+        setError(result.message);
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: result.message,
+          duration: 5000,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  //handdle otp submit
+  async function handleOtpSubmit(value: string) {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/verifyOTP`,
+        {
+          body: JSON.stringify({ email: mail, OTP: value }),
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      const result = await response.json();
+      console.log(result);
+      if (result.statusCode === 200) {
+        form.setValue('email', mail);
+        setStage(3);
+      } else {
+        toast({
+          variant: 'destructive',
+          description: result.message,
+          duration: 5000,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: error,
+        duration: 5000,
+      });
     }
   }
 
@@ -259,12 +326,13 @@ export default function SignUpForm() {
         </div>
         <div className="space-y-2 justify-center flex">
           <InputOTP
+            disabled={loading}
             maxLength={6}
             value={otp}
             onChange={(value) => {
               setOtp(value);
               if (value.length === 6) {
-                handleOtpSubmit();
+                handleOtpSubmit(value);
               }
             }}
           >
@@ -277,6 +345,17 @@ export default function SignUpForm() {
               <InputOTPSlot index={5} />
             </InputOTPGroup>
           </InputOTP>
+        </div>
+        <div className="align-middle flex justify-center mt-5">
+          <p>
+            Click to{' '}
+            <span
+              className="text-blue-400 font-bold hover:cursor-pointer"
+              onClick={() => handleResendOTP()}
+            >
+              resend OTP
+            </span>
+          </p>
         </div>
         <div className="flex justify-center mt-6 px-16">
           <Button
@@ -293,12 +372,18 @@ export default function SignUpForm() {
   return (
     <div className="border-2 rounded-md h-full w-full xl:w-[650px] bg-white">
       <div className="pt-10 pb-10 px-10 flex flex-col text-black">
+        <div>
+          <CircleArrowLeft
+            className="cursor-pointer  hover:opacity-50 w-fit"
+            size="2rem"
+          />
+        </div>
         {stage === 1 && EmailSubmit()}
         {stage === 2 && OtpSubmit()}
         {stage === 3 && (
           <div className="">
             <div className="mb-10 justify-center align-middle text-center">
-              <h1 className="text-3xl font-semibold pb-2">Login to Account</h1>
+              <h1 className="text-3xl font-semibold pb-2">Register Account</h1>
             </div>
             <Form {...form}>
               <form
@@ -455,7 +540,7 @@ export default function SignUpForm() {
                                   variant="outline"
                                   role="combobox"
                                   className={cn(
-                                    'w-[200px] justify-between',
+                                    'w-full justify-between',
                                     !field.value && 'text-muted-foreground',
                                   )}
                                 >
@@ -504,7 +589,9 @@ export default function SignUpForm() {
                   </div>
                 </div>
                 <div className="flex justify-center mt-6 px-16">
-                  <Button variant={'loginButton'}>Register</Button>
+                  <Button variant={loading ? 'loading' : 'loginButton'}>
+                    Register
+                  </Button>
                 </div>
               </form>
             </Form>
