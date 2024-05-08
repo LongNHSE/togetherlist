@@ -1,13 +1,14 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
+import HomePage from './home/page';
+import HomeLayout from './home/layout';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="">
-        <p>Hello</p>
-        <Link href="/auth">Go to authenticate</Link>
-      </div>
-    </main>
+    <>
+      <HomeLayout>
+        <HomePage />
+      </HomeLayout>
+    </>
   );
 }

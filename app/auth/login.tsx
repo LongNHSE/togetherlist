@@ -69,7 +69,7 @@ export function Login() {
             </div>
             <div className="flex justify-center mt-4 px-16">
               <p>
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <Link
                   href="/auth/signup"
                   className="text-blue-500 underline underline-offset-4"

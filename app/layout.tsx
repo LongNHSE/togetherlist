@@ -4,6 +4,9 @@ import './globals.css';
 import Providers from '@/components/Provider';
 import Header from '@/components/header';
 import { Toaster } from '@/components/ui/toaster';
+import GuestHeader from '@/layouts/Guest/GuestHeader';
+import GuestFooter from '@/layouts/Guest/GuestFooter';
+import HomeLayout from './home/layout';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -19,11 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* <Header></Header> */}
-        {children}
+        <div>{children}</div>
         <Toaster />
       </body>
     </html>
   );
 }
-
