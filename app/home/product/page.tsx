@@ -1,9 +1,3 @@
-import Loading from '@/app/loading';
-
 export default function ProductPage() {
-  return (
-    <>
-      <Loading />
-    </>
-  );
+  return <h1>Product Page</h1>;
 }
