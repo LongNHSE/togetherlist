@@ -9,7 +9,7 @@ export default function GuestNavbar() {
       <nav>
         <ul className="flex space-x-9 items-center text-[#707070]">
           <li>
-            <Link href="/">Product</Link>
+            <Link href="/home/product">Product</Link>
           </li>
           <li>
             <Link href="/"> Features</Link>
@@ -40,14 +40,13 @@ export default function GuestNavbar() {
         <li>
           <Link href="/">Contanct Sales</Link>
         </li>
-        <li>
-          <Link href="/auth">Login</Link>
-        </li>
       </ul>
 
-      <Button className="bg-[#3A1B05] hover:bg-[#704222] text-white rounded-xl">
-        Get Started
-      </Button>
+      <Link href="/auth">
+        <Button className="bg-[#3A1B05] hover:bg-[#704222] text-white rounded-xl">
+          Get Started
+        </Button>
+      </Link>
     </div>
   );
 }
