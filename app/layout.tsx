@@ -7,6 +7,8 @@ import { Toaster } from '@/components/ui/toaster';
 import GuestHeader from '@/layouts/Guest/GuestHeader';
 import GuestFooter from '@/layouts/Guest/GuestFooter';
 import HomeLayout from './home/layout';
+import { Suspense } from 'react';
+import Loading from './loading';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -22,9 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div>
-          <>{children}</>
-        </div>
+        <div>{children}</div>
         <Toaster />
       </body>
     </html>
