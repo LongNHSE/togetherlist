@@ -1,14 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import Providers from '@/components/Provider';
-import Header from '@/components/header';
 import { Toaster } from '@/components/ui/toaster';
-import GuestHeader from '@/layouts/Guest/GuestHeader';
-import GuestFooter from '@/layouts/Guest/GuestFooter';
-import HomeLayout from './home/layout';
-import { Suspense } from 'react';
-import Loading from './loading';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {

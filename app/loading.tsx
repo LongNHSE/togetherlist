@@ -1,6 +1,6 @@
+'use client';
 import { Loader } from 'lucide-react';
-
-export default function loading() {
+export default function LoadingSkeleton() {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-35">
       <Loader

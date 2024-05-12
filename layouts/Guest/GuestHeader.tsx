@@ -10,7 +10,7 @@ export default function GuestHeader() {
         <Logo />
         {/* Navbar + Auth */}
         <GuestNavbar />
-        <Link href="href" className="mt-3">
+        <Link href="/auth" className="mt-3">
           <Button
             size="lg"
             className="bg-[#3A1B05] hover:bg-[#704222] text-white rounded-xl "
