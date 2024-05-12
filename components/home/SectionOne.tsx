@@ -12,7 +12,7 @@ export default function SectionOne() {
       x: 0,
       opacity: 1,
       transition: {
-        duration: 0.5,
+        duration: 0.7,
       },
     },
   };
@@ -23,7 +23,7 @@ export default function SectionOne() {
       x: 0,
       opacity: 1,
       transition: {
-        duration: 0.5,
+        duration: 0.7,
       },
     },
   };

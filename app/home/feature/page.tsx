@@ -1,4 +1,9 @@
-'use client';
 export default function FeaturePage() {
-  return <h1>Feature Page</h1>;
+  return (
+    <div>
+      {/* Section 1 */}
+
+      {/* Section 2 */}
+    </div>
+  );
 }

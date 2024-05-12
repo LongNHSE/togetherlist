@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function GuestHeader() {
   return (
     <>
-      <div className="grid grid-cols-[1fr_auto_1fr] gap-x-[13rem] px-9 py-2 text-[18px] border-b-4 items-center">
+      <div className="grid grid-cols-[1fr_auto_1fr] gap-x-[4rem] px-9 py-2 text-[18px] border-b-4 items-center">
         {/* Logo */}
         <Logo />
         {/* Navbar + Auth */}

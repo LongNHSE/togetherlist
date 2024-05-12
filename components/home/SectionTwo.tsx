@@ -14,7 +14,7 @@ export default function SectionTwo() {
       filter: 'blur(0px)',
       opacity: 1,
       transition: {
-        duration: 0.5,
+        duration: 0.7,
       },
     },
   };
