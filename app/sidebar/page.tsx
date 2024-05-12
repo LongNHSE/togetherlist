@@ -15,6 +15,7 @@ import {
   Mail,
   MessageCircleMore,
   Presentation,
+  Tag,
   Users,
 } from "lucide-react";
 import {
@@ -29,7 +30,7 @@ import {
 export default function SideBar() {
   return (
     <div className="flex h-screen">
-      <aside className="w-64 bg-white border-r border-gray-300">
+      <aside className="w-64 bg-white">
         <nav className="h-full flex flex-col bg-white ">
           <div className="p-4 pb-2 flex justify-between items-center ">
             <Image
@@ -42,16 +43,14 @@ export default function SideBar() {
           </div>
 
           <div className="p-4 mt-2">
-            <div className="p-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300">
-              <FolderOpen className="mr-3" /> Projects
-            </div>
+     
             <div className="p-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300">
               <BarChart4 className="mr-3" /> Report
             </div>
             <div className="p-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300">
               <MessageCircleMore className="mr-3" /> Message
             </div>
-            <div className="p-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300">
+            <div className="p-4 mb-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300">
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center">
                   <BriefcaseBusiness className="mr-3 " />
@@ -67,12 +66,13 @@ export default function SideBar() {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
+            <div className="border-b border-gray-400"></div>
 
-            <div className="mb-4 mt-8 font-semibold">Pages</div>
+            <div className="p-4 ml-1 mt-4 font-semibold text-lg text-slate-400">Pages</div>
 
             <div className="p-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300">
               {" "}
-              <DollarSign className="mr-3" />
+              <Tag className="mr-3" />
               Pricing
             </div>
             <div className="p-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300">
@@ -95,22 +95,7 @@ export default function SideBar() {
               <Presentation className="mr-3" />
               Meeting
             </div>
-            <div className="p-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300">
-              <Mail className="mr-3" />
-              E-mail
-            </div>
-            <div className="p-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300 mt-8">
-              <Bolt className="mr-3" />
-              Settings
-            </div>
-            <div className="p-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300">
-              <LogOut className="mr-3" />
-              Logout
-            </div>
-            <div className="p-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300">
-              <CirclePlus className="mr-3" />
-              Add new task
-            </div>
+            <div className="border-b border-gray-400"></div>
           </div>
         </nav>
       </aside>
