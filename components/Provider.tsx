@@ -1,12 +1,27 @@
-"use client";
-import { SessionProvider } from "next-auth/react";
-import { ReactNode } from "react";
-
-interface Props {
-  children: ReactNode;
-}
-
-const Providers = ({ children }: Props) => {
-  return <SessionProvider>{children}</SessionProvider>;
+'use client';
+import React from 'react';
+import { createContext, useContext, useState } from 'react';
+type AppContextType = {
+  sessionToken: string;
+  setSessionToken: React.Dispatch<React.SetStateAction<string>>;
 };
-export default Providers;
+
+const AppContext = React.createContext<AppContextType | undefined>(undefined);
+
+export const useAppContext = () => {
+  const context = useContext(AppContext);
+  if (!context) {
+    throw new Error('useAppContext must be used within an Provider');
+  }
+  return context;
+};
+
+export default function Provider({ children }: { children: React.ReactNode }) {
+  const [sessionToken, setSessionToken] = useState('');
+
+  return (
+    <AppContext.Provider value={{ sessionToken, setSessionToken }}>
+      {children}
+    </AppContext.Provider>
+  );
+}

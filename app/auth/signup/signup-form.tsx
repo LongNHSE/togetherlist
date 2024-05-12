@@ -26,6 +26,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import Link from 'next/link';
 import {
   CalendarIcon,
   Check,
@@ -44,6 +45,8 @@ import {
 } from '@/components/ui/command';
 
 import { toast } from '@/components/ui/use-toast';
+import { setCookie } from 'cookies-next';
+import { redirect } from 'next/navigation';
 
 //Define sign up form schema
 const formSchema = z
@@ -125,6 +128,10 @@ export default function SignUpForm() {
           title: 'Account created',
           description: 'Your account has been created',
         });
+        setCookie('clientSessionToken', result.token);
+        setCookie('refreshToken', result.refreshToken);
+
+        redirect('/workspace');
       } else {
         if (result?.code === 11000) {
           form.setError('username', {
@@ -271,11 +278,6 @@ export default function SignUpForm() {
     }
   }
 
-  //handle go back
-  const handleGoBack = () => {
-    window.history.back();
-  };
-
   //Reset form and state
   // useEffect(() => {
   //   setError('');
@@ -373,7 +375,7 @@ export default function SignUpForm() {
         <div className="flex justify-center mt-6 px-16">
           <Button
             variant={loading ? 'loading' : 'loginButton'}
-            onClick={() => handleOtpSubmit()}
+            onClick={() => handleOtpSubmit(otp)}
           >
             Enter
           </Button>
@@ -385,12 +387,14 @@ export default function SignUpForm() {
   return (
     <div className="border-2 rounded-md h-full w-full xl:w-[650px] bg-white">
       <div className="pt-10 pb-10 px-10 flex flex-col text-black">
-        <div onClick={() => handleGoBack()}>
-          <CircleArrowLeft
-            className="cursor-pointer  hover:opacity-50 w-fit"
-            size="2rem"
-          />
-        </div>
+        <Link href="/auth">
+          <div>
+            <CircleArrowLeft
+              className="cursor-pointer  hover:opacity-50 w-fit"
+              size="2rem"
+            />
+          </div>
+        </Link>
         {stage === 1 && EmailSubmit()}
         {stage === 2 && OtpSubmit()}
         {stage === 3 && (
