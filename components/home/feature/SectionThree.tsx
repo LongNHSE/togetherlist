@@ -55,32 +55,32 @@ const SectionThree = () => {
             Cross-Functional Collaboration
           </h3>
 
-          <div className="flex items-center gap-5 text-slate-500">
+          <div className="flex items-center gap-5 text-slate-500 text-sm">
             <div className="bg-[#3A1B05] w-fit rounded-xl px-2 py-1">
               <User size={32} color="#FFE8D7" strokeWidth={1.75} />
             </div>
-            Team Communication & Collaboration
+            <span>Team Communication & Collaboration</span>
           </div>
 
-          <div className="flex items-center gap-5 text-slate-500">
+          <div className="flex items-center gap-5 text-slate-500 text-sm">
             <div className="bg-[#3A1B05] w-fit rounded-xl px-2 py-1">
               <User size={32} color="#FFE8D7" strokeWidth={1.75} />
             </div>
-            Stakeholder Management
+            <span>Stakeholder Management</span>
           </div>
 
-          <div className="flex items-center gap-5 text-slate-500">
+          <div className="flex items-center gap-5 text-slate-500 text-sm">
             <div className="bg-[#3A1B05] w-fit rounded-xl px-2 py-1">
               <User size={32} color="#FFE8D7" strokeWidth={1.75} />
             </div>
-            Revision & Approval Process
+            <span>Revision & Approval Process</span>
           </div>
 
-          <div className="flex items-center gap-5 text-slate-500">
+          <div className="flex items-center gap-5 text-slate-500 text-sm">
             <div className="bg-[#3A1B05] w-fit rounded-xl px-2 py-1">
               <User size={32} color="#FFE8D7" strokeWidth={1.75} />
             </div>
-            Routing Requests for Approval
+            <span>Routing Requests for Approval</span>
           </div>
         </StyledCardOne>
 
@@ -89,32 +89,32 @@ const SectionThree = () => {
             Together List Project Management
           </h3>
 
-          <div className="flex items-center gap-5 text-white">
+          <div className="flex items-center gap-5 text-white text-sm">
             <div className="bg-[#FFE8D7] w-fit rounded-xl px-2 py-1">
               <Presentation size={32} color="#3A1B05" strokeWidth={1.75} />
             </div>
-            Project Tracking & Management
+            <span>Project Tracking & Management</span>
           </div>
 
-          <div className="flex items-center gap-5 text-white">
+          <div className="flex items-center gap-5 text-white text-sm">
             <div className="bg-[#FFE8D7] w-fit rounded-xl px-2 py-1">
               <Workflow size={32} color="#3A1B05" strokeWidth={1.75} />
             </div>
-            Agile Workflow Management
+            <span>Agile Workflow Management</span>
           </div>
 
-          <div className="flex items-center gap-5 text-white">
+          <div className="flex items-center gap-5 text-white text-sm">
             <div className="bg-[#FFE8D7] w-fit rounded-xl px-2 py-1">
               <Bug size={32} color="#3A1B05" strokeWidth={1.75} />
             </div>
-            Issue & Bug Tracking
+            <span>Issue & Bug Tracking</span>
           </div>
 
-          <div className="flex items-center gap-5 text-white">
+          <div className="flex items-center gap-5 text-white text-sm">
             <div className="bg-[#FFE8D7] w-fit rounded-xl px-2 py-1">
               <BadgeAlert size={32} color="#3A1B05" strokeWidth={1.75} />
             </div>
-            Reporting & Analysis
+            <span>Reporting & Analysis</span>
           </div>
         </StyledCardTwo>
       </div>
