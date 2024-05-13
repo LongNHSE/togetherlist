@@ -19,6 +19,7 @@ import { useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { TriangleAlert } from 'lucide-react';
 import { redirect, useRouter } from 'next/navigation';
+import autheApiRequest from '@/apiRequest/auth/auth.api';
 
 const loginSchema = z.object({
   username: z.string({
@@ -44,17 +45,17 @@ export function Login() {
   const handleLogin = async (data: z.infer<typeof loginSchema>) => {
     setLoading(true);
     try {
-      const result = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/signin`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        },
-      ).then((res) => res.json());
-
+      // const result = await fetch(
+      //   `${process.env.NEXT_PUBLIC_API_URL}/auth/signin`,
+      //   {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify(data),
+      //   },
+      // ).then((res) => res.json());
+      const result = await autheApiRequest.login(data);
       console.log(result);
       if (result.statusCode === 200) {
         toast({
@@ -64,17 +65,17 @@ export function Login() {
         });
 
         //This fetch use to set cookie in serverside
-        const resultFromNextServer = await fetch('/api/auth', {
-          method: 'POST',
-          body: JSON.stringify(result),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }).then((res) => res.json());
+        // const resultFromNextServer = await fetch('/api/auth', {
+        //   method: 'POST',
+        //   body: JSON.stringify(result),
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        // }).then((res) => res.json());
 
         setCookie('clientSessionToken', result.token);
         setCookie('refreshToken', result.refreshToken);
-        localStorage.setItem('user', result.user);
+        localStorage.setItem('user', JSON.stringify(result.user));
         router.push('/workspace');
       } else {
         toast({
@@ -136,7 +137,11 @@ export function Login() {
                           </Label>
                         </div>
                         <FormControl>
-                          <Input placeholder="Enter your password" {...field} />
+                          <Input
+                            placeholder="Enter your password"
+                            type="password"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
