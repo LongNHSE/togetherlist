@@ -1,8 +1,13 @@
+import SectionTwo from '@/components/home/solution/SectionTwo';
+import SectionOne from '@/components/home/solution/SectionOne';
 
 export default function SolutionPage() {
-      return (
-            <div>
-Solution
-            </div>
-      );
+  return (
+    <>
+      {/* Section 1 */}
+      <SectionOne />
+      {/* Section 2 */}
+      <SectionTwo />
+    </>
+  );
 }
