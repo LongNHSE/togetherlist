@@ -3,6 +3,7 @@ import { getCookies } from 'cookies-next';
 import { cookies } from 'next/headers';
 
 const publicPath = [
+  '/test',
   '/sidebar',
   '/home',
   '/home/*',
@@ -17,9 +18,7 @@ const privatePath = ['/workspace/*'];
 
 export function middleware(req: NextRequest) {
   const cookiess = getCookies({ cookies });
-  console.log(cookiess, 'asdasd');
 
-  console.log(cookies);
   // Get the path of the request
   const path = req.nextUrl.pathname;
 
@@ -27,7 +26,8 @@ export function middleware(req: NextRequest) {
   const isPublicRoute = publicPath.includes(path);
 
   //Get cookie
-  const cookie = req.cookies.get('sessionToken');
+  const cookie = cookiess?.clientSessionToken;
+  console.log(cookie);
 
   if (!isPublicRoute && !cookie) {
     return NextResponse.redirect(new URL('/auth', req.nextUrl));

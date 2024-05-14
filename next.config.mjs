@@ -1,10 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    domains: [process.env.NEXT_PUBLIC_IMAGE_DOMAINS],
+  },
   async redirects() {
     return [
       {
-        source: '/',
         destination: '/home',
+        source: '/',
         permanent: true,
       },
     ];
@@ -12,4 +15,3 @@ const nextConfig = {
 };
 
 export default nextConfig;
-

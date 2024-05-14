@@ -1,6 +1,6 @@
-import React from "react";
-import logo from "@/public/logo.png";
-import Image from "next/image";
+import React from 'react';
+import logo from '@/public/logo.png';
+import Image from 'next/image';
 import {
   BarChart4,
   Bolt,
@@ -17,7 +17,7 @@ import {
   Presentation,
   Tag,
   Users,
-} from "lucide-react";
+} from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,7 +25,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 
 export default function SideBar() {
   return (
@@ -43,7 +43,6 @@ export default function SideBar() {
           </div>
 
           <div className="p-4 mt-2">
-     
             <div className="p-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300">
               <BarChart4 className="mr-3" /> Report
             </div>
@@ -68,20 +67,22 @@ export default function SideBar() {
             </div>
             <div className="border-b border-gray-400"></div>
 
-            <div className="p-4 ml-1 mt-4 font-semibold text-lg text-slate-400">Pages</div>
+            <div className="p-4 ml-1 mt-4 font-semibold text-lg text-slate-400">
+              Pages
+            </div>
 
             <div className="p-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300">
-              {" "}
+              {' '}
               <Tag className="mr-3" />
               Pricing
             </div>
             <div className="p-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300">
-              {" "}
+              {' '}
               <CalendarDays className="mr-3" />
               Calendar
             </div>
             <div className="p-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300">
-              {" "}
+              {' '}
               <ListChecks className="mr-3" /> To-do
             </div>
             <div className="p-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300">
