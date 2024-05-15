@@ -1,4 +1,7 @@
+import createNextIntlPlugin from 'next-intl/plugin';
 /** @type {import('next').NextConfig} */
+const withNextIntl = createNextIntlPlugin('./app/i18n.ts');
+
 const nextConfig = {
   images: {
     domains: [process.env.NEXT_PUBLIC_IMAGE_DOMAINS],
@@ -14,4 +17,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

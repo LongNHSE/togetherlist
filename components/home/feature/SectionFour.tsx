@@ -34,8 +34,9 @@ const SectionFour = () => {
       </motion.div>
       <div className="flex gap-3 items-center">
         <motion.div
-          className="bg-slate-200 w-[20rem] py-3 px-4 rounded-xl shadow-lg"
+          className="bg-slate-200 w-[20rem] py-3 px-4 rounded-xl shadow-lg select-none"
           variants={variants}
+          whileHover={{ y: -10, transition: { duration: 0.3 } }}
         >
           <h1 className="uppercase font-bold text-xl">Task Tracking</h1>
           <span className="text-slate-500">
@@ -45,8 +46,9 @@ const SectionFour = () => {
         </motion.div>
 
         <motion.div
-          className="bg-slate-200 w-[20rem] py-3 px-4 rounded-xl shadow-lg"
+          className="bg-slate-200 w-[20rem] py-3 px-4 rounded-xl shadow-lg select-none"
           variants={variants}
+          whileHover={{ y: -10, transition: { duration: 0.3 } }}
         >
           <h1 className="uppercase font-bold text-xl">Collaboration</h1>
           <span className="text-slate-500">
@@ -56,8 +58,9 @@ const SectionFour = () => {
         </motion.div>
 
         <motion.div
-          className="bg-slate-200 w-[20rem] py-3 px-4 rounded-xl shadow-lg"
+          className="bg-slate-200 w-[20rem] py-3 px-4 rounded-xl shadow-lg select-none"
           variants={variants}
+          whileHover={{ y: -10, transition: { duration: 0.3 } }}
         >
           <h1 className="uppercase font-bold text-xl">Reporting & Analytics</h1>
           <span className="text-slate-500">

@@ -4,6 +4,18 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
+const StyledCard = styled(motion.div)`
+  background-color: #d3cda2;
+  max-width: 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem 0.75rem;
+  height: 20rem;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
+`;
+
 const SectionTwo = () => {
   const [ref1, inView1] = useInView({
     triggerOnce: true,
@@ -16,17 +28,7 @@ const SectionTwo = () => {
   const [ref3, inView3] = useInView({
     triggerOnce: true,
   });
-  const StyledCard = styled.div`
-    background-color: #d3cda2;
-    max-width: 20rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1.25rem 0.75rem;
-    height: 20rem;
-    border-radius: 1rem;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
-  `;
+
   return (
     <section>
       <div className="flex flex-col justify-center items-center mt-10 space-y-9">
@@ -69,7 +71,7 @@ const SectionTwo = () => {
         transition={{ duration: 0.9, ease: 'easeOut' }}
         className="flex items-center gap-5 justify-center py-3 "
       >
-        <StyledCard>
+        <StyledCard whileHover={{ y: -10, transition: { duration: 0.3 } }}>
           <Lightbulb size={75} color="#000000" strokeWidth={1.75} />
           <h1 className="font-bold text-2xl">Creative Idea</h1>
           <span className="text-[#595566] ">
@@ -78,7 +80,7 @@ const SectionTwo = () => {
           </span>
         </StyledCard>
 
-        <StyledCard>
+        <StyledCard whileHover={{ y: -10, transition: { duration: 0.3 } }}>
           <BarChart3 size={75} color="#000000" strokeWidth={1.75} />
           <h1 className="font-bold text-2xl">Customer stories</h1>
           <span className="text-[#595566] ">
@@ -87,7 +89,7 @@ const SectionTwo = () => {
           </span>
         </StyledCard>
 
-        <StyledCard>
+        <StyledCard whileHover={{ y: -10, transition: { duration: 0.3 } }}>
           <Earth size={75} color="#000000" strokeWidth={1.75} />
           <h1 className="font-bold text-2xl">Connections</h1>
           <span className="text-[#595566] ">
@@ -96,7 +98,7 @@ const SectionTwo = () => {
           </span>
         </StyledCard>
 
-        <StyledCard>
+        <StyledCard whileHover={{ y: -10, transition: { duration: 0.3 } }}>
           <Settings size={75} color="#000000" strokeWidth={1.75} />
           <h1 className="font-bold text-2xl">Careers</h1>
           <span className="text-[#595566] ">

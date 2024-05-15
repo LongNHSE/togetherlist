@@ -1,5 +1,5 @@
 'use client';
-import { SubmitHandler, useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { TriangleAlert } from 'lucide-react';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import autheApiRequest from '@/apiRequest/auth/auth.api';
 
 const loginSchema = z.object({

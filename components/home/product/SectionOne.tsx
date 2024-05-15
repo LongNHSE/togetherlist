@@ -11,6 +11,19 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
+const StyledCard = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  background-color: #e0c1ab;
+  gap: 1rem;
+  width: 20rem;
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  user-select: none;
+  cursor: default;
+`;
+
 const SectionOne = () => {
   const [ref1, inView1] = useInView({
     triggerOnce: true,
@@ -20,16 +33,18 @@ const SectionOne = () => {
     triggerOnce: true,
   });
 
-  const StyledCard = styled.div`
-    display: flex;
-    flex-direction: column;
-    background-color: #e0c1ab;
-    gap: 1rem;
-    width: 20rem;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
-    border-radius: 1rem;
-    padding: 1rem 1.25rem;
-  `;
+  const variants = {
+    hidden: { opacity: 0, y: 20, scale: 0.9 },
+    show: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.7,
+      },
+    },
+  };
+
   return (
     <section>
       <div className="flex flex-col justify-center items-center mt-10 space-y-9">
@@ -69,7 +84,7 @@ const SectionOne = () => {
         transition={{ type: 'spring', stiffness: 50, damping: 20 }}
         className="flex justify-center items-center space-x-9 mt-4"
       >
-        <StyledCard>
+        <StyledCard whileHover={{ y: -10, transition: { duration: 0.3 } }}>
           <Bot size={75} color="#000000" strokeWidth={1.75} />
           <h1 className="font-bold text-2xl">AI</h1>
           <span className="text-[#595566] ">
@@ -77,7 +92,7 @@ const SectionOne = () => {
           </span>
         </StyledCard>
 
-        <StyledCard className=" flex flex-col bg-gray-200 gap-8  w-[20rem] shadow-lg rounded-xl py-3 px-5 ">
+        <StyledCard whileHover={{ y: -10, transition: { duration: 0.3 } }}>
           <BookOpenText size={75} color="#000000" strokeWidth={1.75} />
           <h1 className="font-bold text-2xl">Docs</h1>
           <span className="text-[#595566] ">
@@ -85,7 +100,7 @@ const SectionOne = () => {
           </span>
         </StyledCard>
 
-        <StyledCard className=" flex flex-col bg-gray-200 gap-8  w-[20rem] shadow-lg rounded-xl py-3 px-5 ">
+        <StyledCard whileHover={{ y: -10, transition: { duration: 0.3 } }}>
           <BookOpenCheck size={75} color="#000000" strokeWidth={1.75} />
           <h1 className="font-bold text-2xl">Wikis</h1>
           <span className="text-[#595566] ">
@@ -101,7 +116,7 @@ const SectionOne = () => {
         transition={{ type: 'spring', stiffness: 50, damping: 20 }}
         className="flex justify-center items-center space-x-9 mt-4"
       >
-        <StyledCard className=" flex flex-col bg-gray-200 gap-8  w-[20rem] shadow-lg rounded-xl py-3 px-5 ">
+        <StyledCard whileHover={{ y: -10, transition: { duration: 0.3 } }}>
           <FolderKanban size={75} color="#000000" strokeWidth={1.75} />
           <h1 className="font-bold text-2xl">Projects</h1>
           <span className="text-[#595566] ">
@@ -109,7 +124,7 @@ const SectionOne = () => {
           </span>
         </StyledCard>
 
-        <StyledCard className=" flex flex-col bg-gray-200 gap-8  w-[20rem] shadow-lg rounded-xl py-3 px-5 ">
+        <StyledCard whileHover={{ y: -10, transition: { duration: 0.3 } }}>
           <CalendarDays size={75} color="#000000" strokeWidth={1.75} />
           <h1 className="font-bold text-2xl">Calendar</h1>
           <span className="text-[#595566] ">
@@ -117,7 +132,7 @@ const SectionOne = () => {
           </span>
         </StyledCard>
 
-        <StyledCard className=" flex flex-col bg-gray-200 gap-8  w-[20rem] shadow-lg rounded-xl py-3 px-5 ">
+        <StyledCard whileHover={{ y: -10, transition: { duration: 0.3 } }}>
           <BookA size={75} color="#000000" strokeWidth={1.75} />
           <h1 className="font-bold text-2xl">Translates</h1>
           <span className="text-[#595566] ">
