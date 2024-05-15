@@ -12,7 +12,7 @@ const StyledCard = styled(motion.div)`
   justify-content: space-between;
   gap: 1.25rem;
   background-color: rgb(226 232 240);
-  padding: 1rem 1rem;
+  padding: 1rem 2rem;
   border-radius: 1rem;
   width: 22rem;
   height: 30rem;

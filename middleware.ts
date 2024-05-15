@@ -4,10 +4,6 @@ import { cookies } from 'next/headers';
 import createMiddleware from 'next-intl/middleware';
 
 const publicPath = [
-  '/auth/*',
-  '/id',
-  '/en',
-  '/test',
   '/sidebar',
   '/home',
   '/home/*',
@@ -19,14 +15,6 @@ const publicPath = [
   '/auth/reset-password',
 ];
 const privatePath = ['/workspace/*'];
-
-export default createMiddleware({
-  // A list of all locales that are supported
-  locales: ['en', 'de'],
-
-  // Used when no locale matches
-  defaultLocale: 'en',
-});
 
 export function middleware(req: NextRequest) {
   const cookiess = getCookies({ cookies });
@@ -60,9 +48,5 @@ export function middleware(req: NextRequest) {
 //   matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
 // };
 export const config = {
-  matcher: [
-    '/((?!api|_next/static|_next/image|.*\\.png$).*)',
-    '/',
-    '/(de|en)/:path*',
-  ],
+  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
 };
