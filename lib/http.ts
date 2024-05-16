@@ -1,3 +1,5 @@
+import { getCookie } from 'cookies-next';
+
 type CustomOption = RequestInit & { baseUrl?: string | undefined };
 
 class HttpError extends Error {
@@ -9,17 +11,16 @@ class HttpError extends Error {
     this.payload = payload;
   }
 }
-
 const request = async (
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   url: string,
   options?: CustomOption | undefined,
 ) => {
+  const sessionToken = getCookie('clientSessionToken');
   const body = options?.body ? JSON.stringify(options.body) : undefined;
   const baseHeader = {
     'Content-Type': 'application/json',
   };
-
   const baseUrl = options?.baseUrl || process.env.NEXT_PUBLIC_API_URL;
 
   // Check if the url has '/' or not exp account/me and /account/me
@@ -31,6 +32,7 @@ const request = async (
     ...options,
     headers: {
       ...baseHeader,
+      Authorization: sessionToken ? `Bearer ${sessionToken}` : '',
       //Define addtion header in options like Authorization
       ...options?.headers,
     },

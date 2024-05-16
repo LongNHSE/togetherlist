@@ -14,6 +14,7 @@ const publicPath = [
   '/auth/forgot-password',
   '/auth/reset-password',
 ];
+const authPath = ['/auth'];
 const privatePath = ['/workspace/*'];
 
 export function middleware(req: NextRequest) {
@@ -29,24 +30,27 @@ export function middleware(req: NextRequest) {
     return regex.test(path);
   });
 
+  // Check if the path is a auth path
+  const isAuthRoute = authPath.some((authPath) => {
+    const regex = new RegExp(`^${authPath.replace('*', '.*')}$`);
+    return regex.test(path);
+  });
+
   //Get cookie
   const cookie = cookiess?.clientSessionToken;
-  console.log(cookie);
 
   if (!isPublicRoute && !cookie) {
     return NextResponse.redirect(new URL('/auth', req.nextUrl));
   }
-
-  if (isPublicRoute && cookie) {
+  console.log('cookie', cookie);
+  console.log('isAuthRoute', isPublicRoute);
+  if (isAuthRoute && cookie) {
     return NextResponse.redirect(new URL('/workspace', req.nextUrl));
   }
 
   return NextResponse.next();
 }
 
-// export const config = {
-//   matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
-// };
 export const config = {
   matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
 };
