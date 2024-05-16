@@ -27,12 +27,14 @@ const NavLink = ({
     ? activeClassName
     : '';
   return (
-    <Link className={className} href={to} {...props}>
-      <div className="flex items-center gap-1">
-        {icon && icon}
-        <span className={className}>{children}</span>
-      </div>
-    </Link>
+    <div className={className}>
+      <Link href={to} {...props}>
+        <div className="flex items-center gap-1 ">
+          {icon && icon}
+          <span>{children}</span>
+        </div>
+      </Link>
+    </div>
   );
 };
 

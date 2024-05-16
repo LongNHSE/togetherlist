@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCookies } from 'cookies-next';
 import { cookies } from 'next/headers';
-import createMiddleware from 'next-intl/middleware';
 
 const publicPath = [
+  '/sidebar/*',
   '/sidebar',
   '/home',
   '/home/*',
