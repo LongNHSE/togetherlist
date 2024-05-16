@@ -1,4 +1,5 @@
-import LoadingSkeleton from '@/app/loading';
+import LoadingSkeleton from "@/app/loading";
+
 
 export default function ProductLoading() {
   return (

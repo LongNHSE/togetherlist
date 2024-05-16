@@ -2,6 +2,12 @@ import SectionFour from '@/components/home/feature/SectionFour';
 import SectionOne from '@/components/home/feature/SectionOne';
 import SectionThree from '@/components/home/feature/SectionThree';
 import SectionTwo from '@/components/home/feature/SectionTwo';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Feature',
+  description: 'Check out our features',
+};
 
 export default function FeaturePage() {
   return (

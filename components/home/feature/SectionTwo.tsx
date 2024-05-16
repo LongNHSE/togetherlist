@@ -1,7 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import sectionOne2 from '@/public/featurePage/SectionOne2.png';
+import sectionOne2 from '@/public/featurePage/SectionOne2.jpg';
 import Image from 'next/image';
 const SectionTwo = () => {
   const [ref, inView] = useInView({

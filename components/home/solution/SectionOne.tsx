@@ -2,30 +2,56 @@
 
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+
+const StyledCard = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 19rem;
+  height: 20rem;
+  background-color: #e0c1ab;
+  padding: 1rem 2rem;
+  border-bottom-right-radius: 1.875rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.7),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  user-select: none;
+  cursor: default;
+`;
 
 const SectionOne = () => {
-  const StyledCard = styled(motion.div)`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 19rem;
-    height: 20rem;
-    background-color: #e0c1ab;
-    padding: 1rem 2rem;
-    border-bottom-right-radius: 1.875rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.7),
-      0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  `;
+  const variants = {
+    hidden: { opacity: 0, y: 20, scale: 0.9 },
+    show: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.7,
+      },
+    },
+  };
+
+  const { ref, inView } = useInView({
+    triggerOnce: true, // Change to false if you want to trigger again when element is not in view
+  });
+
   return (
     <section className="flex flex-col justify-start items-center py-5 gap-6   ">
-      <h1 className="font-semibold text-2xl tracking-wide uppercase">
+      <h1 className="font-semibold text-4xl tracking-wide uppercase">
         By Team Size
       </h1>
       <span className="text-slate-500">
         Explore our solutions tailored to teams of all sizes.
       </span>
       <div className="flex gap-5">
-        <StyledCard whileHover={{ y: -20 }}>
+        <StyledCard
+          ref={ref}
+          variants={variants}
+          initial="hidden"
+          animate={inView ? 'show' : 'hidden'}
+          whileHover={{ y: -20 }}
+        >
           <div className="flex flex-col gap-5">
             <h2 className="text-lg font-bold h-[2rem]  tracking-wider">
               Enterprise Solution
@@ -38,7 +64,13 @@ const SectionOne = () => {
           </div>
         </StyledCard>
 
-        <StyledCard whileHover={{ y: -20 }}>
+        <StyledCard
+          ref={ref}
+          variants={variants}
+          initial="hidden"
+          animate={inView ? 'show' : 'hidden'}
+          whileHover={{ y: -20 }}
+        >
           <div className="flex flex-col gap-5">
             <h2 className="text-lg font-bold tracking-wider">
               Small Business Solution
@@ -51,7 +83,13 @@ const SectionOne = () => {
           </div>
         </StyledCard>
 
-        <StyledCard whileHover={{ y: -20 }}>
+        <StyledCard
+          ref={ref}
+          variants={variants}
+          initial="hidden"
+          animate={inView ? 'show' : 'hidden'}
+          whileHover={{ y: -20 }}
+        >
           <div className="flex flex-col gap-5">
             <h2 className="text-lg font-bold  tracking-wider">
               Start-up Solution
@@ -64,7 +102,13 @@ const SectionOne = () => {
           </div>
         </StyledCard>
 
-        <StyledCard whileHover={{ y: -20 }}>
+        <StyledCard
+          ref={ref}
+          variants={variants}
+          initial="hidden"
+          animate={inView ? 'show' : 'hidden'}
+          whileHover={{ y: -20 }}
+        >
           <div className="flex flex-col gap-5">
             <h2 className="text-lg font-bold tracking-wider">
               Freelancer Solution

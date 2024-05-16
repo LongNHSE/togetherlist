@@ -4,32 +4,33 @@ import { useInView } from 'react-intersection-observer';
 import styled from 'styled-components';
 import { BadgeAlert, Bug, Presentation, User, Workflow } from 'lucide-react';
 
+const StyledCardOne = styled(motion.div)`
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: start;
+  background-color: #ffe8d7;
+  width: 25rem;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+`;
+const StyledCardTwo = styled(motion.div)`
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: start;
+  background-color: #3a1b05;
+  width: 25rem;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+`;
+
 const SectionThree = () => {
   const { ref, inView } = useInView({
     triggerOnce: true,
   });
-  const StyledCardOne = styled(motion.div)`
-    padding: 10px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: start;
-    background-color: #ffe8d7;
-    width: 25rem;
-    border-radius: 1rem;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  `;
-  const StyledCardTwo = styled(motion.div)`
-    padding: 10px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: start;
-    background-color: #3a1b05;
-    width: 25rem;
-    border-radius: 1rem;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  `;
 
   return (
     <motion.section
@@ -50,7 +51,7 @@ const SectionThree = () => {
       </span>
 
       <div className="flex items-center justify-center gap-8">
-        <StyledCardOne>
+        <StyledCardOne whileHover={{ y: -10, transition: { duration: 0.3 } }}>
           <h3 className="uppercase font-semibold text-[#3A1B05] px-4 py-2 text-l">
             Cross-Functional Collaboration
           </h3>
@@ -84,7 +85,7 @@ const SectionThree = () => {
           </div>
         </StyledCardOne>
 
-        <StyledCardTwo>
+        <StyledCardTwo whileHover={{ y: -10, transition: { duration: 0.3 } }}>
           <h3 className="uppercase font-semibold text-[#FFE8D7] px-4 py-2 text-l">
             Together List Project Management
           </h3>
