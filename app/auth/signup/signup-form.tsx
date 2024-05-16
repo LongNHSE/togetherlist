@@ -272,7 +272,7 @@ export default function SignUpForm() {
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: error,
+        description: 'Fail to verify OTP, please try again',
         duration: 5000,
       });
     }

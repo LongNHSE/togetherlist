@@ -19,7 +19,7 @@ import { useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { TriangleAlert } from 'lucide-react';
 import { redirect, useRouter } from 'next/navigation';
-import autheApiRequest from '@/apiRequest/auth/auth.api';
+import authApiRequest from '@/apiRequest/auth/auth.api';
 
 const loginSchema = z.object({
   username: z.string({
@@ -45,17 +45,7 @@ export function Login() {
   const handleLogin = async (data: z.infer<typeof loginSchema>) => {
     setLoading(true);
     try {
-      // const result = await fetch(
-      //   `${process.env.NEXT_PUBLIC_API_URL}/auth/signin`,
-      //   {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify(data),
-      //   },
-      // ).then((res) => res.json());
-      const result = await autheApiRequest.login(data);
+      const result = await authApiRequest.login(data);
       console.log(result);
       if (result.statusCode === 200) {
         toast({

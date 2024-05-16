@@ -1,9 +1,9 @@
 import React from 'react';
-import Container from './component';
+import KanbanBoard from './KanbanBoard';
 const page = () => {
   return (
     <div>
-      <Container />
+      <KanbanBoard />
     </div>
   );
 };

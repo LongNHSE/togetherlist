@@ -27,6 +27,8 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
+        warning:
+          'warning group border-yellow-500 bg-yellow-500 text-neutral-50 dark:border-yellow-900 dark:bg-yellow-900 dark:text-neutral-50',
         default:
           'border bg-white text-neutral-950 dark:bg-neutral-950 dark:text-neutral-50',
         destructive:
@@ -127,4 +129,3 @@ export {
   ToastClose,
   ToastAction,
 };
-

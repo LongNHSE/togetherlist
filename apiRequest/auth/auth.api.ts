@@ -1,7 +1,7 @@
 import http from '@/lib/http';
 
-const autheApiRequest = {
+const authApiRequest = {
   login: (body: any) => http.post('/auth/signin', body),
 };
 
-export default autheApiRequest;
+export default authApiRequest;
