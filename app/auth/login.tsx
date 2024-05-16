@@ -45,16 +45,6 @@ export function Login() {
   const handleLogin = async (data: z.infer<typeof loginSchema>) => {
     setLoading(true);
     try {
-      // const result = await fetch(
-      //   `${process.env.NEXT_PUBLIC_API_URL}/auth/signin`,
-      //   {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify(data),
-      //   },
-      // ).then((res) => res.json());
       const result = await authApiRequest.login(data);
       console.log(result);
       if (result.statusCode === 200) {
