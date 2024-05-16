@@ -12,7 +12,7 @@ export const TaskSchema = z.object({
     .optional(),
   status: z.string().optional(),
   userId: UserSchema.optional(),
-  index: z.number().optional(),
+  indexCount: z.number().optional(),
   isPriority: z.boolean().optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
