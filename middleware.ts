@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 
 const publicPath = [
   '/sidebar/*',
+  '/test',
   '/sidebar',
   '/home',
   '/home/*',
@@ -42,8 +43,6 @@ export function middleware(req: NextRequest) {
   if (!isPublicRoute && !cookie) {
     return NextResponse.redirect(new URL('/auth', req.nextUrl));
   }
-  console.log('cookie', cookie);
-  console.log('isAuthRoute', isPublicRoute);
   if (isAuthRoute && cookie) {
     return NextResponse.redirect(new URL('/workspace', req.nextUrl));
   }
