@@ -28,6 +28,7 @@ const request = async (
     ? `${baseUrl}${url}`
     : `${baseUrl}/${url}`;
 
+  console.log(sessionToken);
   const res = await fetch(fullUrl, {
     ...options,
     headers: {
@@ -44,6 +45,7 @@ const request = async (
   if (res.ok) {
     return data;
   } else {
+    console.log(data);
     throw new HttpError(data);
   }
 };

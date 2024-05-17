@@ -1,4 +1,3 @@
-'use client';
 import NavLink from '@/components/NavLink';
 import logo from '@/public/logo.png';
 import {
@@ -15,6 +14,7 @@ import {
   CalendarDays,
   Contact,
   ListChecks,
+  LogOut,
   MessageCircleMore,
   Presentation,
   Tag,
@@ -22,11 +22,16 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
+import LogoutButton from '@/components/LogoutButton';
 
 const DashboardSidebar = () => {
+  console.log(typeof window);
+
   return (
     <aside className="w-[11rem] bg-white">
       <nav className="h-full flex flex-col bg-white ">
+        {typeof window !== 'undefined' && <div>Window is defined</div>}
+
         <div className="p-4 pb-2 flex justify-between items-center ">
           <Image
             src={logo}
@@ -101,6 +106,7 @@ const DashboardSidebar = () => {
             <Presentation className="mr-3" />
             Meeting
           </div>
+          <LogoutButton />
           <div className="border-b border-gray-400"></div>
         </div>
       </nav>
