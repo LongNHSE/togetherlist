@@ -6,6 +6,8 @@ const publicPath = [
   '/sidebar/*',
   '/test',
   '/sidebar',
+  '/account-settings',
+  '/profile',
   '/home',
   '/home/*',
   '/',
