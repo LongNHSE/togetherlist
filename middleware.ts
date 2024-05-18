@@ -4,6 +4,8 @@ import { cookies } from 'next/headers';
 
 const publicPath = [
   '/sidebar',
+  '/account-settings',
+  '/profile',
   '/home',
   '/home/*',
   '/',
