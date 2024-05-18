@@ -19,7 +19,7 @@ export default function GuestNavbar() {
     { id: 4, name: 'Solutions', path: `${BASE_PATH}/solution` },
     { id: 6, name: 'Enterprise', path: `${BASE_PATH}/enterprise` },
     { id: 7, name: 'Pricing', path: `${BASE_PATH}/pricing` },
-    { id: 8, name: 'Contact Sales', path: '/' },
+    { id: 8, name: 'Contact Sales', path: `${BASE_PATH}/contact` },
   ];
   const activeLinkStyle =
     'text-[#3A1B05] border-b-2 border-[#3A1B05] transition-all duration-300 ease-in-out';

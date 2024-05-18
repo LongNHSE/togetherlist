@@ -1,5 +1,5 @@
 'use client';
-import { Filter, Search } from 'lucide-react';
+import { Filter, FolderKanban, FolderKanbanIcon, Search } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -15,8 +15,16 @@ import { Button } from '@/components/ui/button';
 const SectionOne = () => {
   return (
     <div className="flex justify-between items-center">
-      {/* Filter */}
-      <div className="flex gap-3 items-center">
+      {/* Create new project */}
+      <Button
+        className="flex items-center gap-3 bg-[#3A1B05] rounded-xl hover:bg-[#a5683c]"
+        size="sm"
+      >
+        <FolderKanbanIcon absoluteStrokeWidth />
+        <span>Create project</span>
+      </Button>
+      {/* Filter + Search */}
+      <div className="flex gap-1 items-center">
         <Filter />
         <Select>
           <SelectTrigger className="w-[180px]">
@@ -31,14 +39,12 @@ const SectionOne = () => {
             </SelectGroup>
           </SelectContent>
         </Select>
-      </div>
-
-      {/* Search */}
-      <div className="flex items-center gap-2">
-        <Input className="rounded-lg" placeholder="Search..." type="search" />
-        <Button className="rounded-lg" type="submit">
-          <Search className="w-4 h-4" />
-        </Button>
+        <div className="flex items-center gap-2">
+          <Input className="rounded-lg" placeholder="Search..." type="search" />
+          <Button className="rounded-lg bg-[#3A1B05]" type="submit">
+            <Search className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
     </div>
   );
