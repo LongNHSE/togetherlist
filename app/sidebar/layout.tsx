@@ -10,7 +10,7 @@ export default function RootLayout({
   return (
     <div className="grid grid-cols-[auto_2fr] h-screen">
       <DashboardSidebar />
-      <section className="grid grid-rows-[auto_1fr] h-screen">
+      <section className="grid grid-rows-[1fr_auto] h-screen">
         <DashboardHeader />
         <div className="py-3 px-6">{children}</div>
       </section>

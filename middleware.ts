@@ -3,6 +3,7 @@ import { getCookies } from 'cookies-next';
 import { cookies } from 'next/headers';
 
 const publicPath = [
+  '/test',
   '/sidebar/*',
   '/test',
   '/sidebar',

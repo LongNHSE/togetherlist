@@ -28,10 +28,8 @@ const DashboardSidebar = () => {
   console.log(typeof window);
 
   return (
-    <aside className="w-[11rem] bg-white">
-      <nav className="h-full flex flex-col bg-white ">
-        {typeof window !== 'undefined' && <div>Window is defined</div>}
-
+    <aside className="w-[10rem] bg-white">
+      <nav className="h-fit flex flex-col bg-white ">
         <div className="p-4 pb-2 flex justify-between items-center ">
           <Image
             src={logo}
@@ -52,8 +50,8 @@ const DashboardSidebar = () => {
 
           <NavLink
             to="/sidebar/workspace"
-            className="p-4 flex items-cente hover:bg-gray-300 cursor-pointer transition duration-300"
-            activeClassName="bg-gray-300"
+            className="p-4 flex items-cente hover:opacity-70 cursor-pointer transition duration-300"
+            activeClassName="bg-[#3A1B05] text-white"
             icon={<MessageCircleMore className="mr-3" />}
           >
             Test
