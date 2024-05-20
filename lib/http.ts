@@ -28,7 +28,6 @@ const request = async (
     ? `${baseUrl}${url}`
     : `${baseUrl}/${url}`;
 
-  console.log(sessionToken);
   const res = await fetch(fullUrl, {
     ...options,
     headers: {

@@ -8,13 +8,15 @@ import React from 'react';
 export default function LogoutButton() {
   const router = useRouter();
   async function logoutHandle() {
-    console.log('logout');
-
-    const result = await authApiRequest.logout();
-    console.log(result);
-    deleteCookie('clientSessionToken');
-    deleteCookie('refreshToken');
-    router.push('/home');
+    try {
+      const result = await authApiRequest.logout();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      deleteCookie('clientSessionToken');
+      deleteCookie('refreshToken');
+      router.push('/home');
+    }
   }
   return (
     <div

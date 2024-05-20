@@ -1,13 +1,22 @@
-'use client';
-import { getCookie, getCookies } from 'cookies-next';
+import SectionOne from '@/components/Workspace/SectionOne';
+import SectionThree from '@/components/Workspace/SectionThree';
+import SectionTwo from '@/components/Workspace/SectionTwo';
+import { Metadata } from 'next';
 
-import React from 'react';
-
-const page = () => {
-  const cookie = getCookies();
-
-  console.log(cookie);
-  return <div>Hello</div>;
+export const metadata: Metadata = {
+  title: 'Projects',
+  description:
+    'Welcome to Together List, your collaborative task management app.',
 };
-
-export default page;
+export default function WorkspacePage() {
+  return (
+    <section className="flex flex-col gap-5">
+      {/* Section One */}
+      <SectionOne />
+      {/* Section Two:Projects */}
+      <SectionTwo />
+      {/* Pagination */}
+      <SectionThree />
+    </section>
+  );
+}

@@ -36,14 +36,16 @@ const ProgressTasks = ({
         {labelValue}
       </Label>
       <TooltipProvider>
-        <TooltipTrigger asChild>
-          <Progress
-            id={idLabel}
-            value={progressValue}
-            colorClass={progressColorClass}
-            className={progressClassName}
-          />
-        </TooltipTrigger>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Progress
+              id={idLabel}
+              value={progressValue}
+              colorClass={progressColorClass}
+              className={progressClassName}
+            />
+          </TooltipTrigger>
+        </Tooltip>
       </TooltipProvider>
     </div>
   );
