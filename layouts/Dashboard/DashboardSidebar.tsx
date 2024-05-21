@@ -23,21 +23,14 @@ import {
 import Image from 'next/image';
 import React from 'react';
 import LogoutButton from '@/components/LogoutButton';
+import Logo from '@/components/Logo';
 
 const DashboardSidebar = () => {
-  console.log(typeof window);
-
   return (
     <aside className="w-[10rem] bg-white">
       <nav className="h-fit flex flex-col bg-white ">
         <div className="p-4 pb-2 flex justify-between items-center ">
-          <Image
-            src={logo}
-            alt="logo"
-            height={160}
-            width={160}
-            priority={true}
-          />
+          <Logo />
         </div>
 
         <div className=" mt-2">

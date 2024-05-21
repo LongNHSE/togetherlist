@@ -18,8 +18,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { TriangleAlert } from 'lucide-react';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import authApiRequest from '@/apiRequest/auth/auth.api';
+import Image from 'next/image';
+import logoImg from '@/public/logo.png';
 
 const loginSchema = z.object({
   username: z.string({
@@ -31,12 +33,9 @@ const loginSchema = z.object({
 });
 
 export function Login() {
-  // const axios = useApiAuth();
-
   //define const
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
   //Define login form
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -53,16 +52,6 @@ export function Login() {
           description: result.message,
           duration: 5000,
         });
-
-        //This fetch use to set cookie in serverside
-        // const resultFromNextServer = await fetch('/api/auth', {
-        //   method: 'POST',
-        //   body: JSON.stringify(result),
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        // }).then((res) => res.json());
-
         setCookie('clientSessionToken', result.token);
         setCookie('refreshToken', result.refreshToken);
         localStorage.setItem('user', JSON.stringify(result.user));
@@ -87,8 +76,17 @@ export function Login() {
     }
   };
   return (
-    <div className="border-2 rounded-md h-full xl:h-fit w-full xl:w-[550px] bg-white">
-      <div className="pt-10 pb-10 px-10 flex flex-col text-black">
+    <div className="border-2 rounded-2xl h-full xl:h-fit w-full xl:w-[550px] bg-white">
+      <div className="pt-10 pb-10 px-10 flex gap-3 flex-col text-black items-center">
+        {/* Image */}
+        <Image
+          src={logoImg}
+          height={250}
+          width={250}
+          priority={true}
+          alt="Logo"
+        />
+        {/* Form */}
         <div className="mb-10 justify-center align-middle text-center">
           <h1 className="text-3xl font-semibold pb-2">Login to Account</h1>
           <p className="font-medium text-sm px-6">

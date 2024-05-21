@@ -150,12 +150,6 @@ export default function SignUpForm() {
   //handle email submit
   async function handleEmailSubmit() {
     if (!emailRegex.test(mail)) {
-      // toast({
-      //   variant: 'destructive',
-      //   title: 'Invalid email',
-      //   description: 'Please enter a valid email',
-      //   duration: 5000,
-      // });
       setError('Please enter a valid email');
       return;
     }
@@ -195,12 +189,6 @@ export default function SignUpForm() {
   //handle resend OTP
   async function handleResendOTP() {
     if (!emailRegex.test(mail)) {
-      // toast({
-      //   variant: 'destructive',
-      //   title: 'Invalid email',
-      //   description: 'Please enter a valid email',
-      //   duration: 5000,
-      // });
       setError('Please enter a valid email');
       return;
     }
@@ -277,16 +265,6 @@ export default function SignUpForm() {
       });
     }
   }
-
-  //Reset form and state
-  // useEffect(() => {
-  //   setError('');
-  //   setMail('');
-  //   setOtp('');
-  //   form.reset();
-  // }, []);
-
-  //
   function EmailSubmit() {
     return (
       <div>

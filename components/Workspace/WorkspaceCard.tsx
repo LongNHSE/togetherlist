@@ -14,14 +14,13 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { Label } from '../ui/label';
-import { Progress } from '../ui/progress';
 import ProgressTasks from './ProgressTasks';
 
 const WorkspaceCard = () => {
   return (
     <div>
-      <Card className="max-w-[25rem] h-auto flex flex-col space-y-5 p-5 bg-white shadow-lg rounded-xl select-none">
+      {/* <Card className="max-w-[25rem] h-auto flex flex-col space-y-5 p-5 bg-white shadow-lg rounded-xl select-none"> */}
+      <Card className="max-w-laptop lg:max-w-monitor h-auto flex flex-col space-y-5 p-5 bg-white shadow-lg rounded-xl select-none">
         <CardHeader>
           {/* Breadcumb */}
           <Breadcrumb>

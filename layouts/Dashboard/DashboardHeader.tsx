@@ -1,6 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Bell, CircleChevronDown, Network } from 'lucide-react';
+import { Bell, CircleChevronDown } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,6 +7,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import CreateWorkspace from '@/components/workspace/CreateWorkspace';
+import AvatarDropdown from '@/components/user/AvatarDropdown';
 
 const DashboardHeader = () => {
   return (
@@ -29,14 +29,8 @@ const DashboardHeader = () => {
       </DropdownMenu>
 
       <div className="flex items-center gap-7">
-        {/* Share Button */}
-        <Button
-          className="flex items-center gap-3 bg-[#3A1B05] rounded-3xl hover:bg-[#a5683c]"
-          size="sm"
-        >
-          <Network absoluteStrokeWidth />
-          <span>Create workspace</span>
-        </Button>
+        {/* Creat Workpsace Button */}
+        <CreateWorkspace />
         {/* Notification */}
         <div className="relative hover:opacity-50 cursor-pointer">
           <Bell />
@@ -45,17 +39,7 @@ const DashboardHeader = () => {
           </span>
         </div>
         {/* Account */}
-        <div className=" py-1 px-2 flex items-center gap-2 hover:opacity-50 cursor-pointer">
-          <Avatar className="w-10 h-10">
-            <AvatarImage
-              src="https://github.com/alicejohnson.png"
-              alt="@shadcn"
-            />
-            <AvatarFallback className="w-10 h-10">CN</AvatarFallback>
-          </Avatar>
-          <span className="text-sm font-bold">Username</span>
-          <CircleChevronDown className="tex-[#3A1B05] font-semibold" />
-        </div>
+        <AvatarDropdown />
       </div>
     </header>
   );

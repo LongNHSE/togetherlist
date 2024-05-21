@@ -1,6 +1,6 @@
-import SectionOne from '@/components/Workspace/SectionOne';
-import SectionThree from '@/components/Workspace/SectionThree';
-import SectionTwo from '@/components/Workspace/SectionTwo';
+import SectionOne from '@/components/workspace/SectionOne';
+import SectionThree from '@/components/workspace/SectionThree';
+import SectionTwo from '@/components/workspace/SectionTwo';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
