@@ -14,7 +14,7 @@ export default function KanbanLane({ title, tasks, issue }: KanbanLaneProps) {
     id: `${issue}-${title}`,
   });
 
-  const className = `items-center flex flex-col gap-3 border-2 bg-slate-300 min-h-96 min-w-[310px] p-2 ${
+  const className = `items-center flex flex-col gap-3 border-2 border-white	 bg-slate-200 min-h-96 min-w-[310px] p-2 ${
     isOver ? 'bg-green-200' : ''
   }`;
 

@@ -187,6 +187,7 @@ export default function KanbanBoard() {
       },
     }),
   );
+  let renderLaneCount = 0;
 
   const [laneName, setLaneName] = useState('');
   const [issues, setIssues] = useState(issueData);
@@ -285,28 +286,41 @@ export default function KanbanBoard() {
           onDragEnd={onDragEnd}
         >
           <div className="flex flex-col ">
-            {issues.map((issue) => (
-              <div key={issue.name} className="flex flex-row">
-                <div className="w-28 align-middle text-center flex my-auto">
-                  <h2>{issue.name}</h2>
+            {issues.map((issue) => {
+              const issueElement = (
+                <div key={issue.name} className="flex flex-row">
+                  <div className="w-28 align-middle text-center flex my-auto">
+                    <h2>{issue.name}</h2>
+                  </div>
+                  <div className="flex flex-row ">
+                    {lanes.map((lane) => {
+                      const tasks = issue.tasks.filter(
+                        (task) => task.status === lane,
+                      );
+                      const laneElement = (
+                        <div key={`${issue.name}-${lane}`}>
+                          {renderLaneCount === 0 && (
+                            <div className="text-center text-2xl ">{lane}</div>
+                          )}
+                          <KanbanLane
+                            key={`${issue.name}-${lane}`}
+                            title={lane}
+                            issue={issue.name}
+                            tasks={tasks}
+                          />
+                        </div>
+                      );
+
+                      return laneElement;
+                    })}
+                  </div>
                 </div>
-                <div className="flex flex-row ">
-                  {lanes.map((lane) => {
-                    const tasks = issue.tasks.filter(
-                      (task) => task.status === lane,
-                    );
-                    return (
-                      <KanbanLane
-                        key={`${issue.name}-${lane}`}
-                        title={lane}
-                        issue={issue.name}
-                        tasks={tasks}
-                      />
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
+              );
+
+              /* To make sure render lane 1 time only */
+              renderLaneCount++;
+              return issueElement;
+            })}
           </div>
         </DndContext>
         <div className="bg-dark_brown h-fit p-2 rounded-xl hover:opacity-55 cursor-pointer">

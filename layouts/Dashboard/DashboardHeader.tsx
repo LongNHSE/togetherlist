@@ -1,32 +1,14 @@
 import { Bell, CircleChevronDown } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+
 import CreateWorkspace from '@/components/workspace/CreateWorkspace';
 import AvatarDropdown from '@/components/user/AvatarDropdown';
+import DropdownHeader from '@/components/header/DropdownHeader';
 
 const DashboardHeader = () => {
   return (
     <header className="px-6 py-4 bg-gray-50 flex justify-between items-center cursor-pointer">
       {/* List of workspaces */}
-      <DropdownMenu>
-        <DropdownMenuTrigger className="flex items-center gap-1  focus:outline-none hover:opacity-50 text-[#3A1B05] font-bold">
-          <span>Workspaces</span>
-          <CircleChevronDown className="tex-[#3A1B05] font-semibold" />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuLabel>Current workspace</DropdownMenuLabel>
-          <DropdownMenuItem>Together List</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Kohe Niko</DropdownMenuItem>
-          <DropdownMenuItem>Gym center</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <DropdownHeader></DropdownHeader>
 
       <div className="flex items-center gap-7">
         {/* Creat Workpsace Button */}

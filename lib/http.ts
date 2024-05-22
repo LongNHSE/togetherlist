@@ -1,4 +1,4 @@
-import { getCookie } from 'cookies-next';
+import { deleteCookie, getCookie } from 'cookies-next';
 
 type CustomOption = RequestInit & { baseUrl?: string | undefined };
 
@@ -11,6 +11,35 @@ class HttpError extends Error {
     this.payload = payload;
   }
 }
+
+import { setCookie } from 'cookies-next';
+
+const refreshToken = async () => {
+  try {
+    const refreshToken = getCookie('refreshToken');
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${refreshToken}`,
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to refresh token');
+    }
+
+    const data = await res.json();
+    setCookie('clientSessionToken', data.accessToken);
+  } catch (error) {
+    deleteCookie('clientSessionToken');
+    deleteCookie('refreshToken');
+    localStorage.removeItem('user');
+    window.location.href = '/login';
+    throw new Error('Refresh token is invalid');
+  }
+};
+
 const request = async (
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   url: string,
@@ -28,24 +57,30 @@ const request = async (
     ? `${baseUrl}${url}`
     : `${baseUrl}/${url}`;
 
-  const res = await fetch(fullUrl, {
-    ...options,
-    headers: {
-      ...baseHeader,
-      Authorization: sessionToken ? `Bearer ${sessionToken}` : '',
-      //Define addtion header in options like Authorization
-      ...options?.headers,
-    },
-    body,
-    method,
-  });
-  const data = await res.json();
+  try {
+    const res = await fetch(fullUrl, {
+      ...options,
+      headers: {
+        ...baseHeader,
+        Authorization: sessionToken ? `Bearer ${sessionToken}` : '',
+        //Define addtion header in options like Authorization
+        ...options?.headers,
+      },
+      body,
+      method,
+    });
+    const data = await res.json();
 
-  if (res.ok) {
-    return data;
-  } else {
-    console.log(data);
-    throw new HttpError(data);
+    if (res.ok) {
+      return data;
+    } else {
+      console.log(error);
+
+      throw new HttpError(data);
+    }
+  } catch (error) {
+    await refreshToken();
+    request(method, url, options);
   }
 };
 
