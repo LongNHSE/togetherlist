@@ -75,6 +75,13 @@ const members = [
   },
 ];
 
+const issueData = [
+  {
+    name: 'User Feature',
+    board: '2',
+    tasks: [],
+  },
+];
 export default function KanbanBoard() {
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -84,10 +91,11 @@ export default function KanbanBoard() {
     }),
   );
   const [laneName, setLaneName] = useState<string>('');
+  const [issues, setIssues] = useState(issueData);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [lanes, setLanes] = useState<{ [key: string]: Array<TaskType> }>({
-    ToDo: [
+    'To Do': [
       {
         _id: '1',
         name: 'Task 1',
@@ -208,6 +216,7 @@ export default function KanbanBoard() {
   };
 
   const onDragEnd = (e: any) => {
+    console.log(e.over);
     setLoading(false);
     // The lane where the task was dropped
     const lane = e.over?.id;
@@ -243,10 +252,6 @@ export default function KanbanBoard() {
       setLoading(true);
     }
   };
-
-  Object.keys(lanes).map((lane) =>
-    console.log(lane + lanes[lane].map((task) => task._id).join(',')),
-  );
 
   return (
     <div>
@@ -303,6 +308,14 @@ export default function KanbanBoard() {
         onDragEnd={onDragEnd}
       >
         <div className="flex flex-row my-10 gap-6">
+          {/* {issues &&
+            issues.map((issue) => (
+              <KanbanLane
+                key={issue.name}
+                title={issue.name}
+                tasks={issue.tasks}
+              />
+            ))} */}
           {lanes &&
             Object.keys(lanes).map((lane) => (
               <KanbanLane
