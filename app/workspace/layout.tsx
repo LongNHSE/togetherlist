@@ -1,6 +1,6 @@
-import DashboardHeader from '@/layouts/Dashboard/DashboardHeader';
-import DashboardSidebar from '@/layouts/Dashboard/DashboardSidebar';
 import React from 'react';
+import DashboardSidebar from '@/layouts/Dashboard/DashboardSidebar';
+import DashboardHeader from '@/layouts/Dashboard/DashboardHeader';
 
 export default function RootLayout({
   children,

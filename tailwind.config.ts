@@ -79,6 +79,10 @@ const config = {
         'accordion-up': 'accordion-up 0.2s ease-out',
         'caret-blink': 'caret-blink 1.25s ease-out infinite',
       },
+      maxWidth: {
+        laptop: '25rem', // for 15.6 inch laptop
+        monitor: '35rem', // for 24 inch monitor
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],

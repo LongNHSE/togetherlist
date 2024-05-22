@@ -3,10 +3,12 @@ import sectionOne1 from '@/public/featurePage/sectionOne1.jpg';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useContext } from 'react';
+import { UserContext } from '@/context/UserProvider';
 
 const SectionOne = () => {
   const [ref, inView] = useInView({
-    triggerOnce: true, // Change this to false if you want the animation to trigger again whenever it comes into view
+    triggerOnce: true,
   });
   return (
     <motion.section

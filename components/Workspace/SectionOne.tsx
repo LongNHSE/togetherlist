@@ -11,18 +11,14 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import CreateBoard from '../board/CreateBoard';
 
 const SectionOne = () => {
   return (
     <div className="flex justify-between items-center">
       {/* Create new project */}
-      <Button
-        className="flex items-center gap-3 bg-[#3A1B05] rounded-xl hover:bg-[#a5683c]"
-        size="sm"
-      >
-        <FolderKanbanIcon absoluteStrokeWidth />
-        <span>Create project</span>
-      </Button>
+      <CreateBoard />
+
       {/* Filter + Search */}
       <div className="flex gap-1 items-center">
         <Filter />
