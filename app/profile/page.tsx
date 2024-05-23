@@ -1,4 +1,4 @@
-import Layout from "@/components/layout"
+import Layout from "@/components/sidebar/layout"
 import React from 'react'
 
 export default function page() {
