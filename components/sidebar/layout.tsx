@@ -18,11 +18,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useRouter } from 'next/navigation';
+
 type LayoutProps = {
     children: ReactNode; // ReactNode type can hold any JSX elements
   };
@@ -37,6 +36,11 @@ function Layout({ children }: LayoutProps) {
   const handleProfileClick = () => {
     router.push('/profile');
   };
+
+  const handleModalClick = () => {
+    router.push('/modal');
+  };
+  
 
   return (
     <div className="flex h-screen">
@@ -87,12 +91,7 @@ function Layout({ children }: LayoutProps) {
                   Work space
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>Profile</DropdownMenuItem>
-                  <DropdownMenuItem>Billing</DropdownMenuItem>
-                  <DropdownMenuItem>Team</DropdownMenuItem>
-                  <DropdownMenuItem>Subscription</DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleModalClick}>Modal</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
