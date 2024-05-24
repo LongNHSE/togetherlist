@@ -302,7 +302,7 @@ export default function KanbanBoard() {
         collisionDetection={rectIntersection}
         onDragEnd={onDragEnd}
       >
-        <div className="flex flex-row my-10 gap-6">
+        <div className="flex my-10 gap-6">
           {lanes &&
             Object.keys(lanes).map((lane) => (
               <KanbanLane

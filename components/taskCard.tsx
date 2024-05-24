@@ -28,6 +28,7 @@ import {
   CommandInput,
   CommandItem,
 } from '@/components/ui/command';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const members = [
   {
@@ -81,15 +82,20 @@ export default function TaskCard({ taskInput }: { taskInput: TaskType }) {
   const [task, setTask] = React.useState(taskInput);
   return (
     <div className="w-72 flex-shrink-0">
-      <Card>
+      <Card className="hover:bg-gray-100 border-l-4 border-r-0 border-x-yellow-700 group">
         <CardHeader className="flex flex-row justify-between">
           <div className="flex flex-row mt-1">
+            <Checkbox className="mr-2" />
             <CardDescription className="w-auto max-w-40 mr-4">
               {task?.name}
             </CardDescription>
-            <Pencil size={15} onClick={(e) => console.log('Click')} />
+            <Pencil
+              size={15}
+              className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+              onClick={(e) => console.log('Click')}
+            />
           </div>
-          <div className="bg-slate-100 rounded-md px-1 ">
+          <div className="bg-slate-100 rounded-md px-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <Ellipsis size={20} />
           </div>
         </CardHeader>
