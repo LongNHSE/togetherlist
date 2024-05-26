@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import DashboardSidebar from '@/layouts/Dashboard/DashboardSidebar';
 import DashboardHeader from '@/layouts/Dashboard/DashboardHeader';
 

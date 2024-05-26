@@ -61,7 +61,7 @@ const Login = () => {
         setCookie('refreshToken', result.refreshToken);
         localStorage.setItem('user', JSON.stringify(result.user));
         setUser(result.user);
-        router.push('/workspace');
+        router.push('/workspace/main');
       } else {
         toast({
           title: <TriangleAlert size={20} />,
