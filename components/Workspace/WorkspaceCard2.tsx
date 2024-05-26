@@ -57,34 +57,11 @@ const WorkspaceCard = ({ board }: { board: BoardType }) => {
         <CardContent className="flex flex-col gap-2">
           {/* Progress */}
           <div className="flex items-center gap-3">
-            {/* <ProgressTasks
-              width="w-[40%]"
-              idLabel="Not Done"
-              labelValue="Not Done"
-              progressValue={50}
-              progressColorClass="bg-red-500"
-            />
-
-            <ProgressTasks
-              width="w-[40%]"
-              idLabel="On Going"
-              labelValue="On Going"
-              progressValue={50}
-              progressColorClass="bg-yellow-500"
-            />
-
-            <ProgressTasks
-              width="w-[40%]"
-              idLabel="Done"
-              labelValue="Done"
-              progressValue={50}
-              progressColorClass="bg-green-500"
-            /> */}
             <ProgressTasks
               width="w-full"
               idLabel="example-progress"
               labelValue="Progress"
-              statuses={statuses}
+              statuses={board.statuses}
             />
           </div>
         </CardContent>
