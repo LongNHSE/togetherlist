@@ -3,6 +3,7 @@ import sectionFour from '@/public/featurePage/SectionFour.jpg';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+
 const SectionFour = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
