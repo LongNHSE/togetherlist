@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useContext } from 'react';
-import { UserContext } from '@/context/UserProvider';
 
 const SectionOne = () => {
   const [ref, inView] = useInView({

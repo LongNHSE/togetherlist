@@ -13,7 +13,7 @@ const DragCard = ({
   parent: string;
 }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: task?._id,
+    id: task?._id ?? '',
     data: {
       task,
       index,

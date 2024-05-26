@@ -42,7 +42,7 @@ const WorkspaceCard = ({ board }: { board: BoardType }) => {
           {/* Title + Progress */}
           <div className="flex justify-between items-center">
             <CardTitle className="text-start font-semibold tracking-wide text-3xl">
-              Project Title
+              {board?.name}
             </CardTitle>
           </div>
         </CardHeader>
@@ -74,7 +74,6 @@ const WorkspaceCard = ({ board }: { board: BoardType }) => {
               progressColorClass="bg-green-500"
             />
           </div>
-          {/* User */}
         </CardContent>
       </Card>
     </div>

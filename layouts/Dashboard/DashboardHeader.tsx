@@ -1,14 +1,14 @@
 import { Bell, CircleChevronDown } from 'lucide-react';
 
-import CreateWorkspace from '@/components/workspace/CreateWorkspace';
 import AvatarDropdown from '@/components/user/AvatarDropdown';
 import DropdownHeader from '@/components/header/DropdownHeader';
+import CreateWorkspace from '@/components/Workspace/CreateWorkspace';
 
 const DashboardHeader = () => {
   return (
     <header className="px-6 py-4 bg-gray-50 flex justify-between items-center cursor-pointer">
       {/* List of workspaces */}
-      <DropdownHeader></DropdownHeader>
+      <DropdownHeader />
 
       <div className="flex items-center gap-7">
         {/* Creat Workpsace Button */}

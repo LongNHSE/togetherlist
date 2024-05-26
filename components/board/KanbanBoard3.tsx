@@ -202,8 +202,8 @@ export default function KanbanBoard() {
     const { active, over } = event;
     if (!over) return;
 
-    const { task, parent } = active.data.current;
-    const [targetIssue, targetLane] = over.id.split('-');
+    const { task, parent } = active.data.current as any;
+    const [targetIssue, targetLane] = over?.id?.toString()?.split('-');
 
     // Find the issue that currently contains the task
     const sourceIssue = issues.find((issue) =>

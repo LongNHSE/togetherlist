@@ -1,10 +1,7 @@
 import Layout from '@/components/layout';
 import Link from 'next/link';
-import logo from '@/public/logo.ico';
 export const metadata = {
-  icons: {
-    icon: { logo },
-  },
+  icons: {},
 };
 export default function Home() {
   return (
