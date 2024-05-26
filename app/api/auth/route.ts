@@ -13,6 +13,6 @@ export async function POST(request: Request) {
         'Set-Cookie': `sessionToken=${sessionToken}; HttpOnly; Secure; SameSite=Strict; Path=/`,
         'Content-Type': 'application/json',
       },
-    },
+    }, 
   );
 }
