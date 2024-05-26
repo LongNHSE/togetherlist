@@ -15,7 +15,7 @@ export default function LogoutButton() {
     } finally {
       deleteCookie('clientSessionToken');
       deleteCookie('refreshToken');
-      localStorage.removeItem('user');
+      localStorage.clear();
       router.push('/home');
     }
   }

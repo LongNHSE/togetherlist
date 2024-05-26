@@ -1,8 +1,8 @@
 import z from 'zod';
-import { UserSchema, UserType } from './user.schema';
+import { UserSchema } from './user.schema';
 
 export const TaskSchema = z.object({
-  _id: z.string(),
+  _id: z.string().optional(),
   name: z.string(),
   schedule: z
     .object({

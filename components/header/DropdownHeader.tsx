@@ -9,24 +9,91 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useAppContext } from '@/context/user';
 import { CircleChevronDown } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import { WorkspaceType } from '@/lib/schema/workspace/workspace.schema';
+import { SharedWorkspaceType } from '@/lib/schema/workspace/shardWorkspace.schema';
 const DropdownHeader = () => {
-  const [workspace, setWorkspace] = useState();
-  workspaceApiRequest.getMyWorkspaces();
-  useEffect(() => {}, []);
+  const { currentWorkspace, setCurrentWorkspace } = useAppContext();
+  //My workspaces
+  const [workspaces, setWorkspace] = useState<WorkspaceType[]>([]);
+
+  //Shared workspaces
+  const [sharedWorkSpaces, setSharedWorkSpaces] = useState<
+    SharedWorkspaceType[]
+  >([]);
+
+  const [loading, setLoading] = useState(false);
+
+  //Get my workspaces
+  const getMyWorkSpaces = async () => {
+    let currentWorkspaceId = '';
+    const myWorkSpaces = await workspaceApiRequest.getMyWorkspaces();
+    if (!localStorage.getItem('current_workspace')) {
+      localStorage.setItem(
+        'current_workspace',
+        JSON.stringify(myWorkSpaces.data[0]),
+      );
+      // Set the current workspace to the first workspace in myWorkSpaces.data
+      setCurrentWorkspace(myWorkSpaces.data[0]);
+    }
+    const filterWorkspace = myWorkSpaces?.data.filter(
+      (el: any) => el._id !== currentWorkspace?._id,
+    );
+    console.log(filterWorkspace);
+    setWorkspace(filterWorkspace);
+  };
+
+  //Get shared workspaces
+  const getSharedWorkspaces = async () => {
+    try {
+      const sharedWorkspacesResult =
+        await workspaceApiRequest.getMySharedWorkspaces();
+      setSharedWorkSpaces(sharedWorkspacesResult.data);
+    } catch (error) {}
+  };
+
+  const handleChooseWorkspace = async (workspace: WorkspaceType) => {
+    setCurrentWorkspace(workspace);
+    localStorage.setItem('current_workspace', JSON.stringify(workspace));
+  };
+  useEffect(() => {
+    getMyWorkSpaces();
+    getSharedWorkspaces();
+  }, [currentWorkspace]);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center gap-1  focus:outline-none hover:opacity-50 text-[#3A1B05] font-bold">
-        <span>Workspaces</span>
+        <span>{currentWorkspace?.name}</span>
         <CircleChevronDown className="tex-[#3A1B05] font-semibold" />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>Current workspace</DropdownMenuLabel>
-        <DropdownMenuItem>Together List</DropdownMenuItem>
+        <DropdownMenuItem>{currentWorkspace?.name}</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Kohe Niko</DropdownMenuItem>
-        <DropdownMenuItem>Gym center</DropdownMenuItem>
+        <DropdownMenuLabel>Your workspaces</DropdownMenuLabel>
+        {workspaces &&
+          workspaces.map((workspace) => {
+            return (
+              <DropdownMenuItem
+                key={workspace._id}
+                onClick={() => handleChooseWorkspace(workspace)}
+              >
+                {workspace.name}
+              </DropdownMenuItem>
+            );
+          })}
+        <DropdownMenuSeparator />
+        <DropdownMenuLabel>Shared workspaces</DropdownMenuLabel>
+        {sharedWorkSpaces &&
+          sharedWorkSpaces.map((el) => {
+            return (
+              <DropdownMenuItem key={el.workspace._id}>
+                {el.workspace.name}
+              </DropdownMenuItem>
+            );
+          })}
       </DropdownMenuContent>
     </DropdownMenu>
   );

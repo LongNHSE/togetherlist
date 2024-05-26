@@ -24,19 +24,23 @@ const refreshToken = async () => {
         Authorization: `Bearer ${refreshToken}`,
       },
     });
-
-    if (!res.ok) {
-      throw new Error('Failed to refresh token');
-    }
-
     const data = await res.json();
-    setCookie('clientSessionToken', data.accessToken);
+    if (data.statusCode === 403 || data.statusCode === 401) {
+      deleteCookie('clientSessionToken');
+      deleteCookie('refreshToken');
+      localStorage.removeItem('user');
+      localStorage.clear();
+      window.location.href = '/login';
+      throw new Error('Authorization failed');
+    } else {
+      setCookie('clientSessionToken', data.accessToken);
+    }
   } catch (error) {
     deleteCookie('clientSessionToken');
     deleteCookie('refreshToken');
     localStorage.removeItem('user');
-    window.location.href = '/login';
-    throw new Error('Refresh token is invalid');
+    localStorage.clear();
+    throw new Error('Authorization failed');
   }
 };
 
@@ -44,7 +48,8 @@ const request = async (
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   url: string,
   options?: CustomOption | undefined,
-) => {
+  retryCount = 0,
+): Promise<any> => {
   const sessionToken = getCookie('clientSessionToken');
   const body = options?.body ? JSON.stringify(options.body) : undefined;
   const baseHeader = {
@@ -70,17 +75,27 @@ const request = async (
       method,
     });
     const data = await res.json();
-
-    if (res.ok) {
-      return data;
+    if (data.statusCode === 401) {
+      if (retryCount >= 3) {
+        throw new Error('Falied to refresh token!!');
+      }
+      await refreshToken();
+      console.log(retryCount);
+      return request(method, url, options, retryCount + 1);
     } else {
-      console.log(error);
-
-      throw new HttpError(data);
+      console.log(data);
+      return data;
     }
-  } catch (error) {
-    await refreshToken();
-    request(method, url, options);
+  } catch (error: any) {
+    if (error.response && error.response.status === 401) {
+      if (retryCount >= 3) {
+        throw new Error('Falied to refresh token!!');
+      }
+      await refreshToken();
+      return request(method, url, options, retryCount + 1);
+    } else {
+      throw error;
+    }
   }
 };
 

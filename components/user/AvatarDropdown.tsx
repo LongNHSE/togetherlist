@@ -27,7 +27,7 @@ const AvatarDropdown = () => {
       deleteCookie('clientSessionToken');
       deleteCookie('refreshToken');
       if (typeof window !== 'undefined') {
-        localStorage.removeItem('user');
+        localStorage.clear();
       }
       if (path.startsWith('/home')) {
         if (typeof window !== 'undefined') {
