@@ -9,7 +9,7 @@ import {
 import KanbanLane from './KanbanLane';
 import { Check, Plus, TriangleAlert, UserRoundPlus, X } from 'lucide-react';
 
-import { TaskType } from '@/lib/schema/task.schema';
+import { TaskType } from '@/lib/schema/task/task.schema';
 import { useState } from 'react';
 import { Search } from '@/components/ui/searchButton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';

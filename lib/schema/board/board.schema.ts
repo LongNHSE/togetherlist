@@ -1,10 +1,14 @@
 import { z } from 'zod';
+import { SectionSchema } from './section.schema';
 
 export const BoardSchema = z.object({
   _id: z.string().optional(),
   name: z.string(),
   workspace: z.string(),
-  section: z.array(z.string()).optional(),
+  sections: z
+    .array(z.string())
+    .optional()
+    .or(z.array(SectionSchema).optional()),
   taskStatus: z.array(z.string()).optional(),
   totalTask: z.number().optional(),
   createdAt: z.string().optional(),

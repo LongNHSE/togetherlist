@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import {
   DndContext,
   rectIntersection,
@@ -9,9 +9,10 @@ import {
   DragEndEvent,
 } from '@dnd-kit/core';
 import KanbanLane from './KanbanLane3';
-import { Check, Plus, UserRoundPlus, X } from 'lucide-react';
+import { Check, Plus, UserRoundPlus, X, SquarePlus } from 'lucide-react';
 import { Search } from '@/components/ui/searchButton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   TooltipProvider,
   Tooltip,
@@ -24,7 +25,12 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Input } from '@/components/ui/input';
-import { toast } from '@/components/ui/use-toast';
+import { useParams } from 'next/navigation';
+import boardApiRequest from '@/apiRequest/board/board.api';
+import { BoardType } from '@/lib/schema/board/board.schema';
+import { SectionType } from '@/lib/schema/board/section.schema';
+import taskApiRequest from '@/apiRequest/task/task.api';
+import sectionApiRequest from '@/apiRequest/section/section.api';
 
 const members = [
   {
@@ -74,112 +80,8 @@ const members = [
   },
 ];
 
-const issueData = [
-  {
-    name: 'User Feature',
-    board: '2',
-    tasks: [
-      {
-        _id: '21',
-        name: 'Task 221',
-        schedule: {
-          from: '2022-01-01',
-          to: '2022-01-31',
-        },
-        status: 'In Progress',
-        userId: {
-          _id: '4',
-          firstName: 'Alice',
-          lastName: 'Johnson',
-          username: 'alicejohnson',
-          email: 'alicejohnson@example.com',
-          avatar: 'https://github.com/alicejohnson.png',
-          gender: 'female',
-        },
-        indexCount: 12,
-        isPriority: true,
-        createdAt: '2022-01-01T00:00:00Z',
-        updatedAt: '2022-01-01T00:00:00Z',
-      },
-      {
-        _id: '322',
-        name: 'Task 22331',
-        schedule: {
-          from: '2022-01-01',
-          to: '2022-01-31',
-        },
-        status: 'In progress',
-        userId: {
-          _id: '4',
-          firstName: 'Alice',
-          lastName: 'Johnson',
-          username: 'alicejohnson',
-          email: 'alicejohnson@example.com',
-          avatar: 'https://github.com/alicejohnson.png',
-          gender: 'female',
-        },
-        indexCount: 22,
-        isPriority: true,
-        createdAt: '2022-01-01T00:00:00Z',
-        updatedAt: '2022-01-01T00:00:00Z',
-      },
-    ],
-  },
-  {
-    name: 'Bug Fixes',
-    board: '3',
-    tasks: [
-      {
-        _id: '423',
-        name: 'Task 424',
-        schedule: {
-          from: '2022-02-01',
-          to: '2022-02-28',
-        },
-        status: 'In Progress',
-        userId: {
-          _id: '5',
-          firstName: 'Bob',
-          lastName: 'Smith',
-          username: 'bobsmith',
-          email: 'bobsmith@example.com',
-          avatar: 'https://github.com/bobsmith.png',
-          gender: 'male',
-        },
-        indexCount: 13,
-        isPriority: false,
-        createdAt: '2022-02-01T00:00:00Z',
-        updatedAt: '2022-02-01T00:00:00Z',
-      },
-      {
-        _id: '524',
-        name: 'Task 525',
-        schedule: {
-          from: '2022-03-01',
-          to: '2022-03-31',
-        },
-        status: 'Done',
-        userId: {
-          _id: '6',
-          firstName: 'Charlie',
-          lastName: 'Brown',
-          username: 'charliebrown',
-          email: 'charliebrown@example.com',
-          avatar: 'https://github.com/charliebrown.png',
-          gender: 'male',
-        },
-        indexCount: 14,
-        isPriority: true,
-        createdAt: '2022-03-01T00:00:00Z',
-        updatedAt: '2022-03-01T00:00:00Z',
-      },
-    ],
-  },
-];
-
-const statuses = ['To Do', 'In Progress', 'Done'];
-
 export default function KanbanBoard() {
+  const boardId = useParams().boardId as string;
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -189,53 +91,118 @@ export default function KanbanBoard() {
   );
   let renderLaneCount = 0;
 
+  const [section, setSection] = useState('');
   const [laneName, setLaneName] = useState('');
-  const [issues, setIssues] = useState(issueData);
+  //For lane popover
   const [open, setOpen] = useState(false);
-  const [lanes, setLanes] = useState(statuses);
 
+  //For section popover
+  const [sectionOpen, setSectionOpen] = useState(false);
+  const [board, setBoard] = useState<BoardType>({} as BoardType);
+
+  //Load data from API
+  const loadBoard = async () => {
+    try {
+      const res = await boardApiRequest.getBoardDetail(boardId);
+      setBoard(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //Load data from API
+  useEffect(() => {
+    if (boardId) {
+      loadBoard();
+    }
+  }, []);
+
+  //Mean add new status
   const addNewLane = () => {
     // Your add new lane logic
   };
 
-  const onDragEnd = (event: DragEndEvent) => {
+  //Add new section or issue
+  const addNewSection = async () => {
+    try {
+      const result = await sectionApiRequest.createSection({
+        board: boardId,
+        name: section,
+      });
+      console.log(result);
+      if (result) {
+        board.sections?.push(result);
+        setBoard({ ...board });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addNewTask = async (
+    taskName: string,
+    issue: string,
+    status: string,
+  ) => {
+    try {
+      const result = await taskApiRequest.create({
+        board: boardId,
+        name: taskName,
+        section: issue,
+        status: status,
+      });
+      if (result) {
+        (board.sections as SectionType[])?.forEach((section: SectionType) => {
+          if (section._id === issue) {
+            section?.tasks?.push(result.data);
+          }
+        });
+        setBoard({ ...board });
+      }
+    } catch (error) {}
+    // Your add new task logic
+  };
+
+  const onDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over) return;
 
     const { task, parent } = active.data.current as any;
-    const [targetIssue, targetLane] = over?.id?.toString()?.split('-');
+    const [targetIssue, targetLane, sectionId] = over?.id
+      ?.toString()
+      ?.split('-');
+    console.log(targetIssue, targetLane, sectionId);
 
     // Find the issue that currently contains the task
-    const sourceIssue = issues.find((issue) =>
-      issue.tasks.some((t) => t._id === task._id),
+    const sourceIssue: any = board.sections?.find((issue: any) =>
+      issue.tasks.some((t: any) => t._id === task._id),
     );
 
     // Remove the task from the source issue
     if (sourceIssue) {
-      sourceIssue.tasks = sourceIssue.tasks.filter((t) => t._id !== task._id);
+      sourceIssue.tasks = sourceIssue.tasks.filter(
+        (t: any) => t._id !== task._id,
+      );
     }
 
     // Find the target issue
-    const targetIssueObj = issues.find((issue) => issue.name === targetIssue);
+    const targetIssueObj: any = board.sections?.find(
+      (issue: any) => issue.name === targetIssue,
+    );
 
     // Add the task to the target issue with the new status
+    let newTask = null;
     if (targetIssueObj) {
-      const updatedTask = { ...task, status: targetLane };
-      targetIssueObj.tasks.push(updatedTask);
+      newTask = { ...task, status: targetLane, sectionId: targetIssueObj._id };
+      targetIssueObj.tasks.push(newTask);
     }
+    newTask.section = sectionId;
+    setBoard({ ...board });
 
-    // Update the issues state
-    setIssues([...issues]);
+    await taskApiRequest.update(task._id, newTask);
+
+    // Update the board state
   };
-
-  const laneToTasksMap = lanes.reduce((map, lane) => {
-    map[lane] = issues.flatMap((issue) =>
-      issue.tasks.filter(
-        (task) => task.status.toLowerCase() === lane.toLowerCase(),
-      ),
-    );
-    return map;
-  }, {} as Record<string, any[]>);
 
   return (
     <div>
@@ -286,28 +253,31 @@ export default function KanbanBoard() {
           onDragEnd={onDragEnd}
         >
           <div className="flex flex-col ">
-            {issues.map((issue) => {
+            {board?.sections?.map((issue: any) => {
               const issueElement = (
                 <div key={issue.name} className="flex flex-row">
                   <div className="w-28 align-middle text-center flex my-auto">
                     <h2>{issue.name}</h2>
                   </div>
-                  <div className="flex flex-row ">
-                    {lanes.map((lane) => {
-                      const tasks = issue.tasks.filter(
-                        (task) => task.status === lane,
+                  <div className="flex flex-row h-full">
+                    {board.taskStatus?.map((lane) => {
+                      const tasks: any = issue.tasks?.filter(
+                        (task: any) => task.status === lane,
                       );
                       const laneElement = (
-                        <div key={`${issue.name}-${lane}`}>
+                        <div key={`${issue.name}-${lane}`} className="h-full">
                           {renderLaneCount === 0 && (
-                            <div className="text-center text-2xl ">{lane}</div>
+                            <div className="text-center text-2xl">{lane}</div>
                           )}
-                          <KanbanLane
-                            key={`${issue.name}-${lane}`}
-                            title={lane}
-                            issue={issue.name}
-                            tasks={tasks}
-                          />
+                          <div className="h-full flex flex-grow-1 ">
+                            <KanbanLane
+                              key={`${issue.name}-${lane}`}
+                              title={lane}
+                              issue={issue}
+                              tasks={tasks}
+                              addNewTask={addNewTask}
+                            />
+                          </div>
                         </div>
                       );
 
@@ -321,12 +291,65 @@ export default function KanbanBoard() {
               renderLaneCount++;
               return issueElement;
             })}
+            <div className="h-fit w-fit">
+              <Popover open={sectionOpen} onOpenChange={() => setSection('')}>
+                <PopoverTrigger asChild>
+                  <div
+                    className="bg-dark_brown h-fit p-2 rounded-xl hover:opacity-55 cursor-pointer w-10"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSectionOpen(!sectionOpen);
+                    }}
+                  >
+                    <Plus color="white" />
+                  </div>
+                </PopoverTrigger>
+                <PopoverContent className="w-80 mt-3">
+                  <div className="flex flex-col w-full max-w-sm space-x-2 space-y-2">
+                    <Input
+                      type="text"
+                      placeholder="New Section Name"
+                      value={section}
+                      onChange={(e) => setSection(e.target.value)}
+                    />
+                    <div className="flex flex-row justify-end gap-2">
+                      <div
+                        className="shadow-lg border w-auto rounded-lg p-1 hover:opacity-80 hover:bg-slate-200"
+                        onClick={addNewSection}
+                      >
+                        <Check size={25} />
+                      </div>
+                      <div
+                        className="shadow-lg border w-auto rounded-lg p-1 hover:opacity-80 hover:bg-slate-200"
+                        onClick={() => {
+                          setSectionOpen(false);
+                          setLaneName('');
+                        }}
+                      >
+                        <X size={25} />
+                      </div>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
         </DndContext>
-        <div className="bg-dark_brown h-fit p-2 rounded-xl hover:opacity-55 cursor-pointer">
-          <Popover open={open} onOpenChange={setOpen}>
+        <div className="h-fit w-fit">
+          <Popover
+            open={open}
+            onOpenChange={() => {
+              setLaneName('');
+            }}
+          >
             <PopoverTrigger asChild>
-              <div onClick={(e) => e.stopPropagation()}>
+              <div
+                className="bg-dark_brown h-fit p-2 rounded-xl hover:opacity-55 cursor-pointer ml-10"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpen(!open);
+                }}
+              >
                 <Plus color="white" />
               </div>
             </PopoverTrigger>

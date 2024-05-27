@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { TaskType } from '@/lib/schema/task.schema';
+import { TaskType } from '@/lib/schema/task/task.schema';
 import { useDraggable } from '@dnd-kit/core';
 import TaskCard from '@/components/taskCard';
 const DragCard = ({

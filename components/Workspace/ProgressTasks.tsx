@@ -30,7 +30,7 @@ const ProgressTasks = ({
 }: ProgressTasksProps) => {
   function stringToColor(str: string): string {
     let hash = 0;
-    for (let i = 0; i < str.length; i++) {
+    for (let i = 0; i < str?.length; i++) {
       hash = str.charCodeAt(i) + ((hash << 5) - hash);
     }
     let color = '#';
@@ -52,7 +52,7 @@ const ProgressTasks = ({
           {labelValue}
         </Label>
         <div className="relative w-full h-4 bg-gray-200 rounded">
-          {statuses.map((status, index) => {
+          {statuses?.map((status, index) => {
             const leftPercentage = statuses
               .slice(0, index)
               .reduce((acc, curr) => acc + curr.value, 0);
@@ -76,9 +76,11 @@ const ProgressTasks = ({
                     }}
                   ></div>
                 </TooltipTrigger>
-                <TooltipContent side="top">
-                  {status.label} - {status.value}%
-                </TooltipContent>
+                {status.label && (
+                  <TooltipContent side="top">
+                    {status.label} - {status.value}%
+                  </TooltipContent>
+                )}
               </Tooltip>
             );
           })}
