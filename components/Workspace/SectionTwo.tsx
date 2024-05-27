@@ -1,15 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import WorkspaceCard from './WorkspaceCard2';
+import WorkspaceCard from './WorkspaceCard';
 import { useEffect, useState } from 'react';
 import { useAppContext } from '@/context/user';
 import boardApiRequest from '@/apiRequest/board/board.api';
+import { BoardType } from '@/lib/schema/board/board.schema';
 
 const SectionTwo = () => {
   const { currentWorkspace } = useAppContext();
 
-  const [board, setBoard] = useState([]);
+  const [board, setBoard] = useState<BoardType[]>([]);
 
   const [loading, setLoading] = useState(true);
 
@@ -34,14 +35,9 @@ const SectionTwo = () => {
 
   return (
     <section className="grid grid-cols-3 gap-x-5 gap-y-7">
-      {/* <Link href={'workspace/board/1'}>
-        <div className=" hover:-translate-y-2 transform transition">
-          <WorkspaceCard board={} />
-        </div>
-      </Link> */}
       {board && board.length > 0 ? (
         board.map((item, index) => (
-          <Link key={index} href={`workspace/board/${item._id}`}>
+          <Link key={index} href={`board/${item._id}`}>
             <div className="hover:-translate-y-2 transform transition">
               <WorkspaceCard board={item} />
             </div>

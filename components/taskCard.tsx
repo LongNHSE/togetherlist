@@ -8,7 +8,7 @@ import {
   CardHeader,
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { TaskType } from '@/lib/schema/task.schema';
+import { TaskType } from '@/lib/schema/task/task.schema';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Tooltip,
@@ -100,7 +100,7 @@ export default function TaskCard({ taskInput }: { taskInput: TaskType }) {
           </div>
         </CardHeader>
         <CardFooter className="flex justify-between flex-row">
-          <div>KAN-{task?.indexCount}</div>
+          <div>KAN-{task?.index}</div>
           <div className="w-8 h-8">
             <Popover open={open} onOpenChange={setOpen}>
               {/* Delay default is 700ms */}

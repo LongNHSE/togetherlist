@@ -2,8 +2,8 @@
 'use client';
 import { DndContext, useDroppable } from '@dnd-kit/core';
 import DragCard from './KanbanCard';
-import { TaskType } from '@/lib/schema/task.schema';
-import { SquarePlus } from "lucide-react";
+import { TaskType } from '@/lib/schema/task/task.schema';
+import { SquarePlus } from 'lucide-react';
 interface KanbanLaneProps {
   title: string;
   tasks: TaskType[];
@@ -24,8 +24,9 @@ export default function KanbanLane({ title, tasks }: KanbanLaneProps) {
         {tasks.map((task, key) => (
           <DragCard task={task} key={key} index={key} parent={title} />
         ))}
-           <div className="flex">
-        <SquarePlus className="mr-2"/>Create issue
+        <div className="flex">
+          <SquarePlus className="mr-2" />
+          Create issue
         </div>
       </div>
     </div>
