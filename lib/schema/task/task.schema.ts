@@ -1,5 +1,5 @@
 import z from 'zod';
-import { UserSchema } from './user.schema';
+import { UserSchema } from '../user.schema';
 
 export const TaskSchema = z.object({
   _id: z.string().optional(),

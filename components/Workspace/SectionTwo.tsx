@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import WorkspaceCard from './WorkspaceCard';
 import { useEffect, useState } from 'react';
 import { useAppContext } from '@/context/user';
 import boardApiRequest from '@/apiRequest/board/board.api';
@@ -9,6 +10,7 @@ import SectionThree from './SectionThree';
 import SectionOne from './SectionOne';
 import SkeletonCard from '../SkeletonCard';
 import EmptyPage from '../EmptyPage';
+import { BoardType } from '@/lib/schema/board/board.schema';
 
 const WorkspaceCard = dynamic(() => import('./WorkspaceCard2'), {
   ssr: false,
@@ -17,7 +19,9 @@ const WorkspaceCard = dynamic(() => import('./WorkspaceCard2'), {
 
 const SectionTwo = () => {
   const { currentWorkspace } = useAppContext();
-  const [board, setBoard] = useState<any[]>([]);
+
+  const [board, setBoard] = useState<BoardType[]>([]);
+
   const [loading, setLoading] = useState(true);
 
   const loadBoard = async () => {

@@ -45,7 +45,7 @@ const refreshToken = async () => {
 };
 
 const request = async (
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE',
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
   url: string,
   options?: CustomOption | undefined,
   retryCount = 0,
@@ -111,6 +111,11 @@ const http = {
     body: any,
     options?: Omit<CustomOption, 'body'> | undefined,
   ) => request('PUT', url, { ...options, body }),
+  patch: (
+    url: string,
+    body: any,
+    options?: Omit<CustomOption, 'body'> | undefined,
+  ) => request('PATCH', url, { ...options, body }),
   delete: (
     url: string,
     body: any,

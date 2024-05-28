@@ -2,7 +2,7 @@
 'use client';
 import { DndContext, useDroppable } from '@dnd-kit/core';
 import DragCard from './KanbanCard';
-import { TaskType } from '@/lib/schema/task.schema';
+import { TaskType } from '@/lib/schema/task/task.schema';
 
 interface KanbanLaneProps {
   title: string;
