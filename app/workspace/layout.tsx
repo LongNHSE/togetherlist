@@ -12,7 +12,7 @@ export default function RootLayout({
       <DashboardSidebar />
       <section className=" h-screen">
         <DashboardHeader />
-        <div className="py-3 px-6">{children}</div>
+        <div className="py-3 px-6 h-screen">{children}</div>
       </section>
     </div>
   );

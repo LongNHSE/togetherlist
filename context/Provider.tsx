@@ -16,6 +16,8 @@ interface AppContextType {
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   currentWorkspace: Workspace | null;
   setCurrentWorkspace: React.Dispatch<React.SetStateAction<Workspace | null>>;
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -25,6 +27,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(
     null,
   );
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const userFromStorage = localStorage.getItem('user');
     const currentWorkspaceFromStorage =
@@ -43,7 +46,14 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   }, []);
   return (
     <AppContext.Provider
-      value={{ user, setUser, currentWorkspace, setCurrentWorkspace }}
+      value={{
+        user,
+        setUser,
+        currentWorkspace,
+        setCurrentWorkspace,
+        loading,
+        setLoading,
+      }}
     >
       {children}
     </AppContext.Provider>

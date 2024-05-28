@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import WorkspaceCard from './WorkspaceCard2';
 import { Suspense, useEffect, useState } from 'react';
-import { useAppContext } from '@/context/Provider';
 import boardApiRequest from '@/apiRequest/board/board.api';
+import { useAppContext } from '@/context/Provider';
 
 const SectionTwo = () => {
   const { currentWorkspace } = useAppContext();
@@ -34,11 +34,6 @@ const SectionTwo = () => {
 
   return (
     <section className="grid grid-cols-3 gap-x-5 gap-y-7">
-      {/* <Link href={'workspace/board/1'}>
-        <div className=" hover:-translate-y-2 transform transition">
-          <WorkspaceCard board={} />
-        </div>
-      </Link> */}
       {board && board.length > 0 ? (
         board.map((item, index) => (
           <Link key={index} href={`workspace/board/${item._id}`}>

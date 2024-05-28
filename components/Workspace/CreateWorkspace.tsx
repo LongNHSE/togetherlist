@@ -39,7 +39,7 @@ const formSchema = z.object({
 });
 
 const CreateWorkspace = () => {
-  const { setCurrentWorkspace } = useAppContext();
+  const { setCurrentWorkspace, loading, setLoading } = useAppContext();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -61,12 +61,15 @@ const CreateWorkspace = () => {
     };
 
     try {
+      setLoading(true);
       const response = await workspaceApiRequest.create(valuesWithDefaults);
       localStorage.setItem('current_workspace', JSON.stringify(response.data));
       setCurrentWorkspace(response.data);
       window.location.reload();
     } catch (err) {
       console.error('Error creating workspace:', err);
+    } finally {
+      setLoading(false);
     }
   }
 

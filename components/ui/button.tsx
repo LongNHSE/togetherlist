@@ -22,6 +22,8 @@ const buttonVariants = cva(
         blueLink: 'text-blue-500 underline-offset-4 underline',
         loginButton:
           'bg-dark_brown text-primary-foreground hover:bg-dark_brown/90 w-full',
+        createWorkspaceButton:
+          'flex items-center gap-3 bg-[#3A1B05] rounded-3xl hover:bg-[#a5683c]',
         loading: 'bg-dark_brown/60 text-primary-foreground  w-full',
       },
       size: {
