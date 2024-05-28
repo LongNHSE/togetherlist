@@ -29,9 +29,14 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     const userFromStorage = localStorage.getItem('user');
     const currentWorkspaceFromStorage =
       localStorage.getItem('current_workspace');
-    setUser(userFromStorage ? JSON.parse(userFromStorage) : null);
+
+    setUser(
+      userFromStorage && userFromStorage !== 'undefined'
+        ? JSON.parse(userFromStorage)
+        : null,
+    );
     setCurrentWorkspace(
-      currentWorkspaceFromStorage
+      currentWorkspaceFromStorage && currentWorkspaceFromStorage !== 'undefined'
         ? JSON.parse(currentWorkspaceFromStorage)
         : null,
     );

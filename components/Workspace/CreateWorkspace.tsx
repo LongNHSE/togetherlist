@@ -3,7 +3,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -18,7 +17,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import createWorkspaceImg from '@/public/workspace/createWorkspace.jpg';
 import Image from 'next/image';
@@ -27,27 +25,49 @@ import { Network } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Textarea } from '../ui/textarea';
+import workspaceApiRequest from '@/apiRequest/workspace/workspace.api';
+import { useAppContext } from '@/context/Provider';
 
 const formSchema = z.object({
   name: z.string({
-    required_error: 'Username is required',
+    required_error: 'Name is required',
   }),
+  banner: z.string(),
   description: z.string({
-    required_error: 'Password is required',
+    required_error: 'Description is required',
   }),
 });
 
 const CreateWorkspace = () => {
-  // 1. Define your form.
+  const { setCurrentWorkspace } = useAppContext();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+      banner: 'https://via.placeholder.com/150',
+      description: '',
+    },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const valuesWithDefaults = {
+      config: {
+        visibility: true,
+        boardCreationRestrictions: false,
+        sharingBoardRestrictions: false,
+      },
+      ...values,
+    };
+
+    try {
+      const response = await workspaceApiRequest.create(valuesWithDefaults);
+      localStorage.setItem('current_workspace', JSON.stringify(response.data));
+      setCurrentWorkspace(response.data);
+      window.location.reload();
+    } catch (err) {
+      console.error('Error creating workspace:', err);
+    }
   }
 
   return (
