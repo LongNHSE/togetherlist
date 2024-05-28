@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import WorkspaceCard from './WorkspaceCard2';
 import { Suspense, useEffect, useState } from 'react';
-import { useAppContext } from '@/context/user';
+import { useAppContext } from '@/context/Provider';
 import boardApiRequest from '@/apiRequest/board/board.api';
 
 const SectionTwo = () => {

@@ -1,3 +1,4 @@
+'use client';
 import { FolderKanbanIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 import {
@@ -20,33 +21,42 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { z } from 'zod';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { useAppContext } from '@/context/Provider';
+import boardApiRequest from '@/apiRequest/board/board.api';
 
 const formSchema = z.object({
   name: z.string({
     required_error: 'Name is required',
   }),
-  banner: z.string(),
-  description: z.string({
+  workspace: z.string({
     required_error: 'Description is required',
   }),
 });
 
 const CreateBoard = () => {
+  const { currentWorkspace } = useAppContext();
+  const { _id, name, description } = currentWorkspace as {
+    _id: string;
+    name: string;
+    description: string;
+  };
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
-      banner: 'https://via.placeholder.com/150',
-      description: '',
+      workspace: _id,
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      await boardApiRequest.createBoard(values);
+      window.location.reload();
+    } catch (error) {
+      console.error('Error creating workspace:', error);
+    }
   }
 
   return (
@@ -57,7 +67,7 @@ const CreateBoard = () => {
           size="sm"
         >
           <FolderKanbanIcon absoluteStrokeWidth />
-          <span>Create project</span>
+          <span>Create board</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -74,20 +84,17 @@ const CreateBoard = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Workspace Name</FormLabel>
+                    <FormLabel>Board Name for {name}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Together List" {...field} />
+                      <Input placeholder="Board Name" {...field} />
                     </FormControl>
-                    <FormDescription>
-                      This is the name of your company, team or organization.
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <DialogFooter>
-                <Button type="submit">Save changes</Button>
-              </DialogFooter>
+              <Button size="lg" className="w-full" type="submit">
+                Submit
+              </Button>
             </form>
           </Form>
         </div>

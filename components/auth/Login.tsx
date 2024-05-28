@@ -22,7 +22,7 @@ import { useRouter } from 'next/navigation';
 import authApiRequest from '@/apiRequest/auth/auth.api';
 import Image from 'next/image';
 import logoImg from '@/public/logo.png';
-import { useAppContext } from '@/context/user';
+import { useAppContext } from '@/context/Provider';
 
 const loginSchema = z.object({
   username: z.string({

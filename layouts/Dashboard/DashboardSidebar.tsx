@@ -32,15 +32,6 @@ const DashboardSidebar = () => {
             activeClassName="bg-[#3A1B05] text-white"
             icon={<Network className="mr-3" />}
           >
-            Workpace
-          </NavLink>
-
-          <NavLink
-            to="/workspace/board"
-            className="p-4 flex items-cente hover:opacity-70 cursor-pointer transition duration-300"
-            activeClassName="bg-[#3A1B05] text-white"
-            icon={<ClipboardList className="mr-3" />}
-          >
             Boards
           </NavLink>
 

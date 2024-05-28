@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useAppContext } from '@/context/user';
+import { useAppContext } from '@/context/Provider';
 import { CircleChevronDown } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { WorkspaceType } from '@/lib/schema/workspace/workspace.schema';
@@ -64,39 +64,6 @@ const DropdownHeader = () => {
 
   return (
     <>
-      {/* {allWorkspacesEmpty ? (
-        <span className="text-[#3A1B05] font-bold">No workspace available</span>
-      ) : (
-        <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center gap-1 focus:outline-none hover:opacity-50 text-[#3A1B05] font-bold">
-            <span>{currentWorkspace?.name}</span>
-            <CircleChevronDown className="text-[#3A1B05] font-semibold" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>Current workspace</DropdownMenuLabel>
-            <DropdownMenuItem>{currentWorkspace?.name}</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel>Your workspaces</DropdownMenuLabel>
-            {workspaces &&
-              workspaces.map((workspace) => (
-                <DropdownMenuItem
-                  key={workspace._id}
-                  onClick={() => handleChooseWorkspace(workspace)}
-                >
-                  {workspace.name}
-                </DropdownMenuItem>
-              ))}
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel>Shared workspaces</DropdownMenuLabel>
-            {sharedWorkSpaces &&
-              sharedWorkSpaces.map((el) => (
-                <DropdownMenuItem key={el.workspace._id}>
-                  {el.workspace.name}
-                </DropdownMenuItem>
-              ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )} */}
       <DropdownMenu>
         <DropdownMenuTrigger className="flex items-center gap-1 focus:outline-none hover:opacity-50 text-[#3A1B05] font-bold">
           <span>{currentWorkspace?.name}</span>

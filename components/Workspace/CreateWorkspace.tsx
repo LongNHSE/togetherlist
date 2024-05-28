@@ -26,7 +26,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Textarea } from '../ui/textarea';
 import workspaceApiRequest from '@/apiRequest/workspace/workspace.api';
-import { useAppContext } from '@/context/user';
+import { useAppContext } from '@/context/Provider';
 
 const formSchema = z.object({
   name: z.string({
@@ -41,7 +41,6 @@ const formSchema = z.object({
 const CreateWorkspace = () => {
   const { setCurrentWorkspace } = useAppContext();
 
-  // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,7 +49,7 @@ const CreateWorkspace = () => {
       description: '',
     },
   });
-  // 2. Define a submit handler.
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const valuesWithDefaults = {
       config: {
@@ -63,9 +62,9 @@ const CreateWorkspace = () => {
 
     try {
       const response = await workspaceApiRequest.create(valuesWithDefaults);
-      console.log(response.data);
       localStorage.setItem('current_workspace', JSON.stringify(response.data));
       setCurrentWorkspace(response.data);
+      window.location.reload();
     } catch (err) {
       console.error('Error creating workspace:', err);
     }

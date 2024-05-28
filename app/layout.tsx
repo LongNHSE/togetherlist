@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
-import Provider from '@/context/user';
+import Provider from '@/context/Provider';
 const inter = Montserrat({ subsets: ['latin'] });
 
 export const metadata: Metadata = {

@@ -6,7 +6,7 @@ import { Input } from '../ui/input';
 import { motion } from 'framer-motion';
 import { useContext, useEffect, useState } from 'react';
 import { CheckLogin } from '@/utils/checklogin';
-import { useAppContext } from '@/context/user';
+import { useAppContext } from '@/context/Provider';
 import Link from 'next/link';
 
 export default function SectionOne() {
