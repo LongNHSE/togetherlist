@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import LoadingMini from '@/components/LoadingMini';
-import SectionOne from '@/components/Workspace/SectionOne';
-import SectionThree from '@/components/Workspace/SectionThree';
+
 export const metadata: Metadata = {
   title: 'Projects | Worksapce',
   description:

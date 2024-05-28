@@ -52,10 +52,10 @@ const CreateBoard = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await boardApiRequest.createBoard(values);
+      const response = await boardApiRequest.createBoard(values);
       window.location.reload();
-    } catch (error) {
-      console.error('Error creating workspace:', error);
+    } catch (err) {
+      console.error('Error creating workspace:', err);
     }
   }
 
