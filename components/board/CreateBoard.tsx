@@ -49,10 +49,12 @@ const CreateBoard = () => {
       workspace: _id,
     },
   });
+  const { watch } = form;
+  const nameValue = watch('name');
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await boardApiRequest.createBoard(values);
+      await boardApiRequest.createBoard(values);
       window.location.reload();
     } catch (err) {
       console.error('Error creating workspace:', err);
@@ -92,7 +94,12 @@ const CreateBoard = () => {
                   </FormItem>
                 )}
               />
-              <Button size="lg" className="w-full" type="submit">
+              <Button
+                size="lg"
+                className="w-full"
+                type="submit"
+                disabled={!nameValue}
+              >
                 Submit
               </Button>
             </form>
