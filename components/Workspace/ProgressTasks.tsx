@@ -74,7 +74,9 @@ const ProgressTasks = ({
                       width: `${status.value}%`,
                       left: `${leftPercentage}%`,
                     }}
-                  ></div>
+                  >
+                    {' '}
+                  </div>
                 </TooltipTrigger>
                 {status.label && (
                   <TooltipContent side="top">

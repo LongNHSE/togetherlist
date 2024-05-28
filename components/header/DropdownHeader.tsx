@@ -29,6 +29,7 @@ const DropdownHeader = () => {
   const getMyWorkSpaces = async () => {
     let currentWorkspaceId = '';
     const myWorkSpaces = await workspaceApiRequest.getMyWorkspaces();
+    console.log(myWorkSpaces);
     if (!localStorage.getItem('current_workspace')) {
       localStorage.setItem(
         'current_workspace',

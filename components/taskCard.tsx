@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Pencil, Ellipsis, Check } from 'lucide-react';
+import { Pencil, Ellipsis, Check, Trash } from 'lucide-react';
 import {
   Card,
   CardDescription,
@@ -77,14 +77,20 @@ const members = [
     gender: 'male',
   },
 ];
-export default function TaskCard({ taskInput }: { taskInput: TaskType }) {
+export default function TaskCard({
+  taskInput,
+  deleteTask,
+}: {
+  taskInput: TaskType;
+  deleteTask: (id: string) => void;
+}) {
   const [open, setOpen] = React.useState(false);
   const [task, setTask] = React.useState(taskInput);
   return (
     <div className="w-72 flex-shrink-0">
       <Card className="hover:bg-gray-100 border-l-4 border-r-0 border-x-yellow-700 group">
         <CardHeader className="flex flex-row justify-between">
-          <div className="flex flex-row mt-1">
+          <div className="flex flex-row my-auto">
             <Checkbox className="mr-2" />
             <CardDescription className="w-auto max-w-40 mr-4">
               {task?.name}
@@ -95,8 +101,16 @@ export default function TaskCard({ taskInput }: { taskInput: TaskType }) {
               onClick={(e) => console.log('Click')}
             />
           </div>
-          <div className="bg-slate-100 rounded-md px-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <Ellipsis size={20} />
+          <div className="flex flex-row gap-x-2 mb-3 -translate-y-1">
+            <div className="bg-blue-400 rounded-md px-1 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <Ellipsis size={15} color="white" />
+            </div>
+            <div
+              className="bg-red-400 rounded-md px-1 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              onClick={() => deleteTask(taskInput._id)}
+            >
+              <Trash size={15} color="white" />
+            </div>
           </div>
         </CardHeader>
         <CardFooter className="flex justify-between flex-row">
