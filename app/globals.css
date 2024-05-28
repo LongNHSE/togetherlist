@@ -2,6 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+.spinner {
+  margin: 3.2rem auto 1.6rem;
+  width: 60px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 8px solid #1f2937; /* Replace with the color value for primary.900 */
+  border-right-color: #6ee7b7; /* Replace with the color value for primary.200 */
+  animation: rotate 1s infinite linear;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-mini {
+  margin: 0;
+  width: 20px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 6px solid #696803; /* Replace with the color value for primary.200 */
+  border-right-color: transparent;
+  animation: rotate 1s infinite linear;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

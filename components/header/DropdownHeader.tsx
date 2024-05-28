@@ -18,14 +18,13 @@ const DropdownHeader = () => {
   const { currentWorkspace, setCurrentWorkspace } = useAppContext();
   //My workspaces
   const [workspaces, setWorkspace] = useState<WorkspaceType[]>([]);
-
   //Shared workspaces
   const [sharedWorkSpaces, setSharedWorkSpaces] = useState<
     SharedWorkspaceType[]
   >([]);
-
+  const allWorkspacesEmpty =
+    workspaces.length === 0 || sharedWorkSpaces.length === 0;
   const [loading, setLoading] = useState(false);
-
   //Get my workspaces
   const getMyWorkSpaces = async () => {
     let currentWorkspaceId = '';
@@ -55,47 +54,79 @@ const DropdownHeader = () => {
   };
 
   const handleChooseWorkspace = async (workspace: WorkspaceType) => {
-    setCurrentWorkspace(workspace);
     localStorage.setItem('current_workspace', JSON.stringify(workspace));
+    setCurrentWorkspace(workspace);
   };
   useEffect(() => {
     getMyWorkSpaces();
     getSharedWorkspaces();
   }, [currentWorkspace]);
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center gap-1  focus:outline-none hover:opacity-50 text-[#3A1B05] font-bold">
-        <span>{currentWorkspace?.name}</span>
-        <CircleChevronDown className="tex-[#3A1B05] font-semibold" />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>Current workspace</DropdownMenuLabel>
-        <DropdownMenuItem>{currentWorkspace?.name}</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel>Your workspaces</DropdownMenuLabel>
-        {workspaces &&
-          workspaces.map((workspace) => {
-            return (
+    <>
+      {/* {allWorkspacesEmpty ? (
+        <span className="text-[#3A1B05] font-bold">No workspace available</span>
+      ) : (
+        <DropdownMenu>
+          <DropdownMenuTrigger className="flex items-center gap-1 focus:outline-none hover:opacity-50 text-[#3A1B05] font-bold">
+            <span>{currentWorkspace?.name}</span>
+            <CircleChevronDown className="text-[#3A1B05] font-semibold" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Current workspace</DropdownMenuLabel>
+            <DropdownMenuItem>{currentWorkspace?.name}</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Your workspaces</DropdownMenuLabel>
+            {workspaces &&
+              workspaces.map((workspace) => (
+                <DropdownMenuItem
+                  key={workspace._id}
+                  onClick={() => handleChooseWorkspace(workspace)}
+                >
+                  {workspace.name}
+                </DropdownMenuItem>
+              ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Shared workspaces</DropdownMenuLabel>
+            {sharedWorkSpaces &&
+              sharedWorkSpaces.map((el) => (
+                <DropdownMenuItem key={el.workspace._id}>
+                  {el.workspace.name}
+                </DropdownMenuItem>
+              ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )} */}
+      <DropdownMenu>
+        <DropdownMenuTrigger className="flex items-center gap-1 focus:outline-none hover:opacity-50 text-[#3A1B05] font-bold">
+          <span>{currentWorkspace?.name}</span>
+          <CircleChevronDown className="text-[#3A1B05] font-semibold" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="h-[10rem] overflow-auto">
+          <DropdownMenuLabel>Current workspace</DropdownMenuLabel>
+          <DropdownMenuItem>{currentWorkspace?.name}</DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuLabel>Your workspaces</DropdownMenuLabel>
+          {workspaces &&
+            workspaces.map((workspace) => (
               <DropdownMenuItem
                 key={workspace._id}
                 onClick={() => handleChooseWorkspace(workspace)}
               >
                 {workspace.name}
               </DropdownMenuItem>
-            );
-          })}
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel>Shared workspaces</DropdownMenuLabel>
-        {sharedWorkSpaces &&
-          sharedWorkSpaces.map((el) => {
-            return (
+            ))}
+          <DropdownMenuSeparator />
+          <DropdownMenuLabel>Shared workspaces</DropdownMenuLabel>
+          {sharedWorkSpaces &&
+            sharedWorkSpaces.map((el) => (
               <DropdownMenuItem key={el.workspace._id}>
                 {el.workspace.name}
               </DropdownMenuItem>
-            );
-          })}
-      </DropdownMenuContent>
-    </DropdownMenu>
+            ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
   );
 };
 

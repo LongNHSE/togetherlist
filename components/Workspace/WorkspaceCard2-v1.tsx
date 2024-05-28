@@ -1,7 +1,8 @@
 'use client';
-import { CardContent, CardTitle, CardHeader, Card } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import ProgressTasks from './ProgressTasks';
 import { BoardType } from '@/lib/schema/board/board.schema';
+import { Suspense } from 'react';
 
 const WorkspaceCard = ({ board }: { board: BoardType }) => {
   const statuses = [
@@ -13,20 +14,21 @@ const WorkspaceCard = ({ board }: { board: BoardType }) => {
   ];
   return (
     <div>
-      <Card className=" bg-white shadow-lg zoom-in-95max-w-laptop lg:max-w-monitor h-auto flex flex-col space-y-5 p-5 rounded-xl select-none">
-        <CardHeader>
-          {/* Title + Progress */}
-          <div className="flex justify-between items-center ">
-            <CardTitle className="text-start font-semibold tracking-wide text-3xl overflow-wrap break-word">
-              {board?.name}
-            </CardTitle>
-          </div>
-        </CardHeader>
+      <Card className="max-w-laptop lg:max-w-monitor h-auto flex flex-col space-y-5 p-5 bg-white shadow-lg rounded-xl select-none">
+        <Suspense fallback={<div>Loading...</div>}>
+          <CardHeader>
+            {/* Title + Progress */}
+            <div className="flex justify-between items-center">
+              <CardTitle className="text-start font-semibold tracking-wide text-3xl">
+                {board?.name}
+              </CardTitle>
+            </div>
+          </CardHeader>
 
-        <CardContent className="flex flex-col gap-2">
-          {/* Progress */}
-          <div className="flex items-center gap-3">
-            {/* <ProgressTasks
+          <CardContent className="flex flex-col gap-2">
+            {/* Progress */}
+            <div className="flex items-center gap-3">
+              {/* <ProgressTasks
               width="w-[40%]"
               idLabel="Not Done"
               labelValue="Not Done"
@@ -49,14 +51,15 @@ const WorkspaceCard = ({ board }: { board: BoardType }) => {
               progressValue={50}
               progressColorClass="bg-green-500"
             /> */}
-            <ProgressTasks
-              width="w-full"
-              idLabel="example-progress"
-              labelValue="Progress"
-              statuses={statuses}
-            />
-          </div>
-        </CardContent>
+              <ProgressTasks
+                width="w-full"
+                idLabel="example-progress"
+                labelValue="Progress"
+                statuses={statuses}
+              />
+            </div>
+          </CardContent>
+        </Suspense>
       </Card>
     </div>
   );
