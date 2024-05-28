@@ -20,7 +20,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import Modal from "@/components/modal/Modal";
 import { useRouter } from 'next/navigation';
+
 
 type LayoutProps = {
     children: ReactNode; // ReactNode type can hold any JSX elements
