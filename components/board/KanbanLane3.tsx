@@ -15,6 +15,7 @@ interface KanbanLaneProps {
   issue: any;
 
   addNewTask: (name: string, section: string, title: string) => void;
+  deleteTask: (id: string) => void;
 }
 
 export default function KanbanLane({
@@ -22,6 +23,7 @@ export default function KanbanLane({
   tasks,
   issue,
   addNewTask,
+  deleteTask,
 }: KanbanLaneProps) {
   const [newTaskName, setNewTaskName] = useState('');
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -37,10 +39,16 @@ export default function KanbanLane({
   return (
     <div ref={setNodeRef} className={className}>
       {tasks.map((task, key) => (
-        <DragCard task={task} key={task._id} index={key} parent={title} />
+        <DragCard
+          task={task}
+          key={task._id}
+          index={key}
+          parent={title}
+          deleteTask={deleteTask}
+        />
       ))}
 
-      <div className="flex flex-col mt-auto mb-9">
+      <div className="flex flex-col mt-auto mb-9 justify-center">
         <Popover onOpenChange={() => setNewTaskName('')}>
           <PopoverTrigger
             asChild
@@ -49,7 +57,7 @@ export default function KanbanLane({
             <SquarePlus className="mr-2" />
           </PopoverTrigger>
           <PopoverContent className="w-72">
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-4 justify-center mx-auto">
               <Input
                 placeholder="Name"
                 onChange={(event) => setNewTaskName(event.target.value)}

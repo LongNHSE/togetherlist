@@ -9,16 +9,25 @@ import {
   DragEndEvent,
 } from '@dnd-kit/core';
 import KanbanLane from './KanbanLane3';
-import { Check, Plus, UserRoundPlus, X, SquarePlus } from 'lucide-react';
+import {
+  Check,
+  Plus,
+  UserRoundPlus,
+  X,
+  SquarePlus,
+  Trash,
+  Delete,
+} from 'lucide-react';
 import { Search } from '@/components/ui/searchButton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import { ConfirmDelete } from '@/components/modal/ConfirmDelete';
 import {
   TooltipProvider,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { toast } from '@/components/ui/use-toast';
 import {
   Popover,
   PopoverContent,
@@ -31,6 +40,7 @@ import { BoardType } from '@/lib/schema/board/board.schema';
 import { SectionType } from '@/lib/schema/board/section.schema';
 import taskApiRequest from '@/apiRequest/task/task.api';
 import sectionApiRequest from '@/apiRequest/section/section.api';
+import { set } from 'date-fns';
 
 const members = [
   {
@@ -98,6 +108,11 @@ export default function KanbanBoard() {
 
   //For section popover
   const [sectionOpen, setSectionOpen] = useState(false);
+  //For delete modal
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteTaskId, setDeleteTaskId] = useState('' as string);
+  //
+
   const [board, setBoard] = useState<BoardType>({} as BoardType);
 
   //Load data from API
@@ -139,6 +154,7 @@ export default function KanbanBoard() {
     }
   };
 
+  //Add new task
   const addNewTask = async (
     taskName: string,
     issue: string,
@@ -163,6 +179,41 @@ export default function KanbanBoard() {
     // Your add new task logic
   };
 
+  //To open delete modal
+  const deleteTask = (taskId: string) => {
+    setDeleteModal(true);
+    setDeleteTaskId(taskId);
+  };
+
+  //Delete task
+  const handleDeleteTask = async (taskId: string) => {
+    try {
+      const result = await taskApiRequest.delete(taskId);
+      if (result.statusCode === 200) {
+        toast({
+          variant: 'success',
+          description: result.message,
+          duration: 5000,
+        });
+        board.sections?.forEach((section: any) => {
+          section.tasks = section.tasks.filter(
+            (task: any) => task._id !== taskId,
+          );
+        });
+        setBoard({ ...board });
+      } else {
+        toast({
+          variant: 'destructive',
+          description: result.message,
+          duration: 5000,
+        });
+      }
+    } catch (error) {
+    } finally {
+      setDeleteModal(false);
+      setDeleteTaskId('');
+    }
+  };
   const onDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over) return;
@@ -206,6 +257,12 @@ export default function KanbanBoard() {
 
   return (
     <div>
+      <ConfirmDelete
+        isOpen={deleteModal}
+        prop="task"
+        func={() => handleDeleteTask(deleteTaskId)}
+        closeModal={() => setDeleteModal(false)}
+      ></ConfirmDelete>
       {/* Setting tab */}
       <div className="flex flex-row justify-between mt-5">
         <div className="flex flex-row">
@@ -252,12 +309,23 @@ export default function KanbanBoard() {
           collisionDetection={rectIntersection}
           onDragEnd={onDragEnd}
         >
-          <div className="flex flex-col ">
-            {board?.sections?.map((issue: any) => {
+          <div className="flex flex-col">
+            {board?.sections?.map((issue: any, index) => {
               const issueElement = (
                 <div key={issue.name} className="flex flex-row">
-                  <div className="w-28 align-middle text-center flex my-auto">
-                    <h2>{issue.name}</h2>
+                  <div
+                    className={`w-36 h-full flex justify-center bg-amber-500 border-b-2 p-3 rounded-sm ${
+                      index === 0 ? 'mt-8' : ''
+                    }`}
+                  >
+                    <div className="flex flex-col">
+                      <h2 className="text-2xl font-medium text-center">
+                        {issue.name}
+                      </h2>
+                      <div className="mx-auto my-10">
+                        <Trash size={20} />
+                      </div>
+                    </div>
                   </div>
                   <div className="flex flex-row h-full">
                     {board.taskStatus?.map((lane) => {
@@ -276,6 +344,7 @@ export default function KanbanBoard() {
                               issue={issue}
                               tasks={tasks}
                               addNewTask={addNewTask}
+                              deleteTask={deleteTask}
                             />
                           </div>
                         </div>
@@ -291,7 +360,7 @@ export default function KanbanBoard() {
               renderLaneCount++;
               return issueElement;
             })}
-            <div className="h-fit w-fit">
+            <div className="h-fit w-fit mt-10">
               <Popover open={sectionOpen} onOpenChange={() => setSection('')}>
                 <PopoverTrigger asChild>
                   <div

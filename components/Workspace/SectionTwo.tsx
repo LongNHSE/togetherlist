@@ -62,7 +62,7 @@ const SectionTwo = () => {
           </div>
         )} */}
         {board.map((item, index) => (
-          <Link key={index} href={`workspace/board/${item._id}`}>
+          <Link key={index} href={`board/${item._id}`}>
             <div className="hover:-translate-y-2 transform transition">
               <WorkspaceCard board={item} />
             </div>
