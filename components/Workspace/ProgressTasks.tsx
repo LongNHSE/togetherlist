@@ -75,7 +75,7 @@ const ProgressTasks = ({
                       isLastItem ? 'rounded-r-md' : 'rounded-r-none'
                     }`}
                     style={{
-                      backgroundColor: stringToColor(status.label),
+                      backgroundColor: stringToColor(status.label) || undefined,
                       width: `${status.value}%`,
                       left: `${leftPercentage}%`,
                     }}

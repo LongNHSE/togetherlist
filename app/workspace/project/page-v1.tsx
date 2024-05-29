@@ -14,7 +14,7 @@ export default function ProjectPage() {
   return (
     <section className="flex flex-col gap-5">
       {/* Section One */}
-      <SectionOne />
+      {/* <SectionOne /> */}
       {/* Section Two:Projects */}
       <Suspense fallback={<span>Loading...</span>}>
         <SectionTwo />

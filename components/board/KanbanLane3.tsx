@@ -15,7 +15,7 @@ interface KanbanLaneProps {
   issue: any;
 
   addNewTask: (name: string, section: string, title: string) => void;
-  deleteTask: (id: string) => void;
+  deleteTask: (id: string | undefined) => void;
 }
 
 export default function KanbanLane({

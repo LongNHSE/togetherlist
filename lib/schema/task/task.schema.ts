@@ -16,6 +16,7 @@ export const TaskSchema = z.object({
   isPriority: z.boolean().optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
+  index: z.number().optional(),
 });
 
 export type TaskType = z.infer<typeof TaskSchema>;

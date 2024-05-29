@@ -12,7 +12,7 @@ const DragCard = ({
   task: TaskType;
   index: number;
   parent: string;
-  deleteTask: (id: string) => void;
+  deleteTask: (id: string | undefined) => void;
 }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: task?._id ?? '',

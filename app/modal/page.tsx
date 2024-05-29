@@ -1,8 +1,8 @@
 import Layout from '@/components/sidebar/layout';
 import React from 'react';
-import { ConfirmDelete } from "@/components/modal/ConfirmDelete";
+import { ConfirmDelete } from '@/components/modal/ConfirmDelete';
 import { Metadata } from 'next';
-import Modal from "@/components/modal/Modal";
+import Modal from '@/components/modal/Modal';
 export const metadata: Metadata = {
   title: 'Modal',
   description: 'Modal Page',
@@ -11,9 +11,8 @@ export const metadata: Metadata = {
 export default function ModalPage() {
   return (
     <Layout>
-      <Modal/>
-      <ConfirmDelete/>
+      <Modal />
+      {/* <ConfirmDelete/> */}
     </Layout>
-    
   );
 }

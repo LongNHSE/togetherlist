@@ -46,7 +46,7 @@ const SectionTwo = () => {
   return board && board.length > 0 ? (
     <section className="flex flex-col space-y-5">
       {/* Section One */}
-      <SectionOne />
+      {/* <SectionOne /> */}
       <div className="grid grid-cols-3 gap-x-5 gap-y-7">
         {/* {board && board.length > 0 ? (
           board.map((item, index) => (
@@ -64,7 +64,7 @@ const SectionTwo = () => {
         {board.map((item, index) => (
           <Link key={index} href={`workspace/board/${item._id}`}>
             <div className="hover:-translate-y-2 transform transition">
-              <WorkspaceCard board={item} />
+              {/* <WorkspaceCard board={item} /> */}
             </div>
           </Link>
         ))}
@@ -74,7 +74,7 @@ const SectionTwo = () => {
   ) : (
     <div className="flex flex-col justify-center items-center gap-8">
       <EmptyPage subject="project" />
-      <CreateBoard />
+      {/* <CreateBoard /> */}
     </div>
   );
 };

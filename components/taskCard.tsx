@@ -82,7 +82,7 @@ export default function TaskCard({
   deleteTask,
 }: {
   taskInput: TaskType;
-  deleteTask: (id: string) => void;
+  deleteTask: (id: string | undefined) => void;
 }) {
   const [open, setOpen] = React.useState(false);
   const [task, setTask] = React.useState(taskInput);

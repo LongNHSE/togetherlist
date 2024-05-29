@@ -39,7 +39,7 @@ const SectionTwo = () => {
           <Link key={index} href={`workspace/board/${item._id}`}>
             <div className="hover:-translate-y-2 transform transition">
               <Suspense fallback>
-                <WorkspaceCard board={item} />
+                {/* <WorkspaceCard board={item} /> */}
               </Suspense>
             </div>
           </Link>

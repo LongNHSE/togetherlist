@@ -8,7 +8,6 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogClose,
-  DialogPrimitive,
 } from '@/components/ui/dialog';
 import { CircleAlert, X } from 'lucide-react';
 import React from 'react';

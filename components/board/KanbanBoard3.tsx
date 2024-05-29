@@ -136,7 +136,7 @@ export default function KanbanBoard() {
 
   //Mean add new status
   const addNewLane = () => {
-    // Your add new lane logic
+    console.log(laneName); // Your add new lane logic
   };
 
   //Add new section or issue
@@ -182,9 +182,11 @@ export default function KanbanBoard() {
   };
 
   //To open delete modal
-  const deleteTask = (taskId: string) => {
-    setDeleteModal(true);
-    setDeleteTaskId(taskId);
+  const deleteTask = (taskId: string | undefined) => {
+    if (taskId) {
+      setDeleteModal(true);
+      setDeleteTaskId(taskId);
+    }
   };
 
   //Delete task
@@ -461,7 +463,7 @@ export default function KanbanBoard() {
             </div>
           </div>
         </DndContext>
-        <div className="h-fit w-fit">
+        {/* <div className="h-fit w-fit">
           <Popover
             open={open}
             onOpenChange={() => {
@@ -507,7 +509,7 @@ export default function KanbanBoard() {
               </div>
             </PopoverContent>
           </Popover>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -182,9 +182,11 @@ export default function KanbanBoard() {
   };
 
   //To open delete modal
-  const deleteTask = (taskId: string) => {
-    setDeleteModal(true);
-    setDeleteTaskId(taskId);
+  const deleteTask = (taskId: string | undefined) => {
+    if (taskId) {
+      setDeleteModal(true);
+      setDeleteTaskId(taskId);
+    }
   };
 
   //Delete task
