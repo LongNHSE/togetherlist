@@ -13,11 +13,11 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import CreateBoard from '../board/CreateBoard';
 
-const SectionOne = () => {
+const SectionOne = ({ loadBoard }: { loadBoard: () => void }) => {
   return (
     <div className="flex justify-between items-center">
       {/* Create new project */}
-      <CreateBoard />
+      <CreateBoard loadBoard={loadBoard} />
 
       {/* Filter + Search */}
       <div className="flex gap-1 items-center">

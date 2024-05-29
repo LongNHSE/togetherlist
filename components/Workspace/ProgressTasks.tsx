@@ -28,7 +28,8 @@ const ProgressTasks = ({
   labelValue,
   statuses,
 }: ProgressTasksProps) => {
-  function stringToColor(str: string): string {
+  function stringToColor(str: string): string | null {
+    if (!str) return null;
     let hash = 0;
     for (let i = 0; i < str?.length; i++) {
       hash = str.charCodeAt(i) + ((hash << 5) - hash);
@@ -39,6 +40,10 @@ const ProgressTasks = ({
       color += ('00' + value.toString(16)).substr(-2);
     }
     return color;
+  }
+
+  function removeAfterTwoDecimals(num: number) {
+    return parseFloat(num.toFixed(0));
   }
 
   // Usage
@@ -64,7 +69,7 @@ const ProgressTasks = ({
               <Tooltip key={index}>
                 <TooltipTrigger asChild>
                   <div
-                    className={`h-full absolute ${
+                    className={`h-full absolute p-[12px] ${
                       isOnlyItem ? 'rounded-md' : ''
                     }  ${isFirstItem ? 'rounded-l-md' : ''} ${
                       isLastItem ? 'rounded-r-md' : 'rounded-r-none'
@@ -80,7 +85,7 @@ const ProgressTasks = ({
                 </TooltipTrigger>
                 {status.label && (
                   <TooltipContent side="top">
-                    {status.label} - {status.value}%
+                    {status.label} - {removeAfterTwoDecimals(status.value)}%
                   </TooltipContent>
                 )}
               </Tooltip>

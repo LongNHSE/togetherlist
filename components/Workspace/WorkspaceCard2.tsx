@@ -11,18 +11,18 @@ import { BoardType } from '@/lib/schema/board/board.schema';
 import Image from 'next/image';
 import banner from '@/public/testBanner.jpg';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Delete, Trash2 } from 'lucide-react';
 
-const WorkspaceCard = ({ board }: { board: BoardType }) => {
-  const statuses = [
-    { value: 20, colorClass: 'bg-red-500', label: 'Status 1' },
-    { value: 30, colorClass: 'bg-blue-500', label: 'Status 2' },
-    { value: 20, colorClass: 'bg-gray-500', label: 'Status 2' },
-    { value: 20, colorClass: 'bg-green-500', label: 'Status 3' },
-    { value: 10, colorClass: 'bg-pink-500', label: 'Status 4' },
-  ];
+const WorkspaceCard = ({
+  board,
+  deleteBoard,
+}: {
+  board: BoardType;
+  deleteBoard: () => void;
+}) => {
   return (
     <div>
-      <Card className="w-[19.3rem] 2xl:w-[25rem] h-auto flex flex-col space-y-1 p-1 bg-white shadow-lg rounded-xl select-none">
+      <Card className="w-[19.3rem] 2xl:w-[25rem] h-auto flex flex-col space-y-1 p-1 bg-white shadow-lg rounded-xl select-none group">
         <CardHeader className="flex flex-col gap-3">
           {/* Banner */}
           <div className="relative w-full h-48 overflow-hidden rounded-md">
@@ -36,10 +36,24 @@ const WorkspaceCard = ({ board }: { board: BoardType }) => {
           </div>
           {/* Title + Progress */}
           <div className="flex gap-1 flex-col">
-            <CardTitle className="text-start font-semibold tracking-wide text-xl">
-              {board?.name}
-            </CardTitle>
-            <span className="text-slate-500">UI/UX Design</span>
+            <div className="flex flex-row justify-between">
+              <CardTitle className="text-start font-semibold tracking-wide text-xl">
+                {board?.name}
+              </CardTitle>
+              <div>
+                <div
+                  className="bg-red-500 p-1 rounded-lg opacity-0 group-hover:opacity-100 transition"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    deleteBoard();
+                  }}
+                >
+                  <Trash2 color="white" />
+                </div>
+              </div>
+            </div>
+            {/* <span className="text-slate-500">UI/UX Design</span> */}
           </div>
         </CardHeader>
 
@@ -50,7 +64,7 @@ const WorkspaceCard = ({ board }: { board: BoardType }) => {
               width="w-full"
               idLabel="example-progress"
               labelValue="Progress"
-              statuses={statuses}
+              statuses={board?.statuses}
             />
           </div>
         </CardContent>
@@ -80,4 +94,3 @@ const WorkspaceCard = ({ board }: { board: BoardType }) => {
 };
 
 export default WorkspaceCard;
-

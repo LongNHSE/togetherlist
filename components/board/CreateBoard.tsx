@@ -35,7 +35,7 @@ const formSchema = z.object({
   }),
 });
 
-const CreateBoard = () => {
+const CreateBoard = ({ loadBoard }: { loadBoard: () => void }) => {
   const { currentWorkspace } = useAppContext();
   const { _id, name, description } = currentWorkspace as {
     _id: string;
@@ -52,14 +52,17 @@ const CreateBoard = () => {
   const { watch } = form;
   const nameValue = watch('name');
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await boardApiRequest.createBoard(values);
-      window.location.reload();
+      const result = await boardApiRequest.createBoard(values);
+      if (result.statusCode === 200) {
+        loadBoard();
+        form.reset();
+      }
     } catch (err) {
       console.error('Error creating workspace:', err);
     }
-  }
+  };
 
   return (
     <Dialog>
