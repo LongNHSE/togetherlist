@@ -354,70 +354,70 @@ export default function KanbanBoard() {
         >
           {/* Can change to table if needed */}
           <div className="flex flex-col">
-            <table>
-              <thead>
-                <tr>
-                  <th></th> {/* Empty header for section */}
-                  {board.taskStatus?.map((lane, index) => {
-                    return (
-                      <th className="text-center text-2xl" key={index}>
-                        {lane}
-                      </th>
-                    );
-                  })}
-                </tr>
-              </thead>
-              <tbody className="h-full">
-                {board?.sections?.map((issue: any, index) => {
-                  const issueElement = (
-                    <tr key={issue.name} className="">
-                      <td className="h-96">
-                        <div className="w-36 flex justify-center h-full bg-amber-500 border-b-2 p-3 rounded-sm">
-                          <div className="flex flex-col group">
-                            <h2 className="text-2xl font-medium text-center ">
-                              {issue.name}
-                            </h2>
-                            <div
-                              className="mx-auto my-10 bg-red-500 p-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
-                              onClick={() => {
-                                setDeleteSectionModal(!deleteSectionModal);
-                                setDeleteSectionId(issue._id);
-                              }}
-                            >
-                              <Trash size={20} color="white" />
-                            </div>
+            {board.taskStatus?.map((lane, index) => {
+              return (
+                <div className="text-center text-2xl" key={index}>
+                  {lane}
+                </div>
+              );
+            })}
+            {board?.sections?.map((issue: any, index) => {
+              const issueElement = (
+                <div key={issue.name} className="flex flex-row">
+                  <div
+                    className={`w-36 flex justify-center bg-amber-500 border-b-2 p-3 rounded-sm ${
+                      index === 0 ? '' : ''
+                    }`}
+                  >
+                    <div className="flex flex-col group">
+                      <h2 className="text-2xl font-medium text-center">
+                        {issue.name}
+                      </h2>
+                      <div
+                        className="mx-auto my-10 bg-red-500 p-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+                        onClick={() => {
+                          setDeleteSectionModal(!deleteSectionModal);
+                          setDeleteSectionId(issue._id);
+                        }}
+                      >
+                        <Trash size={20} color="white" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-row">
+                    {board.taskStatus?.map((lane) => {
+                      const tasks: any = issue.tasks?.filter(
+                        (task: any) => task.status === lane,
+                      );
+                      const laneElement = (
+                        <div key={`${issue.name}-${lane}`} className="">
+                          {renderLaneCount === 0 && (
+                            <div className="text-center text-2xl">{lane}</div>
+                          )}
+                          <div className="h-full flex flex-grow-1">
+                            <KanbanLane
+                              key={`${issue.name}-${lane}`}
+                              title={lane}
+                              issue={issue}
+                              tasks={tasks}
+                              addNewTask={addNewTask}
+                              deleteTask={deleteTask}
+                            />
                           </div>
                         </div>
-                      </td>
-                      {board.taskStatus?.map((lane) => {
-                        const tasks: any = issue.tasks?.filter(
-                          (task: any) => task.status === lane,
-                        );
-                        const laneElement = (
-                          <td key={`${issue.name}-${lane}`} className="h-96">
-                            <div className="h-full">
-                              <KanbanLane
-                                key={`${issue.name}-${lane}`}
-                                title={lane}
-                                issue={issue}
-                                tasks={tasks}
-                                addNewTask={addNewTask}
-                                deleteTask={deleteTask}
-                              />
-                            </div>
-                          </td>
-                        );
+                      );
 
-                        return laneElement;
-                      })}
-                    </tr>
-                  );
+                      return laneElement;
+                    })}
+                  </div>
+                </div>
+              );
 
-                  return issueElement;
-                })}
-              </tbody>
-            </table>
-            <div className="h-fit w-fit mt-10 ml-12">
+              /* To make sure render lane 1 time only */
+              renderLaneCount++;
+              return issueElement;
+            })}
+            <div className="h-fit w-fit mt-10">
               <Popover open={sectionOpen} onOpenChange={() => setSection('')}>
                 <PopoverTrigger asChild>
                   <div
