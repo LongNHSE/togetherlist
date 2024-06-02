@@ -16,6 +16,7 @@ interface KanbanLaneProps {
 
   addNewTask: (name: string, section: string, title: string) => void;
   deleteTask: (id: string | undefined) => void;
+  updateTask: (id: string, body: any) => void;
 }
 
 export default function KanbanLane({
@@ -24,6 +25,7 @@ export default function KanbanLane({
   issue,
   addNewTask,
   deleteTask,
+  updateTask,
 }: KanbanLaneProps) {
   const [newTaskName, setNewTaskName] = useState('');
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -45,6 +47,7 @@ export default function KanbanLane({
           index={key}
           parent={title}
           deleteTask={deleteTask}
+          updateTask={updateTask}
         />
       ))}
 

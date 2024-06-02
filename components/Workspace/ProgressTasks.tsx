@@ -28,6 +28,9 @@ const ProgressTasks = ({
   labelValue,
   statuses,
 }: ProgressTasksProps) => {
+  statuses = statuses?.filter(
+    (status) => status.label !== null && status.value !== 0,
+  );
   function stringToColor(str: string): string | null {
     if (!str) return null;
     let hash = 0;
@@ -56,7 +59,7 @@ const ProgressTasks = ({
         >
           {labelValue}
         </Label>
-        <div className="relative w-full h-4 bg-gray-200 rounded">
+        <div className="relative w-full h-6 bg-gray-200 rounded">
           {statuses?.map((status, index) => {
             const leftPercentage = statuses
               .slice(0, index)
@@ -72,7 +75,7 @@ const ProgressTasks = ({
                     className={`h-full absolute p-[12px] ${
                       isOnlyItem ? 'rounded-md' : ''
                     }  ${isFirstItem ? 'rounded-l-md' : ''} ${
-                      isLastItem ? 'rounded-r-md' : 'rounded-r-none'
+                      isLastItem ? 'rounded-r-md' : ''
                     }`}
                     style={{
                       backgroundColor: stringToColor(status.label) || undefined,

@@ -8,7 +8,7 @@ import {
   useSensors,
   DragEndEvent,
 } from '@dnd-kit/core';
-import KanbanLane from './KanbanLane3';
+import KanbanLane from './KanbanLane';
 import {
   Check,
   Plus,

@@ -8,7 +8,7 @@ import {
   useSensors,
   DragEndEvent,
 } from '@dnd-kit/core';
-import KanbanLane from './KanbanLane3';
+import KanbanLane from './KanbanLane';
 import {
   Check,
   Plus,
@@ -252,6 +252,28 @@ export default function KanbanBoard() {
       setDeleteSectionId('');
     }
   };
+
+  //_____________Section for task
+  //Update task
+  const updateTask = async (taskId: string, body: any) => {
+    try {
+      const result = await taskApiRequest.update(taskId, body);
+      if (result) {
+        board.sections?.forEach((section: any) => {
+          section.tasks = section.tasks.map((task: any) => {
+            if (task._id === taskId) {
+              task = { ...task, ...body };
+            }
+            return task;
+          });
+        });
+        setBoard({ ...board });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const onDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over) return;
@@ -405,6 +427,7 @@ export default function KanbanBoard() {
                                 tasks={tasks}
                                 addNewTask={addNewTask}
                                 deleteTask={deleteTask}
+                                updateTask={updateTask}
                               />
                             </div>
                           </td>
