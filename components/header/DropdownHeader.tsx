@@ -14,6 +14,7 @@ import { CircleChevronDown } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { WorkspaceType } from '@/lib/schema/workspace/workspace.schema';
 import { SharedWorkspaceType } from '@/lib/schema/workspace/shardWorkspace.schema';
+import { redirect, useRouter } from 'next/navigation';
 const DropdownHeader = () => {
   const { currentWorkspace, setCurrentWorkspace } = useAppContext();
   //My workspaces
@@ -22,6 +23,9 @@ const DropdownHeader = () => {
   const [sharedWorkSpaces, setSharedWorkSpaces] = useState<
     SharedWorkspaceType[]
   >([]);
+
+  const router = useRouter();
+
   const allWorkspacesEmpty =
     workspaces.length === 0 || sharedWorkSpaces.length === 0;
   const [loading, setLoading] = useState(false);
@@ -57,6 +61,7 @@ const DropdownHeader = () => {
   const handleChooseWorkspace = async (workspace: WorkspaceType) => {
     localStorage.setItem('current_workspace', JSON.stringify(workspace));
     setCurrentWorkspace(workspace);
+    router.push('/workspace/main');
   };
   useEffect(() => {
     getMyWorkSpaces();

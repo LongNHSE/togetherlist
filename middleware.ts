@@ -44,6 +44,7 @@ export function middleware(req: NextRequest) {
   const cookie = cookiess?.clientSessionToken;
 
   if (!isPublicRoute && !cookie) {
+    localStorage.removeItem('user');
     return NextResponse.redirect(new URL('/auth', req.nextUrl));
   }
   if (isAuthRoute && cookie) {
