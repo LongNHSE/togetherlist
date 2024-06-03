@@ -31,54 +31,9 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { set } from 'date-fns';
 import { stat } from 'fs';
+import { useAppContext } from '@/context/Provider';
+import taskApiRequest from '@/apiRequest/task/task.api';
 
-const members = [
-  {
-    _id: '1',
-    firstName: 'John',
-    lastName: 'Doe',
-    username: 'johndoe1',
-    email: 'johndoe1@example.com',
-    avatar: 'https://github.com/johndoe1.png',
-    gender: 'male',
-  },
-  {
-    _id: '2',
-    firstName: 'Jane',
-    lastName: 'Doe',
-    username: 'janedoe',
-    email: 'janedoe@example.com',
-    avatar: 'https://github.com/janedoe.png',
-    gender: 'female',
-  },
-  {
-    _id: '3',
-    firstName: 'Bob',
-    lastName: 'Smith',
-    username: 'bobsmith',
-    email: 'bobsmith@example.com',
-    avatar: 'https://github.com/bobsmith.png',
-    gender: 'male',
-  },
-  {
-    _id: '4',
-    firstName: 'Alice',
-    lastName: 'Johnson',
-    username: 'alicejohnson',
-    email: 'alicejohnson@example.com',
-    avatar: 'https://github.com/alicejohnson.png',
-    gender: 'female',
-  },
-  {
-    _id: '5',
-    firstName: 'Charlie',
-    lastName: 'Brown',
-    username: 'charliebrown',
-    email: 'charliebrownasdasdasdasdasd@example.com',
-    avatar: 'https://github.com/charliebrown.png',
-    gender: 'male',
-  },
-];
 export default function TaskCard({
   taskInput,
   deleteTask,
@@ -89,22 +44,8 @@ export default function TaskCard({
   updateTask: (id: string, body: any) => void;
 }) {
   const inputRef = React.useRef(null);
+  const { members } = useAppContext();
 
-  // React.useEffect(() => {
-  //   function handleClickOutside(event: any) {
-  //     if (
-  //       inputRef.current &&
-  //       (inputRef.current as HTMLElement).contains(event.target)
-  //     ) {
-  //       setEditTask(false);
-  //     }
-  //   }
-
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   };
-  // }, []);
   const [open, setOpen] = React.useState(false);
   const [task, setTask] = React.useState(taskInput);
   const [editTask, setEditTask] = React.useState(false);
@@ -112,12 +53,31 @@ export default function TaskCard({
 
   //Update task name
   const updateTaskName = () => {
-    console.log(task.name);
     if (task._id) {
       updateTask(task._id, { name: taskName, status: task.status });
     }
     setEditTask(false);
     setTask({ ...task, name: taskName });
+  };
+
+  //Handle update assignee of task
+  const handleUpdateAssignee = async (currentValue: string) => {
+    try {
+      const foundMember: any = members.find(
+        (mb: any) => mb._id === currentValue,
+      );
+
+      if (foundMember) {
+        if (task._id) updateTask(task._id, { assignee: foundMember._id });
+        setTask({
+          ...task,
+          assignee: foundMember,
+        });
+      }
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="w-72 flex-shrink-0">
@@ -190,26 +150,24 @@ export default function TaskCard({
                       <div
                         onClick={(e) => {
                           e.stopPropagation();
-                          console.log('asd');
                         }}
                       >
                         <Avatar>
                           <AvatarImage
-                            src={task?.userId?.avatar}
+                            src={task?.assignee?.avatar}
                             alt="@shadcn"
                           />
-                          <AvatarFallback>CN</AvatarFallback>
+                          <AvatarFallback className="w-10 h-10 bg-orange-500">
+                            {task?.assignee?.firstName[0]}
+                            {task?.assignee?.lastName[0]}
+                          </AvatarFallback>
                         </Avatar>
                       </div>
                     </PopoverTrigger>
                   </TooltipTrigger>
                   <TooltipContent side="bottom">
                     {/* Current user's infomation who was assigned to this task */}
-                    {task?.userId
-                      ? members.find(
-                          (member) => member._id === task.userId?._id,
-                        )?.username
-                      : 'Unassigned'}
+                    {task?.assignee ? task?.assignee.username : 'Unassigned'}
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -218,40 +176,32 @@ export default function TaskCard({
                   <CommandInput placeholder="Search member..." />
                   <CommandEmpty>No member found.</CommandEmpty>
                   <CommandGroup>
-                    {members.map((member) => (
+                    {members.map((mb: any) => (
                       <CommandItem
-                        key={member._id}
-                        value={member._id}
+                        key={mb._id}
+                        value={mb._id}
                         className="flex items-center flex-row"
                         onSelect={(currentValue) => {
-                          const foundMember = members.find(
-                            (member) => member._id === currentValue,
-                          );
-                          if (foundMember) {
-                            setTask({
-                              ...task,
-                              userId: foundMember,
-                            });
-                          }
-                          setOpen(false);
+                          handleUpdateAssignee(currentValue);
                         }}
                       >
                         <Check
                           className={cn(
                             'mr-2 h-4 w-4',
-                            task?.userId?._id === member._id
+                            task?.assignee?._id === mb._id
                               ? 'opacity-100'
                               : 'opacity-0',
                           )}
                         />
                         <Avatar className="w-8 h-8">
-                          <AvatarImage src={member.avatar} alt="@shadcn" />
-                          <AvatarFallback className="w-8 h-8">
-                            CN
+                          <AvatarImage src={mb.avatar} alt="@shadcn" />
+                          <AvatarFallback className="w-10 h-10 bg-orange-500">
+                            {mb?.firstName[0]}
+                            {mb?.lastName[0]}
                           </AvatarFallback>
                         </Avatar>
                         <div className="text-center ml-2 w-56 truncate">
-                          {member.email}
+                          {mb.email}
                         </div>
                       </CommandItem>
                     ))}

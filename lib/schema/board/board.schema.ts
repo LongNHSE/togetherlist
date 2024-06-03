@@ -14,14 +14,7 @@ export const BoardSchema = z.object({
   totalTask: z.number().optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
-  statuses: z
-    .array(
-      z.object({
-        label: z.string(),
-        value: z.number(),
-      }),
-    )
-    .optional(),
+  statuses: z.array(TaskStatusSchema),
 });
 
 export type BoardType = z.infer<typeof BoardSchema>;

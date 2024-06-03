@@ -23,7 +23,7 @@ interface ProgressTasksProps {
   idLabel: string;
   labelClassName?: string;
   labelValue: string;
-  statuses: ProgressStatus[];
+  statuses: TaskStatusType[];
   taskStatus: TaskStatusType[];
 }
 

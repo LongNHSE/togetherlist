@@ -30,7 +30,6 @@ export default function KanbanLane({
   deleteTask,
   updateTask,
 }: KanbanLaneProps) {
-  console.log(status);
   const [newTaskName, setNewTaskName] = useState('');
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
@@ -41,7 +40,6 @@ export default function KanbanLane({
   const className = `items-center flex flex-col gap-3 bg-gray-100 border-2 border-white min-h-96 h-full min-w-[310px] p-2 ${
     isOver ? 'bg-green-200' : ''
   }`;
-  console.log(!isOver);
   return (
     <div ref={setNodeRef} className={className}>
       {tasks.map((task, key) => (
