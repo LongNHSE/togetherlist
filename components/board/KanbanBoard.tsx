@@ -139,8 +139,23 @@ export default function KanbanBoard() {
   }, []);
 
   //Mean add new status
-  const addNewLane = () => {
-    console.log(laneName); // Your add new lane logic
+  const addNewLane = async () => {
+    if (laneName) {
+      try {
+        const result = await boardApiRequest.addNewBoardStatus(boardId, {
+          name: laneName,
+        });
+        if (result.statusCode === 200) {
+          board.taskStatus?.push(result.data);
+          setBoard({ ...board });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setOpen(false);
+        setLaneName('');
+      }
+    }
   };
 
   //Add new section or issue
@@ -279,21 +294,48 @@ export default function KanbanBoard() {
   };
 
   //Update the status index
-  const statusIndexHandler = (status: TaskStatusType, newIndex: number) => {
-    const oldIndex = status.index;
+  const statusIndexHandler = async (
+    status: TaskStatusType,
+    newIndex: number,
+  ) => {
+    const body = { newIndex: newIndex, oldIndex: status.index };
 
-    const newBoard = board.taskStatus?.map((ts) => {
-      if (ts.index === oldIndex) {
-        return { ...ts, index: newIndex };
-      } else if (ts.index === newIndex) {
-        return { ...ts, index: oldIndex };
+    try {
+      const result = await boardApiRequest.updateBoardStatus(
+        boardId,
+        status._id,
+        body,
+      );
+      if (result) {
+        toast({
+          variant: 'success',
+          description: result.message,
+          duration: 5000,
+        });
+        const oldIndex = status.index;
+
+        const newBoard = board.taskStatus?.map((ts) => {
+          if (ts.index === oldIndex) {
+            return { ...ts, index: newIndex };
+          } else if (ts.index === newIndex) {
+            return { ...ts, index: oldIndex };
+          }
+          return ts;
+        });
+        setBoard((prevBoard) => ({
+          ...prevBoard,
+          taskStatus: newBoard,
+        }));
+      } else {
+        toast({
+          variant: 'destructive',
+          description: result.message,
+          duration: 5000,
+        });
       }
-      return ts;
-    });
-    setBoard((prevBoard) => ({
-      ...prevBoard,
-      taskStatus: newBoard,
-    }));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onDragEnd = async (event: DragEndEvent) => {
@@ -543,7 +585,7 @@ export default function KanbanBoard() {
             </div>
           </div>
         </DndContext>
-        {/* <div className="h-fit w-fit">
+        <div className="h-fit w-fit">
           <Popover
             open={open}
             onOpenChange={() => {
@@ -589,7 +631,7 @@ export default function KanbanBoard() {
               </div>
             </PopoverContent>
           </Popover>
-        </div> */}
+        </div>
       </div>
     </div>
   );
