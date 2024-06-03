@@ -8,11 +8,13 @@ import { Popover, PopoverTrigger, PopoverContent } from '../ui/popover';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { PopoverClose } from '@radix-ui/react-popover';
+import { TaskStatusType } from '@/lib/schema/board/task-status.schema';
 
 interface KanbanLaneProps {
   title: string;
   tasks: TaskType[];
   issue: any;
+  status: TaskStatusType;
 
   addNewTask: (name: string, section: string, title: string) => void;
   deleteTask: (id: string | undefined) => void;
@@ -23,15 +25,17 @@ export default function KanbanLane({
   title,
   tasks,
   issue,
+  status,
   addNewTask,
   deleteTask,
   updateTask,
 }: KanbanLaneProps) {
+  console.log(status);
   const [newTaskName, setNewTaskName] = useState('');
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   const { isOver, setNodeRef } = useDroppable({
-    id: `${issue.name}-${title}-${issue._id}`,
+    id: `${issue.name}-${status._id}-${issue._id}`,
   });
 
   const className = `items-center flex flex-col gap-3 bg-gray-100 border-2 border-white min-h-96 h-full min-w-[310px] p-2 ${
@@ -69,7 +73,7 @@ export default function KanbanLane({
                 <Button
                   variant="default"
                   onClick={() => {
-                    addNewTask(newTaskName, issue._id, title);
+                    addNewTask(newTaskName, issue._id, status._id);
                     setIsPopoverOpen(false);
                   }}
                 >

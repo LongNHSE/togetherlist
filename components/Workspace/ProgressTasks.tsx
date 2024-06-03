@@ -37,6 +37,8 @@ const ProgressTasks = ({
   const [filteredStatuses, setFilteredStatuses] = useState<ProgressStatus[]>(
     [],
   );
+  // statuses = { ...statuses,statuses };
+  // console.log(statuses);
   statuses = statuses?.filter(
     (status) => status.label !== null && status.value !== 0,
   );

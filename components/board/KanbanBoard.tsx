@@ -468,7 +468,7 @@ export default function KanbanBoard() {
                       </td>
                       {board.taskStatus?.map((lane: any) => {
                         const tasks: any = issue.tasks?.filter(
-                          (task: any) => task.status === lane.name,
+                          (task: any) => task.status === lane._id,
                         );
                         const laneElement = (
                           <td
@@ -479,6 +479,7 @@ export default function KanbanBoard() {
                               <KanbanLane
                                 key={`${issue.name}-${lane._id}`}
                                 title={lane.name}
+                                status={lane}
                                 issue={issue}
                                 tasks={tasks}
                                 addNewTask={addNewTask}
