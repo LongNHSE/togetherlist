@@ -9,6 +9,8 @@ const boardApiRequest = {
   },
   updateBoard: (boardId: string, boardData: object) => {},
   deleteBoard: (boardId: string) => http.delete('/boards/' + boardId, {}),
+  updateBoardStatus: (boardId: string, order: any) =>
+    http.put('/boards/' + boardId + '/board-status', order),
 };
 
 export default boardApiRequest;

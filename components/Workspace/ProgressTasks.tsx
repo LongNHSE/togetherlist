@@ -1,4 +1,5 @@
 'use client';
+import { TaskStatusType } from '@/lib/schema/board/task-status.schema';
 import { Label } from '../ui/label';
 import { Progress } from '../ui/progress';
 import {
@@ -7,10 +8,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { TaskType } from '@/lib/schema/task/task.schema';
+import { use, useEffect, useState } from 'react';
 
 interface ProgressStatus {
   value: number;
   label: string;
+  index: number;
 }
 
 interface ProgressTasksProps {
@@ -18,7 +22,8 @@ interface ProgressTasksProps {
   idLabel: string;
   labelClassName?: string;
   labelValue: string;
-  statuses: ProgressStatus[] | undefined;
+  statuses: ProgressStatus[];
+  taskStatus: TaskStatusType[];
 }
 
 const ProgressTasks = ({
@@ -27,7 +32,11 @@ const ProgressTasks = ({
   labelClassName,
   labelValue,
   statuses,
+  taskStatus,
 }: ProgressTasksProps) => {
+  const [filteredStatuses, setFilteredStatuses] = useState<ProgressStatus[]>(
+    [],
+  );
   statuses = statuses?.filter(
     (status) => status.label !== null && status.value !== 0,
   );
@@ -49,6 +58,45 @@ const ProgressTasks = ({
     return parseFloat(num.toFixed(0));
   }
 
+  const getBackGroundColor = (status: string) => {
+    const result: TaskStatusType | null =
+      taskStatus?.find((ts) => ts.name === status) || null;
+    return result?.color;
+  };
+
+  const sortStatuses = () => {
+    statuses = statuses?.map((status) => {
+      let updatedStatus = { ...status };
+      taskStatus?.forEach((ts) => {
+        if (status.label === ts.name) {
+          updatedStatus.index = ts.index;
+        }
+      });
+      return updatedStatus;
+    });
+    statuses = statuses?.sort((a, b) => a.index - b.index);
+  };
+
+  useEffect(() => {
+    let newStatuses = statuses?.filter(
+      (status) => status.label !== null && status.value !== 0,
+    );
+
+    newStatuses = newStatuses?.map((status) => {
+      let updatedStatus = { ...status };
+      taskStatus?.forEach((ts) => {
+        if (status.label === ts.name) {
+          updatedStatus.index = ts.index;
+        }
+      });
+      return updatedStatus;
+    });
+
+    newStatuses = newStatuses?.sort((a, b) => a.index - b.index);
+    console.log(newStatuses);
+    setFilteredStatuses(newStatuses);
+  }, [taskStatus]);
+
   // Usage
   return (
     <TooltipProvider>
@@ -60,13 +108,14 @@ const ProgressTasks = ({
           {labelValue}
         </Label>
         <div className="relative w-full h-6 bg-gray-200 rounded">
-          {statuses?.map((status, index) => {
-            const leftPercentage = statuses
+          {filteredStatuses?.map((status, index) => {
+            console.log(status);
+            const leftPercentage = filteredStatuses
               .slice(0, index)
               .reduce((acc, curr) => acc + curr.value, 0);
-            const isOnlyItem = statuses.length === 1;
+            const isOnlyItem = filteredStatuses.length === 1;
             const isFirstItem = index === 0;
-            const isLastItem = index === statuses.length - 1;
+            const isLastItem = index === filteredStatuses.length - 1;
 
             return (
               <Tooltip key={index}>
@@ -78,7 +127,7 @@ const ProgressTasks = ({
                       isLastItem ? 'rounded-r-md' : ''
                     }`}
                     style={{
-                      backgroundColor: stringToColor(status.label) || undefined,
+                      backgroundColor: getBackGroundColor(status.label),
                       width: `${status.value}%`,
                       left: `${leftPercentage}%`,
                     }}

@@ -15,6 +15,8 @@ import {
   UserRoundPlus,
   X,
   SquarePlus,
+  ChevronLeft,
+  ChevronRight,
   Trash,
   Delete,
 } from 'lucide-react';
@@ -41,6 +43,8 @@ import { SectionType } from '@/lib/schema/board/section.schema';
 import taskApiRequest from '@/apiRequest/task/task.api';
 import sectionApiRequest from '@/apiRequest/section/section.api';
 import { set } from 'date-fns';
+import { TaskType } from '@/lib/schema/task/task.schema';
+import { TaskStatusType } from '@/lib/schema/board/task-status.schema';
 
 const members = [
   {
@@ -274,6 +278,24 @@ export default function KanbanBoard() {
     }
   };
 
+  //Update the status index
+  const statusIndexHandler = (status: TaskStatusType, newIndex: number) => {
+    const oldIndex = status.index;
+
+    const newBoard = board.taskStatus?.map((ts) => {
+      if (ts.index === oldIndex) {
+        return { ...ts, index: newIndex };
+      } else if (ts.index === newIndex) {
+        return { ...ts, index: oldIndex };
+      }
+      return ts;
+    });
+    setBoard((prevBoard) => ({
+      ...prevBoard,
+      taskStatus: newBoard,
+    }));
+  };
+
   const onDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over) return;
@@ -314,6 +336,15 @@ export default function KanbanBoard() {
 
     // Update the board state
   };
+
+  const sortStatuses = () => {
+    board.taskStatus = board.taskStatus?.sort((a, b) => a.index - b.index);
+    setBoard({ ...board });
+  };
+
+  useEffect(() => {
+    sortStatuses();
+  }, [board.taskStatus]);
 
   return (
     <div>
@@ -382,10 +413,32 @@ export default function KanbanBoard() {
               <thead>
                 <tr>
                   <th></th> {/* Empty header for section */}
-                  {board.taskStatus?.map((lane, index) => {
+                  {board.taskStatus?.map((lane: any, index) => {
                     return (
                       <th className="text-center text-2xl" key={index}>
-                        {lane}
+                        <div className="flex flex-row justify-center mb-1">
+                          {index !== 0 ? (
+                            <div
+                              className="mt-1 border-2 rounded-md border-black"
+                              onClick={() =>
+                                statusIndexHandler(lane, lane.index - 1)
+                              }
+                            >
+                              <ChevronLeft />
+                            </div>
+                          ) : null}
+                          <div className="mx-10">{lane.name}</div>
+                          {index !== board?.taskStatus?.length - 1 ? (
+                            <div
+                              className="mt-1 border-2 rounded-md border-black"
+                              onClick={() =>
+                                statusIndexHandler(lane, lane.index + 1)
+                              }
+                            >
+                              <ChevronRight />
+                            </div>
+                          ) : null}
+                        </div>
                       </th>
                     );
                   })}
@@ -413,16 +466,19 @@ export default function KanbanBoard() {
                           </div>
                         </div>
                       </td>
-                      {board.taskStatus?.map((lane) => {
+                      {board.taskStatus?.map((lane: any) => {
                         const tasks: any = issue.tasks?.filter(
-                          (task: any) => task.status === lane,
+                          (task: any) => task.status === lane.name,
                         );
                         const laneElement = (
-                          <td key={`${issue.name}-${lane}`} className="h-96">
+                          <td
+                            key={`${issue.name}-${lane.name}`}
+                            className="h-96"
+                          >
                             <div className="h-full">
                               <KanbanLane
-                                key={`${issue.name}-${lane}`}
-                                title={lane}
+                                key={`${issue.name}-${lane._id}`}
+                                title={lane.name}
                                 issue={issue}
                                 tasks={tasks}
                                 addNewTask={addNewTask}
