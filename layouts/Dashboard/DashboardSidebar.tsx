@@ -1,6 +1,6 @@
 import NavLink from '@/components/NavLink';
 import {
-  ClipboardList,
+  Calendar,
   Home,
   LayoutDashboard,
   Network,
@@ -51,6 +51,14 @@ const DashboardSidebar = () => {
             icon={<UsersRound className="mr-3" />}
           >
             Teams
+          </NavLink>
+          <NavLink
+            to="/workspace/calendar"
+            className="p-4 flex items-cente hover:opacity-70 cursor-pointer transition duration-300"
+            activeClassName="bg-[#3A1B05] text-white"
+            icon={<Calendar className="mr-3" />}
+          >
+            Calendar
           </NavLink>
         </div>
       </nav>
