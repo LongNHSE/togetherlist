@@ -15,6 +15,7 @@ interface ProgressStatus {
   value: number;
   label: string;
   index: number;
+  color: string;
 }
 
 interface ProgressTasksProps {
@@ -63,6 +64,7 @@ const ProgressTasks = ({
   const getBackGroundColor = (status: string) => {
     const result: TaskStatusType | null =
       taskStatus?.find((ts) => ts.name === status) || null;
+    console.log(result);
     return result?.color;
   };
 
@@ -129,7 +131,7 @@ const ProgressTasks = ({
                       isLastItem ? 'rounded-r-md' : ''
                     }`}
                     style={{
-                      backgroundColor: getBackGroundColor(status.label),
+                      backgroundColor: status.color,
                       width: `${status.value}%`,
                       left: `${leftPercentage}%`,
                     }}
