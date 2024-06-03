@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Pencil, Ellipsis, Check, Trash } from 'lucide-react';
+import { Pencil, Ellipsis, Check, Trash, X } from 'lucide-react';
 import {
   Card,
   CardDescription,
@@ -29,6 +29,8 @@ import {
   CommandItem,
 } from '@/components/ui/command';
 import { Checkbox } from '@/components/ui/checkbox';
+import { set } from 'date-fns';
+import { stat } from 'fs';
 
 const members = [
   {
@@ -80,25 +82,87 @@ const members = [
 export default function TaskCard({
   taskInput,
   deleteTask,
+  updateTask,
 }: {
   taskInput: TaskType;
   deleteTask: (id: string | undefined) => void;
+  updateTask: (id: string, body: any) => void;
 }) {
+  const inputRef = React.useRef(null);
+
+  // React.useEffect(() => {
+  //   function handleClickOutside(event: any) {
+  //     if (
+  //       inputRef.current &&
+  //       (inputRef.current as HTMLElement).contains(event.target)
+  //     ) {
+  //       setEditTask(false);
+  //     }
+  //   }
+
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, []);
   const [open, setOpen] = React.useState(false);
   const [task, setTask] = React.useState(taskInput);
+  const [editTask, setEditTask] = React.useState(false);
+  const [taskName, setTaskName] = React.useState(taskInput.name);
+
+  //Update task name
+  const updateTaskName = () => {
+    console.log(task.name);
+    if (task._id) {
+      updateTask(task._id, { name: taskName, status: task.status });
+    }
+    setEditTask(false);
+    setTask({ ...task, name: taskName });
+  };
   return (
     <div className="w-72 flex-shrink-0">
       <Card className="hover:bg-gray-100 border-l-4 border-r-0 border-x-yellow-700 group">
         <CardHeader className="flex flex-row justify-between">
-          <div className="flex flex-row my-auto">
+          <div className="flex flex-row my-auto h-6">
             <Checkbox className="mr-2" />
-            <CardDescription className="w-auto max-w-40 mr-4">
-              {task?.name}
-            </CardDescription>
+            {editTask ? (
+              <div
+                ref={inputRef}
+                className="flex flex-col rounded-md border border-input border-dark_brown text-sm ring-offset-background focus-within:ring-1 focus-within:ring-ring focus-within:ring-offset-2"
+              >
+                <input
+                  type="text"
+                  className="w-36 mr-0.5 placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 "
+                  defaultValue={taskName}
+                  onChange={(e) => setTaskName(e.target.value)}
+                />
+                <div className="flex flex-row justify-end gap-2 mt-2">
+                  <div
+                    className="flex justify-center items-center border-2 bg-red-500 rounded-md p-[1px]"
+                    onClick={() => {
+                      setTaskName(taskInput.name);
+                      setEditTask(false);
+                    }}
+                  >
+                    <X size={20} className="m-auto" color="white" />
+                  </div>
+                  <div
+                    className="flex justify-center items-center border-2 bg-green-500 rounded-md p-[1px]"
+                    onClick={() => updateTaskName()}
+                  >
+                    <Check size={20} className="m-auto" color="white" />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <CardDescription className="w-auto max-w-40 mr-0.5">
+                {task?.name}
+              </CardDescription>
+            )}
             <Pencil
               size={15}
-              className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-              onClick={(e) => console.log('Click')}
+              className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+              onClick={(e) => setEditTask(!editTask)}
             />
           </div>
           <div className="flex flex-row gap-x-2 mb-3 -translate-y-1">

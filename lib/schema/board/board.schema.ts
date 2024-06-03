@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { SectionSchema } from './section.schema';
+import { TaskStatusSchema } from './task-status.schema';
 
 export const BoardSchema = z.object({
   _id: z.string().optional(),
@@ -9,7 +10,7 @@ export const BoardSchema = z.object({
     .array(z.string())
     .optional()
     .or(z.array(SectionSchema).optional()),
-  taskStatus: z.array(z.string()).optional(),
+  taskStatus: z.array(TaskStatusSchema),
   totalTask: z.number().optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),

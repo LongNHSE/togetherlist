@@ -9,6 +9,10 @@ const boardApiRequest = {
   },
   updateBoard: (boardId: string, boardData: object) => {},
   deleteBoard: (boardId: string) => http.delete('/boards/' + boardId, {}),
+  addNewBoardStatus: (boardId: string, statusData: object) =>
+    http.post('/boards/' + boardId + '/board-status', statusData),
+  updateBoardStatus: (boardId: string, statusId: string, order: any) =>
+    http.patch('/boards/' + boardId + '/board-status/' + statusId, order),
 };
 
 export default boardApiRequest;

@@ -65,6 +65,7 @@ const WorkspaceCard = ({
               idLabel="example-progress"
               labelValue="Progress"
               statuses={board?.statuses}
+              taskStatus={board?.taskStatus}
             />
           </div>
         </CardContent>
