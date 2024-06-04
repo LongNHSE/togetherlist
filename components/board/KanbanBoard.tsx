@@ -45,56 +45,11 @@ import sectionApiRequest from '@/apiRequest/section/section.api';
 import { set } from 'date-fns';
 import { TaskType } from '@/lib/schema/task/task.schema';
 import { TaskStatusType } from '@/lib/schema/board/task-status.schema';
-
-const members = [
-  {
-    _id: '1',
-    firstName: 'John',
-    lastName: 'Doe',
-    username: 'johndoe1',
-    email: 'johndoe1@example.com',
-    avatar: 'https://github.com/johndoe1.png',
-    gender: 'male',
-  },
-  {
-    _id: '2',
-    firstName: 'Jane',
-    lastName: 'Doe',
-    username: 'janedoe',
-    email: 'janedoe@example.com',
-    avatar: 'https://github.com/janedoe.png',
-    gender: 'female',
-  },
-  {
-    _id: '3',
-    firstName: 'Bob',
-    lastName: 'Smith',
-    username: 'bobsmith',
-    email: 'bobsmith@example.com',
-    avatar: 'https://github.com/bobsmith.png',
-    gender: 'male',
-  },
-  {
-    _id: '4',
-    firstName: 'Alice',
-    lastName: 'Johnson',
-    username: 'alicejohnson',
-    email: 'alicejohnson@example.com',
-    avatar: 'https://github.com/alicejohnson.png',
-    gender: 'female',
-  },
-  {
-    _id: '5',
-    firstName: 'Charlie',
-    lastName: 'Brown',
-    username: 'charliebrown',
-    email: 'charliebrownasdasdasdasdasd@example.com',
-    avatar: 'https://github.com/charliebrown.png',
-    gender: 'male',
-  },
-];
+import { useAppContext } from '@/context/Provider';
 
 export default function KanbanBoard() {
+  const { members } = useAppContext();
+
   const boardId = useParams().boardId as string;
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -280,9 +235,10 @@ export default function KanbanBoard() {
       if (result) {
         board.sections?.forEach((section: any) => {
           section.tasks = section.tasks.map((task: any) => {
-            if (task._id === taskId) {
-              task = { ...task, ...body };
+            if (task._id === result.data._id) {
+              task = { ...task, ...result.data };
             }
+            console.log(task);
             return task;
           });
         });
@@ -346,7 +302,6 @@ export default function KanbanBoard() {
     const [targetIssue, targetLane, sectionId] = over?.id
       ?.toString()
       ?.split('-');
-    console.log(targetIssue, targetLane, sectionId);
 
     // Find the issue that currently contains the task
     const sourceIssue: any = board.sections?.find((issue: any) =>
@@ -364,7 +319,7 @@ export default function KanbanBoard() {
     const targetIssueObj: any = board.sections?.find(
       (issue: any) => issue.name === targetIssue,
     );
-
+    console.log(task);
     // Add the task to the target issue with the new status
     let newTask = null;
     if (targetIssueObj) {
@@ -373,10 +328,8 @@ export default function KanbanBoard() {
     }
     newTask.section = sectionId;
     setBoard({ ...board });
-
+    console.log(newTask);
     await taskApiRequest.update(task._id, newTask);
-
-    // Update the board state
   };
 
   const sortStatuses = () => {
@@ -407,7 +360,7 @@ export default function KanbanBoard() {
       <div className="flex flex-row justify-between mt-5">
         <div className="flex flex-row">
           <Search placeholder="Search" />
-          <div className="flex flex-row-reverse ml-2 space-x-reverse -space-x-1.5">
+          {/* <div className="flex flex-row-reverse ml-2 space-x-reverse -space-x-1.5">
             {members.map((member) => (
               <TooltipProvider delayDuration={100} key={member._id}>
                 <Tooltip>
@@ -426,8 +379,8 @@ export default function KanbanBoard() {
                 </Tooltip>
               </TooltipProvider>
             ))}
-          </div>
-          <div className="flex ml-2 bg-slate-300 p-2 rounded-full hover:-translate-y-1 transition duration-30">
+          </div> */}
+          {/* <div className="flex ml-2 bg-slate-300 p-2 rounded-full hover:-translate-y-1 transition duration-30">
             <TooltipProvider delayDuration={100}>
               <Tooltip>
                 <TooltipTrigger>
@@ -438,7 +391,7 @@ export default function KanbanBoard() {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-          </div>
+          </div> */}
         </div>
       </div>
 

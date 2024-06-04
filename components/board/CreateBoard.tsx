@@ -37,11 +37,13 @@ const formSchema = z.object({
 
 const CreateBoard = ({ loadBoard }: { loadBoard: () => void }) => {
   const { currentWorkspace } = useAppContext();
+  if (!currentWorkspace) return null;
   const { _id, name, description } = currentWorkspace as {
     _id: string;
     name: string;
     description: string;
   };
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

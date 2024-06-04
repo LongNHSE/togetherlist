@@ -5,6 +5,8 @@ export const TaskStatusSchema = z.object({
   color: z.string(),
   index: z.number(),
   _id: z.string(),
+  label: z.string(),
+  value: z.number(),
 });
 
 export type TaskStatusType = z.infer<typeof TaskStatusSchema>;

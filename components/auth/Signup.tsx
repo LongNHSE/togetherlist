@@ -44,7 +44,7 @@ import {
 } from '@/components/ui/command';
 import { toast } from '@/components/ui/use-toast';
 import { setCookie } from 'cookies-next';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import logoImg from '@/public/logo.png';
 
@@ -99,6 +99,7 @@ const Signup = () => {
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const router = useRouter();
 
   //define form using z schema as type
   const form = useForm<z.infer<typeof formSchema>>({
@@ -129,10 +130,11 @@ const Signup = () => {
           title: 'Account created',
           description: 'Your account has been created',
         });
+        localStorage.clear();
+        localStorage.setItem('user', JSON.stringify(result.user));
         setCookie('clientSessionToken', result.token);
         setCookie('refreshToken', result.refreshToken);
-
-        redirect('/workspace');
+        router.push('/workspace');
       } else {
         if (result?.code === 11000) {
           form.setError('username', {

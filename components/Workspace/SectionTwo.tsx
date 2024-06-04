@@ -13,7 +13,7 @@ import { useAppContext } from '@/context/Provider';
 import LoadingMini from '../LoadingMini';
 import { ConfirmDelete } from '../modal/ConfirmDelete';
 
-const WorkspaceCard = dynamic(() => import('./WorkspaceCard2'), {
+const WorkspaceCard = dynamic(() => import('./WorkspaceCard'), {
   ssr: false,
   loading: () => <SkeletonCard />,
 });
