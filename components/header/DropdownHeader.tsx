@@ -1,5 +1,4 @@
 'use client';
-
 import workspaceApiRequest from '@/apiRequest/workspace/workspace.api';
 import {
   DropdownMenu,
@@ -15,6 +14,7 @@ import React, { useEffect, useState } from 'react';
 import { WorkspaceType } from '@/lib/schema/workspace/workspace.schema';
 import { SharedWorkspaceType } from '@/lib/schema/workspace/shardWorkspace.schema';
 import { redirect, useRouter } from 'next/navigation';
+
 const DropdownHeader = () => {
   const { currentWorkspace, setCurrentWorkspace } = useAppContext();
   //My workspaces
@@ -31,7 +31,6 @@ const DropdownHeader = () => {
   const [loading, setLoading] = useState(false);
   //Get my workspaces
   const getMyWorkSpaces = async () => {
-    let currentWorkspaceId = '';
     const myWorkSpaces = await workspaceApiRequest.getMyWorkspaces();
     console.log(myWorkSpaces);
     if (!localStorage.getItem('current_workspace')) {
@@ -45,7 +44,6 @@ const DropdownHeader = () => {
     const filterWorkspace = myWorkSpaces?.data.filter(
       (el: any) => el._id !== currentWorkspace?._id,
     );
-    console.log(filterWorkspace);
     setWorkspace(filterWorkspace);
   };
 

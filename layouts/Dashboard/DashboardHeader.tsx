@@ -1,8 +1,8 @@
-import { Bell, CircleChevronDown } from 'lucide-react';
 import AvatarDropdown from '@/components/user/AvatarDropdown';
 import CreateWorkspace from '@/components/Workspace/CreateWorkspace';
 import dynamic from 'next/dynamic';
 import LoadingSupperMini from '@/components/Workspace/LoadingSupperMini';
+import DropdownNotification from '@/components/header/DropdownNotification';
 
 const DropdownHeader = dynamic(
   () => import('@/components/header/DropdownHeader'),
@@ -14,17 +14,11 @@ const DashboardHeader = () => {
     <header className="px-6 py-4 bg-gray-50 flex justify-between items-center cursor-pointer">
       {/* List of workspaces */}
       <DropdownHeader />
-
       <div className="flex items-center gap-7">
         {/* Creat Workpsace Button */}
         <CreateWorkspace />
         {/* Notification */}
-        <div className="relative hover:opacity-50 cursor-pointer">
-          <Bell />
-          <span className="absolute top-0 right-0 transform translate-x-[60%] translate-y-[-55%] px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-full">
-            1
-          </span>
-        </div>
+        <DropdownNotification />
         {/* Account */}
         <AvatarDropdown />
       </div>
