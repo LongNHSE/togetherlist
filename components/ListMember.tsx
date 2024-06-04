@@ -36,7 +36,8 @@ const ListMember = () => {
     try {
       if (!currentWorkspace) return;
       const res = await memberApiRequest.getOwner(currentWorkspace._id);
-      setMembers((prev: any) => [...prev, res.data.owner]);
+      console.log(res.data);
+      setMembers((prev: any) => [...prev, res?.data?.owner]);
     } catch (error) {
       console.log(error);
     }

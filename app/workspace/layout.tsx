@@ -10,9 +10,9 @@ export default function RootLayout({
   return (
     <div className="grid grid-cols-[auto_2fr] h-screen">
       <DashboardSidebar />
-      <section className=" h-screen">
+      <section className="grid grid-rows-[auto_1fr] h-screen overflow-hidden">
         <DashboardHeader />
-        <div className="py-3 px-6 h-screen">{children}</div>
+        <div className="py-3 px-6 h-screen overflow-auto">{children}</div>
       </section>
     </div>
   );

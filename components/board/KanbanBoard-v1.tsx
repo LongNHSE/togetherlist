@@ -345,7 +345,7 @@ export default function KanbanBoard() {
       </div>
 
       {/* Board */}
-      <div className="flex flex-row my-5 overflow-auto ">
+      <div className="flex flex-row my-5">
         <DndContext
           sensors={sensors}
           collisionDetection={rectIntersection}
@@ -353,10 +353,10 @@ export default function KanbanBoard() {
         >
           {/* Can change to table if needed */}
           <div className="flex flex-col">
-            <table>
+            <table className="table-fixed w-full">
               <thead>
                 <tr>
-                  <th></th> {/* Empty header for section */}
+                  <th className="w-36"></th> {/* Empty header for section */}
                   {board.taskStatus?.map((lane: any, index) => {
                     return (
                       <th className="text-center text-2xl" key={index}>
