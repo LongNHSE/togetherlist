@@ -9,7 +9,8 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { useAppContext } from '@/context/Provider';
 import memberApiRequest from '@/apiRequest/member/member.api';
-import { UserRoundPlus } from 'lucide-react';
+import { Check, Plus, UserRoundPlus, X } from 'lucide-react';
+import AddMember from './workspace/AddMember';
 
 const ListMember = () => {
   const { members, setMembers, currentWorkspace } = useAppContext();
@@ -70,17 +71,8 @@ const ListMember = () => {
           <div>No members found</div>
         )}
       </div>
-      <div className="flex bg-slate-300 p-2 rounded-full hover:-translate-y-1 transition duration-30 mx-9">
-        <TooltipProvider delayDuration={100}>
-          <Tooltip>
-            <TooltipTrigger>
-              <UserRoundPlus />
-            </TooltipTrigger>
-            <TooltipContent side="bottom" className="mt-3">
-              Add member
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+      <div>
+        <AddMember loadMember={() => getMember()} />
       </div>
     </div>
   );

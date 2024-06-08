@@ -48,8 +48,6 @@ import { TaskStatusType } from '@/lib/schema/board/task-status.schema';
 import { useAppContext } from '@/context/Provider';
 
 export default function KanbanBoard() {
-  const { members } = useAppContext();
-
   const boardId = useParams().boardId as string;
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -360,38 +358,6 @@ export default function KanbanBoard() {
       <div className="flex flex-row justify-between mt-5">
         <div className="flex flex-row">
           <Search placeholder="Search" />
-          {/* <div className="flex flex-row-reverse ml-2 space-x-reverse -space-x-1.5">
-            {members.map((member) => (
-              <TooltipProvider delayDuration={100} key={member._id}>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Avatar className="w-10 h-10 relative z-10 hover:scale-120 hover:-translate-y-1 transition duration-30">
-                      <AvatarImage src={member.avatar} alt={member.username} />
-                      <AvatarFallback className="w-10 h-10">
-                        {member.firstName[0]}
-                        {member.lastName[0]}
-                      </AvatarFallback>
-                    </Avatar>
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">
-                    {member.username}
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ))}
-          </div> */}
-          {/* <div className="flex ml-2 bg-slate-300 p-2 rounded-full hover:-translate-y-1 transition duration-30">
-            <TooltipProvider delayDuration={100}>
-              <Tooltip>
-                <TooltipTrigger>
-                  <UserRoundPlus />
-                </TooltipTrigger>
-                <TooltipContent side="bottom" className="mt-3">
-                  Add member
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div> */}
         </div>
       </div>
 
