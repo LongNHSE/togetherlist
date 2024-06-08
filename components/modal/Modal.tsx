@@ -12,7 +12,14 @@ import {
 import { ConfirmDelete } from '@/components/modal/ConfirmDelete';
 import { Metadata } from 'next';
 import { TaskType } from '@/lib/schema/task/task.schema';
-import { Check, X } from 'lucide-react';
+import {
+  Check,
+  Circle,
+  Recycle,
+  RecycleIcon,
+  RotateCcw,
+  X,
+} from 'lucide-react';
 import { Calendar } from '../ui/calendar';
 import { addDays } from 'date-fns';
 import { DateRange, DayPicker } from 'react-day-picker';
@@ -48,6 +55,12 @@ export default function Modal({
   };
 
   const [range, setRange] = useState<DateRange | undefined>(initialRange);
+  const [from, setFrom] = useState<Date | (() => Date | undefined) | undefined>(
+    task.schedule?.from ? new Date(task.schedule.from) : undefined,
+  );
+  const [to, setTo] = useState<Date | undefined>(
+    task.schedule?.to ? new Date(task.schedule.to) : undefined,
+  );
   const [isChange, setIsChange] = React.useState(false);
 
   const formatDate = (dateString: string | undefined) => {
@@ -56,6 +69,16 @@ export default function Modal({
     return new Intl.DateTimeFormat('en-US', {
       hour: 'numeric',
       minute: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    }).format(date);
+  };
+
+  const formatDateWithoutHour = (dateString: string | undefined) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('en-US', {
       month: 'long',
       day: 'numeric',
       year: 'numeric',
@@ -75,6 +98,26 @@ export default function Modal({
       setDescription(task?.description || '');
     }
   }, [open, task.description]);
+
+  const handleSetRange = (range: DateRange | undefined) => {
+    if (range) {
+      setRange(range);
+      setFrom(range.from);
+      setTo(range.to);
+      if (task._id) {
+        updateTask(task._id, {
+          schedule: {
+            from: range.from?.toISOString(),
+            to: range.to?.toISOString(),
+          },
+        });
+      }
+    } else {
+      setRange(undefined);
+      setFrom(undefined);
+      setTo(undefined);
+    }
+  };
 
   return (
     <div>
@@ -110,7 +153,7 @@ export default function Modal({
               </DialogTitle>
             </DialogHeader>
           </div> */}
-          <div className="mb-4">
+          <div className="">
             <DialogDescription className="font-bold mb-2">
               Description
             </DialogDescription>
@@ -146,35 +189,69 @@ export default function Modal({
               <div className="flex flex-row justify-end gap-2 mb-9"></div>
             )}
           </div>
-          <div className="space-y-2 mb-4">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="default">Select Date</Button>
-              </PopoverTrigger>
-              <PopoverContent>
-                <Calendar
-                  mode="range"
-                  captionLayout="dropdown-buttons"
-                  fromYear={1960}
-                  toYear={new Date().getFullYear() + 10}
-                  selected={range}
-                  onSelect={(range) => {
-                    setRange(range);
-                  }}
-                  initialFocus
-                />
-                <div onClick={() => setRange(undefined)}>
-                  <X />
-                </div>
-              </PopoverContent>
-            </Popover>
-
+          <div className="space-y-2">
+            <div className="flex flex-row align-middle items-center">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button className="" variant="default">
+                    Select Date
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent side="left" className="mr-7 mb-8">
+                  <Calendar
+                    mode="range"
+                    captionLayout="dropdown-buttons"
+                    fromYear={1960}
+                    toYear={new Date().getFullYear() + 10}
+                    selected={range}
+                    onSelect={(range) => {
+                      handleSetRange(range);
+                    }}
+                    initialFocus
+                  />
+                  <div className="flex flex-row justify-between">
+                    <div
+                      className="flex items-center"
+                      onClick={() => handleSetRange(undefined)}
+                    >
+                      <RotateCcw />
+                    </div>
+                    <div className="flex flex-row justify-end space-x-2">
+                      <div
+                        onClick={() => {
+                          setFrom(
+                            task.schedule?.from
+                              ? new Date(task.schedule.from)
+                              : undefined,
+                          );
+                          setTo(
+                            task.schedule?.to
+                              ? new Date(task.schedule.to)
+                              : undefined,
+                          );
+                        }}
+                        className="bg-red-400 w-fit p-1 rounded-lg text-white text-center cursor-pointer"
+                      >
+                        <X />
+                      </div>
+                      <div
+                        onClick={() => handleSetRange(range)}
+                        className="bg-green-400 w-fit p-1 rounded-lg text-white text-center cursor-pointer"
+                      >
+                        <Check />
+                      </div>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
             <DialogDescription>
               <span className="font-semibold">From: </span>{' '}
-              {task?.schedule?.from}
+              {formatDateWithoutHour(from?.toString())}
             </DialogDescription>
             <DialogDescription>
-              <span className="font-semibold">To: </span> {task?.schedule?.to}
+              <span className="font-semibold">To: </span>{' '}
+              {formatDateWithoutHour(to?.toString())}
             </DialogDescription>
             <DialogDescription>
               <span className="font-semibold">Assignee:</span>{' '}
