@@ -9,10 +9,10 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { useAppContext } from '@/context/Provider';
 import memberApiRequest from '@/apiRequest/member/member.api';
-dingSupperMini from './Workspace/LoadingSupperMini';
+
 import { Check, Plus, UserRoundPlus, X } from 'lucide-react';
 import AddMember from './workspace/AddMember';
-
+import LoadingSupperMini from './Workspace/LoadingSupperMini';
 
 const ListMember = () => {
   const { members, setMembers, currentWorkspace, loading, setLoading } =
