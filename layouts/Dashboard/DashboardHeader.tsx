@@ -11,7 +11,6 @@ const DropdownHeader = dynamic(
 
 const ListMember = dynamic(() => import('@/components/ListMember'), {
   ssr: false,
-  loading: () => <LoadingSupperMini />,
 });
 
 const DashboardHeader = () => {

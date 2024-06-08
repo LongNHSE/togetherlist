@@ -33,21 +33,25 @@ import { set } from 'date-fns';
 import { stat } from 'fs';
 import { useAppContext } from '@/context/Provider';
 import taskApiRequest from '@/apiRequest/task/task.api';
+import Modal from './modal/Modal';
 
 export default function TaskCard({
   taskInput,
   deleteTask,
   updateTask,
+  setOpenModal,
 }: {
   taskInput: TaskType;
   deleteTask: (id: string | undefined) => void;
   updateTask: (id: string, body: any) => void;
+  setOpenModal: any;
 }) {
   const inputRef = React.useRef(null);
   const { members } = useAppContext();
 
   const [open, setOpen] = React.useState(false);
   const [task, setTask] = React.useState(taskInput);
+  // const [openModal, setOpenModal] = React.useState(false);
   const [editTask, setEditTask] = React.useState(false);
   const [taskName, setTaskName] = React.useState(taskInput.name);
 
@@ -126,7 +130,10 @@ export default function TaskCard({
             />
           </div>
           <div className="flex flex-row gap-x-2 mb-3 -translate-y-1">
-            <div className="bg-blue-400 rounded-md px-1 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div
+              className="bg-blue-400 rounded-md px-1 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              onClick={() => setOpenModal(true)}
+            >
               <Ellipsis size={15} color="white" />
             </div>
             <div
