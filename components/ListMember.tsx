@@ -9,13 +9,17 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { useAppContext } from '@/context/Provider';
 import memberApiRequest from '@/apiRequest/member/member.api';
+dingSupperMini from './Workspace/LoadingSupperMini';
 import { Check, Plus, UserRoundPlus, X } from 'lucide-react';
 import AddMember from './workspace/AddMember';
 
+
 const ListMember = () => {
-  const { members, setMembers, currentWorkspace } = useAppContext();
+  const { members, setMembers, currentWorkspace, loading, setLoading } =
+    useAppContext();
 
   const getMember = async () => {
+    setLoading(true);
     try {
       if (!currentWorkspace) return;
       const res = await memberApiRequest.getMemberList(currentWorkspace._id);
@@ -30,16 +34,21 @@ const ListMember = () => {
       setMembers(memberData);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const getOwner = async () => {
+    setLoading(true);
     try {
       if (!currentWorkspace) return;
       const res = await memberApiRequest.getOwner(currentWorkspace._id);
-      setMembers((prev: any) => [...prev, res.data.owner]);
+      setMembers((prev: any) => [...prev, res?.data?.owner]);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,7 +59,9 @@ const ListMember = () => {
   return (
     <div className="flex flex-row">
       <div className="flex flex-row w-auto h-auto ml-9 space-x-1">
-        {members.length > 0 ? (
+        {loading ? (
+          <LoadingSupperMini />
+        ) : members.length > 0 ? (
           members.map((member: any) => (
             <TooltipProvider delayDuration={100} key={member._id}>
               <Tooltip>
