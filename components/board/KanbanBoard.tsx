@@ -29,8 +29,6 @@ import { TaskStatusType } from '@/lib/schema/board/task-status.schema';
 import { useAppContext } from '@/context/Provider';
 
 export default function KanbanBoard() {
-  const { members } = useAppContext();
-
   const boardId = useParams().boardId as string;
   const sensors = useSensors(
     useSensor(PointerSensor, {

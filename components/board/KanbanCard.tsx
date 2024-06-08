@@ -3,6 +3,7 @@ import React from 'react';
 import { TaskType } from '@/lib/schema/task/task.schema';
 import { useDraggable } from '@dnd-kit/core';
 import TaskCard from '@/components/taskCard';
+import Modal from '../modal/Modal';
 const DragCard = ({
   task,
   index,
@@ -16,6 +17,8 @@ const DragCard = ({
   deleteTask: (id: string | undefined) => void;
   updateTask: (id: string, body: any) => void;
 }) => {
+  const [openModal, setOpenModal] = React.useState(false);
+  const [taskEl, setTaskEl] = React.useState(task);
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: task?._id ?? '',
     data: {
@@ -30,12 +33,26 @@ const DragCard = ({
       }
     : undefined;
   return (
-    <div style={style} ref={setNodeRef} {...listeners} {...attributes}>
-      <TaskCard
-        taskInput={task}
-        deleteTask={deleteTask}
-        updateTask={updateTask}
-      ></TaskCard>
+    <div>
+      <div style={style} ref={setNodeRef} {...listeners} {...attributes}>
+        <TaskCard
+          taskInput={taskEl}
+          deleteTask={deleteTask}
+          updateTask={updateTask}
+          setOpenModal={setOpenModal}
+        ></TaskCard>
+      </div>
+
+      {/* The modal component is rendered here to prevent drag and drop from being affected by the modal. */}
+      <div>
+        <Modal
+          open={openModal}
+          setOpen={setOpenModal}
+          task={taskEl}
+          setTask={setTaskEl}
+          updateTask={updateTask}
+        />
+      </div>
     </div>
   );
 };

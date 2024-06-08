@@ -91,7 +91,10 @@ const DropdownHeader = () => {
           <DropdownMenuLabel>Shared workspaces</DropdownMenuLabel>
           {sharedWorkSpaces &&
             sharedWorkSpaces.map((el) => (
-              <DropdownMenuItem key={el.workspace._id}>
+              <DropdownMenuItem
+                key={el.workspace._id}
+                onClick={() => handleChooseWorkspace(el.workspace)}
+              >
                 {el.workspace.name}
               </DropdownMenuItem>
             ))}
