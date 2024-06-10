@@ -4,7 +4,7 @@ import { Phone, Video } from 'lucide-react';
 
 const ChatMessageHeader = () => {
   return (
-    <div className="py-2 px-5 flex items-center justify-between">
+    <div className="py-2 px-5 flex items-center justify-between h-20 border-b border-slate-300">
       <div className="flex items-center gap-4">
         <div>
           <Avatar>

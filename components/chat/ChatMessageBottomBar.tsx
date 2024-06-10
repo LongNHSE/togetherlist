@@ -5,7 +5,7 @@ import EmojiPicker from '../EmojiPicker';
 
 const ChatMessageBottomBar = () => {
   return (
-    <div className="flex items-center px-5 justify-between gap-5">
+    <div className="flex items-center px-5 justify-between gap-5 pb-2">
       {/* File + Image */}
       <div className="flex items-center gap-3">
         <FileImage size={26} strokeWidth={1.75} />
@@ -16,7 +16,7 @@ const ChatMessageBottomBar = () => {
       <div className="w-full relative">
         <Textarea
           placeholder="Aa"
-          className="resize-none rounded-full flex items-center h-10"
+          className="resize-none rounded-full flex items-center h-10 border-slate-400"
         ></Textarea>
         <div className="absolute right-2 bottom-0.5  ">
           <EmojiPicker />

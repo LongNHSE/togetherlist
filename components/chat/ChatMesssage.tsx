@@ -1,16 +1,15 @@
 import React from 'react';
 import ChatMessageHeader from './ChatMessageHeader';
-import ChatMessageBottomBar from './ChatMessageBottomBar';
+
+import ChatList from './ChatList';
 
 const ChatMesssage = () => {
   return (
-    <section className="grid grid-rows-[1fr_2fr_0.85fr] items-start">
+    <section className="grid grid-rows-[0.8fr_2fr_0.8fr] items-start h-screen w-auto overflow-auto">
       {/* Header */}
       <ChatMessageHeader />
       {/* Messages */}
-      <div>Message</div>
-      {/* Input message bar */}
-      <ChatMessageBottomBar />
+      <ChatList />
     </section>
   );
 };
