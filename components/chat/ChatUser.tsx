@@ -10,7 +10,7 @@ interface ChatUserProps {
 
 const ChatUser = ({ avatar, name, messageContent }: ChatUserProps) => {
   return (
-    <div className="grid grid-cols-[1fr_4fr] pb-4 pt-2">
+    <div className="grid grid-cols-[1fr_4fr] pb-4 pt-2 hover:bg-slate-200 cursor-pointer">
       <div>
         <Avatar className="flex justify-center items-center rounded">
           <AvatarImage

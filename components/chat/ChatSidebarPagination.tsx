@@ -13,7 +13,7 @@ const ChatSidebarPagination = ({ users, onPageChange, currentPage }: any) => {
   return (
     <>
       {totalPages > 1 && (
-        <div className="border-t border-slate-300 py-3">
+        <div className="border-t border-slate-300 py-2">
           <Pagination>
             <PaginationContent className="flex items-center">
               <PaginationItem>

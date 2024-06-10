@@ -19,7 +19,7 @@ const ChatSidebar = () => {
   };
 
   return (
-    <section className="border-r border-black px-4 flex flex-col h-screen">
+    <section className="border-r border-slate-200 px-4 flex flex-col h-screen">
       <div className="flex justify-between items-center border-b border-slate-300 py-5">
         <div className="flex items-center gap-2 text-2xl">
           <h1 className="font-semibold">Chats</h1>

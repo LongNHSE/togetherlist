@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import DashboardSidebar from '@/layouts/Dashboard/DashboardSidebar';
 import DashboardHeader from '@/layouts/Dashboard/DashboardHeader';
 
@@ -8,7 +8,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="grid grid-cols-[auto_2fr] h-screen">
+    <div className="grid grid-cols-[auto_2fr] h-screen overflow-hidden">
       <DashboardSidebar />
       <section className=" h-screen">
         <DashboardHeader />

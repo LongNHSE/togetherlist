@@ -5,7 +5,7 @@ import ChatMessage from '@/components/chat/ChatMesssage';
 
 const Chat = () => {
   return (
-    <main className="grid grid-cols-[1fr_2fr] h-screen overflow-hidden">
+    <main className="grid grid-cols-[1fr_2fr] h-screen overflow-hidden ">
       {/* Chat Sidebar */}
       <ChatSidebar />
       {/* Chat Messages */}
