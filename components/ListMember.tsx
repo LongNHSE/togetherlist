@@ -54,7 +54,7 @@ const ListMember = () => {
 
   useEffect(() => {
     getMember();
-    getOwner();
+    // getOwner();
   }, [currentWorkspace]);
   return (
     <div className="flex flex-row">

@@ -287,6 +287,18 @@ export default function KanbanBoard() {
       issue.tasks.some((t: any) => t._id === task._id),
     );
 
+    // Check if the task is being moved within the same issue and lane
+    if (
+      sourceIssue &&
+      sourceIssue.name === targetIssue &&
+      task.status === targetLane
+    ) {
+      // console.log(
+      //   'Task moved within the same issue and lane. No action required.',
+      // );
+      return; // Exit the function early
+    }
+
     // Remove the task from the source issue
     if (sourceIssue) {
       sourceIssue.tasks = sourceIssue.tasks.filter(
