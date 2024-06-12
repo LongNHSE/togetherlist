@@ -1,3 +1,4 @@
+'use client';
 import Layout from '@/components/sidebar/layout';
 import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
