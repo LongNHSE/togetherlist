@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { useAppContext } from '@/context/Provider';
 import memberApiRequest from '@/apiRequest/member/member.api';
-import LoadingSupperMini from './Workspace/LoadingSupperMini';
+import LoadingSupperMini from './workspace/LoadingSupperMini';
 import AddMember from '@/components/workspace/AddMember';
 
 const ListMember = () => {
