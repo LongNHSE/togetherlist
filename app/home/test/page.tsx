@@ -1,5 +1,3 @@
-import ProgressTasks from '@/components/workspace/ProgressTasks';
-
 export default function TestPage() {
   const statuses = [
     { value: 40, colorClass: 'bg-red-500', label: 'Status 1' },

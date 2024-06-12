@@ -1,7 +1,7 @@
 import AvatarDropdown from '@/components/user/AvatarDropdown';
-import CreateWorkspace from '@/components/Workspace/CreateWorkspace';
+import CreateWorkspace from '@/components/workspaceFolder/CreateWorkspace';
 import dynamic from 'next/dynamic';
-import LoadingSupperMini from '@/components/Workspace/LoadingSupperMini';
+import LoadingSupperMini from '@/components/workspaceFolder/LoadingSupperMini';
 import DropdownNotification from '@/components/header/DropdownNotification';
 
 const DropdownHeader = dynamic(

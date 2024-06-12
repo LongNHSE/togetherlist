@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import SectionOne from '@/components/workspace/SectionOne';
 import SectionThree from '@/components/workspace/SectionThree';
-import SectionTwo from '@/components/workspace/SectionTwo';
+import SectionTwo from '@/components/workspaceFolder/SectionTwo';
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 export const metadata: Metadata = {

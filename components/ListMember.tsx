@@ -9,8 +9,8 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { useAppContext } from '@/context/Provider';
 import memberApiRequest from '@/apiRequest/member/member.api';
-import LoadingSupperMini from './Workspace/LoadingSupperMini';
-import AddMember from '@/components/Workspace/AddMember';
+import LoadingSupperMini from './workspaceFolder/LoadingSupperMini';
+import AddMember from './workspaceFolder/AddMember';
 
 const ListMember = () => {
   const { members, setMembers, currentWorkspace, loading, setLoading } =
