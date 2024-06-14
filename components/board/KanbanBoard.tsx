@@ -357,28 +357,28 @@ export default function KanbanBoard() {
                   <th></th> {/* Empty header for section */}
                   {board.taskStatus?.map((lane: any, index) => {
                     return (
-                      <th className="text-center text-2xl" key={index}>
-                        <div className="flex flex-row justify-center mb-1">
+                      <th className="text-center text-lg text-teal-950" key={index}>
+                        <div className="flex justify-center ml-8 w-64 mb-1 border-2 border-gray-400 rounded-lg">
                           {index !== 0 ? (
-                            <div
-                              className="mt-1 border-2 rounded-md border-black"
+                            <button
+                              className="text-teal-600 hover:text-pink-500"
                               onClick={() =>
                                 statusIndexHandler(lane, lane.index - 1)
                               }
                             >
                               <ChevronLeft />
-                            </div>
+                            </button>
                           ) : null}
                           <div className="mx-10">{lane.name}</div>
                           {index !== board?.taskStatus?.length - 1 ? (
-                            <div
-                              className="mt-1 border-2 rounded-md border-black"
+                            <button
+                              className=" text-teal-600 hover:text-pink-500"
                               onClick={() =>
                                 statusIndexHandler(lane, lane.index + 1)
                               }
                             >
                               <ChevronRight />
-                            </div>
+                            </button>
                           ) : null}
                         </div>
                       </th>
@@ -389,11 +389,11 @@ export default function KanbanBoard() {
               <tbody className="h-full">
                 {board?.sections?.map((issue: any, index) => {
                   const issueElement = (
-                    <tr key={issue.name} className="">
+                    <tr key={issue.name} className="text-teal-950">
                       <td className="h-96">
-                        <div className="w-36 flex justify-center h-full bg-amber-500 border-b-2 p-3 rounded-sm">
+                        <div className="w-36 flex justify-center h-full bg-cyan-400 border-b-2 p-3 rounded-sm">
                           <div className="flex flex-col group">
-                            <h2 className="text-2xl font-medium text-center ">
+                            <h2 className="text-xl font-semibold text-center  ">
                               {issue.name}
                             </h2>
                             <div
