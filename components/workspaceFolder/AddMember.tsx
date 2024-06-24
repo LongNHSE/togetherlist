@@ -31,6 +31,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '../ui/tooltip';
+import memberApiRequest from '@/apiRequest/member/member.api';
 
 const formSchema = z.object({
   email: z.string({
@@ -62,7 +63,7 @@ const AddMember = ({ loadMember }: { loadMember: () => void }) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const result = await boardApiRequest.createBoard(values);
+      const result = await memberApiRequest.addMemberByEmail(_id, values.email);
       if (result.statusCode === 200) {
         loadMember();
         form.reset();
