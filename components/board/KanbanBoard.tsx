@@ -422,7 +422,7 @@ export default function KanbanBoard() {
                       </td>
                       {board.taskStatus?.map((lane: any) => {
                         const tasks: any = issue.tasks?.filter(
-                          (task: any) => task.status === lane._id,
+                          (task: any) => task?.status === lane._id,
                         );
                         const laneElement = (
                           <td

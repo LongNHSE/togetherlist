@@ -11,6 +11,8 @@ const memberApiRequest = {
 
   getOwner: (workspaceId: string | undefined) =>
     http.get(`/workspaces/${workspaceId}/owner`),
+  addMemberByEmail: (workspaceId: string, email: string) =>
+    http.post(`/workspaces/${workspaceId}/members/email`, { email }),
 };
 
 export default memberApiRequest;
