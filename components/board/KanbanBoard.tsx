@@ -330,7 +330,7 @@ export default function KanbanBoard() {
 
   useEffect(() => {
     sortStatuses();
-  }, [board.taskStatus]);
+  }, [board?.taskStatus]);
 
   return (
     <div className="">
@@ -367,7 +367,7 @@ export default function KanbanBoard() {
               <thead>
                 <tr>
                   <th></th> {/* Empty header for section */}
-                  {board.taskStatus?.map((lane: any, index) => {
+                  {board?.taskStatus?.map((lane: any, index) => {
                     return (
                       <th className="text-center text-2xl" key={index}>
                         <div className="flex flex-row justify-center mb-1">

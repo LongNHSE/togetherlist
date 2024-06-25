@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   BarChart,
   Bar,
@@ -44,11 +44,18 @@ const data = [
   },
 ];
 
-const ReportBarChart = () => {
+const ReportBarChart = ({
+  chartData,
+  board,
+}: {
+  chartData: any;
+  board: any;
+}) => {
+  console.log(board);
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer height={460}>
       <BarChart
-        data={data}
+        data={chartData}
         margin={{
           top: 20,
           right: 30,
@@ -61,9 +68,15 @@ const ReportBarChart = () => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="completed" fill="#4CAF50" name="Completed Tasks" />
-        <Bar dataKey="pending" fill="#FFC107" name="Pending Tasks" />
-        <Bar dataKey="overdue" fill="#F44336" name="Overdue Tasks" />
+        {board?.taskStatus.map((status: any) => (
+          <Bar
+            barSize={40}
+            dataKey={status.name}
+            key={status._id}
+            fill={status.color}
+            name={status.name}
+          />
+        ))}
       </BarChart>
     </ResponsiveContainer>
   );
