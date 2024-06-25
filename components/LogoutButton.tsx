@@ -4,9 +4,11 @@ import { deleteCookie } from 'cookies-next';
 import { LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import { useAppContext } from '@/context/Provider';
 
 export default function LogoutButton() {
   const router = useRouter();
+  const { clearAll } = useAppContext();
   async function logoutHandle() {
     try {
       const result = await authApiRequest.logout();
@@ -17,6 +19,7 @@ export default function LogoutButton() {
       deleteCookie('refreshToken');
       localStorage.clear();
       router.push('/home');
+      clearAll();
     }
   }
   return (

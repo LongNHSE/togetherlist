@@ -61,13 +61,13 @@ const DropdownNotification = () => {
   };
 
   const connectSocket = () => {
-    console.log('Connecting to socket');
+    const url = process.env.NEXT_PUBLIC_API_URL + '/' + 'notification';
     authApiRequest
       .isTokenValid()
       .then((res) => {
         setTokenValid(true);
         const token = getCookie('clientSessionToken');
-        socket = io('http://localhost:8000/notification', {
+        socket = io(url, {
           extraHeaders: {
             token: token as string,
           },

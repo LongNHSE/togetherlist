@@ -80,10 +80,8 @@ const request = async (
         throw new Error('Falied to refresh token!!');
       }
       await refreshToken();
-      console.log(retryCount);
       return request(method, url, options, retryCount + 1);
     } else {
-      console.log(data);
       return data;
     }
   } catch (error: any) {
