@@ -31,20 +31,29 @@ const DropdownHeader = () => {
   const [loading, setLoading] = useState(false);
   //Get my workspaces
   const getMyWorkSpaces = async () => {
-    const myWorkSpaces = await workspaceApiRequest.getMyWorkspaces();
-    console.log(myWorkSpaces);
-    if (!localStorage.getItem('current_workspace')) {
-      localStorage.setItem(
-        'current_workspace',
-        JSON.stringify(myWorkSpaces.data[0]),
+    try {
+      const myWorkSpaces = await workspaceApiRequest.getMyWorkspaces();
+      if (!localStorage.getItem('current_workspace')) {
+        localStorage.setItem(
+          'current_workspace',
+          JSON.stringify(myWorkSpaces.data[0]),
+        );
+        // Set the current workspace to the first workspace in myWorkSpaces.data
+        setCurrentWorkspace(myWorkSpaces.data[0]);
+      }
+      const filterWorkspace = myWorkSpaces?.data.filter(
+        (el: any) => el._id !== currentWorkspace?._id,
       );
-      // Set the current workspace to the first workspace in myWorkSpaces.data
-      setCurrentWorkspace(myWorkSpaces.data[0]);
-    }
-    const filterWorkspace = myWorkSpaces?.data.filter(
-      (el: any) => el._id !== currentWorkspace?._id,
-    );
-    setWorkspace(filterWorkspace);
+      setWorkspace(filterWorkspace);
+
+      const sharedWorkspacesResult =
+        await workspaceApiRequest.getMySharedWorkspaces();
+      setSharedWorkSpaces(sharedWorkspacesResult.data);
+      const result = myWorkSpaces.data.concat(sharedWorkspacesResult.data);
+      if (result.length === 0) {
+        router.push('/workspace/create');
+      }
+    } catch (error) {}
   };
 
   //Get shared workspaces
@@ -61,10 +70,19 @@ const DropdownHeader = () => {
     setCurrentWorkspace(workspace);
     router.push('/workspace/main');
   };
+
+  const handleWorkspaceSelect = () => {
+    return;
+  };
+
   useEffect(() => {
     getMyWorkSpaces();
-    getSharedWorkspaces();
+    // getSharedWorkspaces();
   }, [currentWorkspace]);
+
+  useEffect(() => {
+    handleWorkspaceSelect();
+  }, [sharedWorkSpaces, workspaces]);
 
   return (
     <>

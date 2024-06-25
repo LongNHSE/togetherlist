@@ -20,6 +20,7 @@ interface AppContextType {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   members: any;
   setMembers: any;
+  clearAll: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -47,6 +48,15 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         : null,
     );
   }, []);
+
+  const clearAll = () => {
+    setUser(null);
+    setMembers([]);
+    setLoading(false);
+    setCurrentWorkspace(null);
+    localStorage.removeItem('user');
+    localStorage.removeItem('current_workspace');
+  };
   return (
     <AppContext.Provider
       value={{
@@ -58,6 +68,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         setCurrentWorkspace,
         loading,
         setLoading,
+        clearAll,
       }}
     >
       {children}
