@@ -61,7 +61,8 @@ const DropdownNotification = () => {
   };
 
   const connectSocket = () => {
-    const url = process.env.NEXT_PUBLIC_API_URL + '/' + 'notification';
+    // const url = process.env.NEXT_PUBLIC_API_URL + '/' + 'notification';
+    const url = 'http://13.236.184.185:8000/notification';
     authApiRequest
       .isTokenValid()
       .then((res) => {
