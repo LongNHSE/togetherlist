@@ -2,6 +2,4 @@
 import ReportPieChart from '@/components/report/ReportPieChart';
 import Image from 'next/image';
 
-export default function TestPage() {
-  return <ReportPieChart />;
-}
+export default function TestPage() {}
