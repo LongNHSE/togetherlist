@@ -121,7 +121,7 @@ export function Login() {
                         <div className="flex justify-between mb-2">
                           <FormLabel>Password</FormLabel>
                           <Label htmlFor="password" className="font-medium">
-                            <a href="/register">Forgor Password? </a>
+                            <a href="/register">Forgot Password? </a>
                           </Label>
                         </div>
                         <FormControl>
