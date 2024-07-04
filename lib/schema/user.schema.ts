@@ -13,6 +13,7 @@ export const UserSchema = z.object({
   phone: z.string().optional(),
   gender: z.string().optional(),
   refreshToken: z.string().optional(),
+  bio: z.string().optional(),
 });
 
 export type UserType = z.infer<typeof UserSchema>;

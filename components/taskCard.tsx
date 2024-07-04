@@ -159,12 +159,33 @@ export default function TaskCard({
                           e.stopPropagation();
                         }}
                       >
-                        <Avatar>
+                        {/* <Avatar>
                           <AvatarImage
                             src={task?.assignee?.avatar}
                             alt="@shadcn"
                           />
                           <AvatarFallback className="w-10 h-10 bg-orange-500">
+                            {task?.assignee?.firstName[0]}
+                            {task?.assignee?.lastName[0]}
+                          </AvatarFallback>
+                        </Avatar> */}
+                        <Avatar className="w-10 h-10 relative z-10 hover:scale-120 hover:-translate-y-1 transition duration-30 rounded-full border-2 border-dark_brown">
+                          {task?.assignee?.avatar ? (
+                            <AvatarImage
+                              src={
+                                `${process.env.NEXT_PUBLIC_IMAGE_API_URL}/` +
+                                task?.assignee?.avatar
+                              }
+                              alt={task?.assignee?.avatar}
+                            />
+                          ) : (
+                            <AvatarImage
+                              src={task?.assignee?.avatar}
+                              alt={task?.assignee?.avatar}
+                            />
+                          )}
+
+                          <AvatarFallback className="w-10 h-10 bg-orange-300">
                             {task?.assignee?.firstName[0]}
                             {task?.assignee?.lastName[0]}
                           </AvatarFallback>
@@ -200,9 +221,27 @@ export default function TaskCard({
                               : 'opacity-0',
                           )}
                         />
-                        <Avatar className="w-8 h-8">
+                        {/* <Avatar className="w-8 h-8">
                           <AvatarImage src={mb.avatar} alt="@shadcn" />
                           <AvatarFallback className="w-10 h-10 bg-orange-500">
+                            {mb?.firstName[0]}
+                            {mb?.lastName[0]}
+                          </AvatarFallback>
+                        </Avatar> */}
+                        <Avatar className="w-10 h-10 relative z-10 hover:scale-120 hover:-translate-y-1 transition duration-30 rounded-full border-2 border-dark_brown">
+                          {mb?.avatar ? (
+                            <AvatarImage
+                              src={
+                                `${process.env.NEXT_PUBLIC_IMAGE_API_URL}/` +
+                                mb?.avatar
+                              }
+                              alt={mb?.avatar}
+                            />
+                          ) : (
+                            <AvatarImage src={mb?.avatar} alt={mb?.avatar} />
+                          )}
+
+                          <AvatarFallback className="w-10 h-10 bg-orange-300">
                             {mb?.firstName[0]}
                             {mb?.lastName[0]}
                           </AvatarFallback>

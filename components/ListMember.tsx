@@ -64,9 +64,20 @@ const ListMember = () => {
             <TooltipProvider delayDuration={100} key={member._id}>
               <Tooltip>
                 <TooltipTrigger>
-                  <Avatar className="w-10 h-10 relative z-10 hover:scale-120 hover:-translate-y-1 transition duration-30 rounded-full">
-                    <AvatarImage src={member?.avatar} alt={member?.username} />
-                    <AvatarFallback className="w-10 h-10 bg-orange-500">
+                  <Avatar className="w-10 h-10 relative z-10 hover:scale-120 hover:-translate-y-1 transition duration-30 rounded-full border-2 border-dark_brown">
+                    {member.avatar ? (
+                      <AvatarImage
+                        src={
+                          `${process.env.NEXT_PUBLIC_IMAGE_API_URL}/` +
+                          member?.avatar
+                        }
+                        alt={member.username}
+                      />
+                    ) : (
+                      <AvatarImage src={member?.avatar} alt={member.username} />
+                    )}
+
+                    <AvatarFallback className="w-10 h-10 bg-orange-300">
                       {member?.firstName[0]}
                       {member?.lastName[0]}
                     </AvatarFallback>
