@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { Infinity } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Search } from '@/components/ui/searchButton';
 import { TriangleAlert, X } from 'lucide-react';
@@ -22,15 +23,18 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { toast, useToast } from '../ui/use-toast';
+import { m } from 'framer-motion';
 
 const formSchema = z.object({
   email: z.string().email('Invalid email'),
 });
 
 export default function ManageTeam() {
-  const { members, user, currentWorkspace, setMembers } = useAppContext();
+  const { members, user, currentWorkspace, setMembers, mySubscriptions } =
+    useAppContext();
   const [isOwner, setIsOwner] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,7 +44,6 @@ export default function ManageTeam() {
   });
 
   const isOwnerHandler = () => {
-    console.log(user);
     members.find((el: any) => {
       if (user?._id === el._id && el.role === 'owner') {
         setIsOwner(true);
@@ -50,7 +53,7 @@ export default function ManageTeam() {
 
   const handleAddMember = async (values: z.infer<typeof formSchema>) => {
     try {
-      console.log(values);
+      setIsSubmitted(true);
       setLoading(true);
       if (currentWorkspace?._id) {
         const result = await memberApiRequest.addMemberByEmail(
@@ -78,6 +81,7 @@ export default function ManageTeam() {
     } catch (err) {
       console.error('Error adding member:', err);
     } finally {
+      setIsSubmitted(false);
       setLoading(false);
     }
   };
@@ -135,24 +139,43 @@ export default function ManageTeam() {
   }, [members]);
 
   useEffect(() => {
-    if (form.formState.errors.email) {
+    if (isSubmitted && form.formState.errors.email) {
       toast({
-        // eslint-disable-next-line react/jsx-no-undef
         title: <TriangleAlert size={20} />,
         variant: 'destructive',
         description: form.formState.errors.email.message,
         duration: 5000,
       });
     }
-  }, [form.formState.errors.email]);
+  }, [isSubmitted, form.formState.errors.email]);
   return (
     <div>
-      <div className="w-9/12 border-b-2 border-slate-400">
-        <p className="text-xl font-semibold">Workspace Member (2)</p>
-        <p className="text-sm mt-3 mb-4">
-          Workspace members can view and join all workspaces and create boards
-          in the workspaces.
-        </p>
+      <div className="w-9/12 border-b-2 border-slate-400 flex flex-row justify-between">
+        <div>
+          <p className="text-xl font-semibold">Workspace Member</p>
+          <p className="text-sm mt-3 mb-4">
+            Workspace members can view and join all workspaces and create boards
+            in the workspaces.
+          </p>
+        </div>
+        <div className="flex my-auto text-xl font-medium text-dark_brown">
+          <div className="flex flex-col justify-center text-center ">
+            <h1 className="text-2xl border-b-2 border-dark_brown/50 mb-1">
+              Team Members
+            </h1>
+            <div className="flex flex-row mx-auto">
+              {members.length} <span className="mx-1">/</span>
+              {mySubscriptions?.subscriptionType?.name?.toLowerCase() ===
+              'free' ? (
+                <span>3</span>
+              ) : (
+                <div className="flex my-auto">
+                  <Infinity />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
       <div className="w-9/12 border-b-2 border-slate-400 mt-5">
         <p className="text-xl font-semibold">
@@ -175,10 +198,29 @@ export default function ManageTeam() {
                   </FormItem>
                 )}
               />
-              <div className="w-28 h-full flex my-auto ml-6">
+              <div
+                className={`w-28 h-full flex my-auto ml-6 ${
+                  members.length >= 3 &&
+                  mySubscriptions?.subscriptionType?.name.toLowerCase() ===
+                    'free'
+                    ? 'hover:cursor-not-allowed'
+                    : ''
+                }`}
+              >
                 <Button
                   size="addMemberButton"
-                  className="w-full"
+                  className={`w-full ${
+                    members.length >= 3 &&
+                    mySubscriptions?.subscriptionType?.name.toLowerCase() ===
+                      'free'
+                      ? 'bg-gray-400'
+                      : 'bg-dark_brown'
+                  }`}
+                  disabled={
+                    members.length >= 3 &&
+                    mySubscriptions?.subscriptionType?.name.toLowerCase() ===
+                      'free'
+                  }
                   variant={loading ? 'loading' : 'default'}
                   type="submit"
                 >
@@ -196,8 +238,8 @@ export default function ManageTeam() {
           </div> */}
         </div>
       </div>
-      <div className="w-9/12 mt-5 mb-3 border-b-2 border-slate-400">
-        <div className="w-52 mb-5">
+      <div className="w-9/12 mt-5 justify-between border-b-2 border-slate-400 flex flex-row mb-3 pb-4">
+        <div className="w-52 flex my-auto ">
           <Search placeholder="Filter by name" />
         </div>
       </div>

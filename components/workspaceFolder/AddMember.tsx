@@ -41,7 +41,7 @@ const formSchema = z.object({
 });
 
 const AddMember = ({ loadMember }: { loadMember: () => void }) => {
-  const { currentWorkspace } = useAppContext();
+  const { currentWorkspace, members, mySubscriptions } = useAppContext();
   const [open, setOpen] = useState(false);
   if (!currentWorkspace) return null;
   const { _id, name } = currentWorkspace as {
@@ -120,15 +120,37 @@ const AddMember = ({ loadMember }: { loadMember: () => void }) => {
                   </FormItem>
                 )}
               />
+            </form>
+            <div
+              className={` ${
+                members.length >= 3 &&
+                mySubscriptions?.subscriptionType?.name.toLowerCase() === 'free'
+                  ? 'hover:cursor-not-allowed'
+                  : ''
+              }`}
+            >
               <Button
                 size="lg"
-                className="w-full"
+                className={`w-full ${
+                  members.length >= 3 &&
+                  mySubscriptions?.subscriptionType?.name.toLowerCase() ===
+                    'free'
+                    ? 'bg-gray-400'
+                    : 'bg-dark_brown'
+                }`}
                 type="submit"
                 disabled={!nameValue}
               >
                 Submit
               </Button>
-            </form>
+            </div>
+            <div className="text-red-400 text-sm text-center mt-2">
+              <span>
+                Free tier accounts cannot invite more than{' '}
+                <span className="text-red-600 font-bold">3 </span>
+                people.
+              </span>
+            </div>{' '}
           </Form>
         </div>
       </DialogContent>

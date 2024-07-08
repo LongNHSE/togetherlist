@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
 import { WorkspaceType as Workspace } from '@/lib/schema/workspace/workspace.schema';
+import { SubscriptionPlan } from '@/lib/schema/subscription/subscriptionPlan.schema';
 interface User {
   _id: string;
   email: string;
@@ -20,6 +21,8 @@ interface AppContextType {
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   members: any;
+  mySubscriptions: SubscriptionPlan;
+  setMySubscriptions: any;
   setMembers: any;
   clearAll: () => void;
 }
@@ -33,6 +36,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   );
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [mySubscriptions, setMySubscriptions] = useState<any>(null);
   useEffect(() => {
     const userFromStorage = localStorage.getItem('user');
     const currentWorkspaceFromStorage =
@@ -55,6 +59,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     setMembers([]);
     setLoading(false);
     setCurrentWorkspace(null);
+    setMySubscriptions(null);
     localStorage.removeItem('user');
     localStorage.removeItem('current_workspace');
   };
@@ -63,6 +68,8 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       value={{
         members,
         setMembers,
+        mySubscriptions,
+        setMySubscriptions,
         user,
         setUser,
         currentWorkspace,
