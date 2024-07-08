@@ -28,6 +28,9 @@ const ListMember = () => {
         lastName: mb.member.lastName,
         email: mb.member.email,
         _id: mb.member._id,
+        role: mb.role,
+        memberWorkspaceId: mb._id,
+        workspaceId: mb.workspaceId,
       }));
       setMembers(memberData);
     } catch (error) {

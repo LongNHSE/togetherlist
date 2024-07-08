@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 import { WorkspaceType as Workspace } from '@/lib/schema/workspace/workspace.schema';
 interface User {
+  _id: string;
   email: string;
   firstName: string;
   lastName: string;

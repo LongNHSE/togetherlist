@@ -32,18 +32,17 @@ import {
   TooltipTrigger,
 } from '../ui/tooltip';
 import memberApiRequest from '@/apiRequest/member/member.api';
+import { useState } from 'react';
 
 const formSchema = z.object({
   email: z.string({
     required_error: 'Email is required',
   }),
-  workspace: z.string({
-    required_error: 'WorkspaceId is required',
-  }),
 });
 
 const AddMember = ({ loadMember }: { loadMember: () => void }) => {
   const { currentWorkspace } = useAppContext();
+  const [open, setOpen] = useState(false);
   if (!currentWorkspace) return null;
   const { _id, name } = currentWorkspace as {
     _id: string;
@@ -55,7 +54,6 @@ const AddMember = ({ loadMember }: { loadMember: () => void }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
-      workspace: _id,
     },
   });
   const { watch } = form;
@@ -67,6 +65,12 @@ const AddMember = ({ loadMember }: { loadMember: () => void }) => {
       if (result.statusCode === 200) {
         loadMember();
         form.reset();
+        setOpen(false);
+      } else if (result.statusCode === 400) {
+        form.setError('email', {
+          type: 'manual',
+          message: result.message,
+        });
       }
     } catch (err) {
       console.error('Error creating workspace:', err);
@@ -74,8 +78,13 @@ const AddMember = ({ loadMember }: { loadMember: () => void }) => {
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <Dialog open={open} onOpenChange={() => setOpen(!open)}>
+      <DialogTrigger
+        asChild
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
         <div className="flex bg-slate-300 p-2 rounded-full hover:-translate-y-1 transition duration-30 mx-9">
           <TooltipProvider delayDuration={100}>
             <Tooltip>

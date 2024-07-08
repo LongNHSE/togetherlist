@@ -7,7 +7,7 @@ export const UserSchema = z.object({
   username: z.string(),
   email: z.string(),
   password: z.string().optional(),
-  role: z.enum(['admin', 'user', 'staff']).default('user').optional(),
+  role: z.string().optional(),
   status: z.enum(['active', 'inactive']).default('active').optional(),
   avatar: z.string().optional(),
   phone: z.string().optional(),
