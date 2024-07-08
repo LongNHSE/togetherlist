@@ -50,6 +50,7 @@ const request = async (
   options?: CustomOption | undefined,
   retryCount = 0,
 ): Promise<any> => {
+  console.log(options?.body);
   const sessionToken = getCookie('clientSessionToken');
   const body = options?.body ? JSON.stringify(options.body) : undefined;
   const baseHeader = {
@@ -97,6 +98,55 @@ const request = async (
   }
 };
 
+const requestFile = async (
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
+  url: string,
+  options?: CustomOption | undefined,
+  retryCount = 0,
+): Promise<any> => {
+  console.log(options?.body);
+  const sessionToken = getCookie('clientSessionToken');
+  const body = options?.body ? JSON.stringify(options.body) : undefined;
+
+  const baseUrl = options?.baseUrl || process.env.NEXT_PUBLIC_API_URL;
+
+  // Check if the url has '/' or not exp account/me and /account/me
+  const fullUrl = url.startsWith('/')
+    ? `${baseUrl}${url}`
+    : `${baseUrl}/${url}`;
+
+  try {
+    const res = await fetch(fullUrl, {
+      ...options,
+      headers: {
+        Authorization: sessionToken ? `Bearer ${sessionToken}` : '',
+      },
+      body: options?.body,
+      method,
+    });
+    const data = await res.json();
+    if (data.statusCode === 401) {
+      if (retryCount >= 3) {
+        throw new Error('Falied to refresh token!!');
+      }
+      await refreshToken();
+      return request(method, url, options, retryCount + 1);
+    } else {
+      return data;
+    }
+  } catch (error: any) {
+    if (error.response && error.response.status === 401) {
+      if (retryCount >= 3) {
+        throw new Error('Falied to refresh token!!');
+      }
+      await refreshToken();
+      return request(method, url, options, retryCount + 1);
+    } else {
+      throw error;
+    }
+  }
+};
+
 const http = {
   get: (url: string, options?: CustomOption) => request('GET', url, options),
   post: (
@@ -119,6 +169,12 @@ const http = {
     body: any,
     options?: Omit<CustomOption, 'body'> | undefined,
   ) => request('DELETE', url, { ...options, body }),
+
+  postFile: (
+    url: string,
+    body: any,
+    options?: Omit<CustomOption, 'body'> | undefined,
+  ) => requestFile('POST', url, { ...options, body }),
 };
 
 export default http;
