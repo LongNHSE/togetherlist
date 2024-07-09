@@ -143,7 +143,7 @@ const Report = () => {
           {currentBoard && (
             <div>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <CardReport
+                {/* <CardReport
                   title="Total Tasks"
                   content={'100'}
                   subContent={'+12% from last month'}
@@ -166,15 +166,15 @@ const Report = () => {
                   content={'10'}
                   subContent={'+2 from last month'}
                   icon={<AlertCircle />}
-                />
+                /> */}
               </div>
 
-              <div className="grid gap-8 grid-cols-[1fr_2fr]">
+              <div className="grid gap-8 md:grid-cols-[1fr_2fr] grid-cols-1">
                 <div className="mt-4 border-2 p-4 rounded-md">
                   <h2 className="text-xl font-semibold mb-4">
                     Task Distribution
                   </h2>
-                  <div className="flex flex-row">
+                  <div className="flex flex-row min-w-[500px]">
                     <ReportPieChart board={currentBoard} />
                     <div className="w-36 flex flex-col my-auto">
                       {currentBoard?.taskStatus.map((status: any) => (

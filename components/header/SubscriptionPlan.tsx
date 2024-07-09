@@ -21,7 +21,7 @@ const SubscriptionPlan = () => {
   }, []);
   return (
     <div className="flex flex-row my-auto">
-      <div className="bg-dark_brown/80 px-6 align-middle text-center rounded-xl w-fit max-w-56 min-w-20 min-h-6 flex items-center justify-center">
+      <div className="bg-dark_brown/80 px-6 align-middle text-center rounded-xl w-fit max-w-56 min-w-20 min-h-10 flex items-center justify-center">
         <span className="truncate ">
           {mySubscriptions?.subscriptionType.name}
         </span>

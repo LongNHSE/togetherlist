@@ -8,12 +8,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="grid grid-cols-[auto_2fr] h-screen">
-      <DashboardSidebar />
-      <section className="grid grid-rows-[auto_1fr] h-screen overflow-hidden">
+    <div className="flex h-screen w-screen">
+      <div className="flex-grow-0 flex-shrink-0 flex h-screen">
+        <DashboardSidebar />
+      </div>
+      <div className="flex flex-col flex-grow h-screen overflow-hidden">
         <DashboardHeader />
-        <div className="py-3 px-6 h-screen overflow-auto">{children}</div>
-      </section>
+        <div className="flex-grow overflow-auto px-6">{children}</div>
+      </div>
     </div>
   );
 }

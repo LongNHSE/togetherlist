@@ -41,6 +41,12 @@ const formSchema = z.object({
 });
 
 const AddMember = ({ loadMember }: { loadMember: () => void }) => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: '',
+    },
+  });
   const { currentWorkspace, members, mySubscriptions } = useAppContext();
   const [open, setOpen] = useState(false);
   if (!currentWorkspace) return null;
@@ -49,13 +55,13 @@ const AddMember = ({ loadMember }: { loadMember: () => void }) => {
     name: string;
     description: string;
   };
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: '',
-    },
-  });
+
+  // const form = useForm<z.infer<typeof formSchema>>({
+  //   resolver: zodResolver(formSchema),
+  //   defaultValues: {
+  //     email: '',
+  //   },
+  // });
   const { watch } = form;
   const nameValue = watch('email');
 
