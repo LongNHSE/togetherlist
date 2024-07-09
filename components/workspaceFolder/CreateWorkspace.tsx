@@ -27,6 +27,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Textarea } from '../ui/textarea';
 import workspaceApiRequest from '@/apiRequest/workspace/workspace.api';
 import { useAppContext } from '@/context/Provider';
+import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
   name: z.string({
@@ -40,7 +41,7 @@ const formSchema = z.object({
 
 const CreateWorkspace = () => {
   const { setCurrentWorkspace, loading, setLoading } = useAppContext();
-
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -65,7 +66,7 @@ const CreateWorkspace = () => {
       const response = await workspaceApiRequest.create(valuesWithDefaults);
       localStorage.setItem('current_workspace', JSON.stringify(response.data));
       setCurrentWorkspace(response.data);
-      window.location.reload();
+      router.push('/workspace/main');
     } catch (err) {
       console.error('Error creating workspace:', err);
     } finally {

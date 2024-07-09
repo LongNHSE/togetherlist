@@ -4,7 +4,6 @@ import { Button } from '../ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -14,7 +13,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -24,38 +22,36 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useAppContext } from '@/context/Provider';
-import boardApiRequest from '@/apiRequest/board/board.api';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '../ui/tooltip';
-import memberApiRequest from '@/apiRequest/member/member.api';
 import { useState } from 'react';
+import memberApiRequest from '@/apiRequest/member/member.api';
 
 const formSchema = z.object({
-  email: z.string({
-    required_error: 'Email is required',
-  }),
+  email: z.string().email({ message: 'Invalid email address' }),
 });
 
 const AddMember = ({ loadMember }: { loadMember: () => void }) => {
-  const { currentWorkspace, members, mySubscriptions } = useAppContext();
-  const [open, setOpen] = useState(false);
-  if (!currentWorkspace) return null;
-  const { _id, name } = currentWorkspace as {
-    _id: string;
-    name: string;
-    description: string;
-  };
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
     },
   });
+  const { currentWorkspace, members, mySubscriptions } = useAppContext();
+  const [open, setOpen] = useState(false);
+
+  if (!currentWorkspace) return null;
+  const { _id, name } = currentWorkspace as {
+    _id: string;
+    name: string;
+    description: string;
+  };
+
   const { watch } = form;
   const nameValue = watch('email');
 
@@ -67,6 +63,7 @@ const AddMember = ({ loadMember }: { loadMember: () => void }) => {
         form.reset();
         setOpen(false);
       } else if (result.statusCode === 400) {
+        console.log(result.message);
         form.setError('email', {
           type: 'manual',
           message: result.message,
@@ -104,9 +101,12 @@ const AddMember = ({ loadMember }: { loadMember: () => void }) => {
           <DialogDescription>Please provide information</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          {/* Form */}
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 ">
+            <form
+              id="addMemberForm"
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4"
+            >
               <FormField
                 control={form.control}
                 name="email"
@@ -139,7 +139,12 @@ const AddMember = ({ loadMember }: { loadMember: () => void }) => {
                     : 'bg-dark_brown'
                 }`}
                 type="submit"
-                disabled={!nameValue}
+                form="addMemberForm"
+                disabled={
+                  members.length >= 3 &&
+                  mySubscriptions?.subscriptionType?.name.toLowerCase() ===
+                    'free'
+                }
               >
                 Submit
               </Button>
@@ -150,7 +155,7 @@ const AddMember = ({ loadMember }: { loadMember: () => void }) => {
                 <span className="text-red-600 font-bold">3 </span>
                 people.
               </span>
-            </div>{' '}
+            </div>
           </Form>
         </div>
       </DialogContent>

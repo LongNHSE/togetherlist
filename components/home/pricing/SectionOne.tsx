@@ -95,7 +95,6 @@ const SectionOne = () => {
         <div className="flex flex-col">
           <Home size={55} className="mb-3" />
           <h1 className="text-xl font-bold ">Free</h1>
-          <h1 className="text-3xl font-bold ">$0</h1>
         </div>
         <div className="flex flex-col gap-4">
           <StyledIconText>
@@ -164,7 +163,7 @@ const SectionOne = () => {
             <h1 className="text-xl font-bold ">Premium</h1>
             <Badge className="bg-blue-500">Popular</Badge>
           </div>
-          <h1 className="text-3xl font-bold ">$3</h1>
+          <h1 className="text-3xl font-bold ">19.000 VNĐ</h1>
         </div>
         <div className="flex flex-col gap-4">
           <StyledIconText>
