@@ -1,8 +1,14 @@
 'use client';
+import { payosApi } from '@/apiRequest/payos/payos.api';
+import subcriptionPlanApi from '@/apiRequest/subscription-plan/subscription-plan.api';
+import { subscriptionTypeApiRequest } from '@/apiRequest/subscription-type/subscription-type.api';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { SubscriptionType } from '@/lib/schema/subscription/subscriptionType.schema';
+import { sub } from 'date-fns';
 import { motion } from 'framer-motion';
 import { Building, Castle, Check, Home, Warehouse } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import styled from 'styled-components';
 
@@ -38,6 +44,31 @@ const StyledIconText = styled.div`
 `;
 
 const SectionOne = () => {
+  const [plans, setPlans] = useState<SubscriptionType[]>([]);
+
+  const getPlans = async () => {
+    try {
+      const res = await subscriptionTypeApiRequest.getSubscriptionTypeList();
+      setPlans(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClick = async (id: string | undefined) => {
+    console.log(id);
+    try {
+      const res = await payosApi.createPayment({ subscriptionTypeId: id });
+      window.location.href = res.data.checkoutUrl;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getPlans();
+  }, []);
+
   const { ref, inView } = useInView({
     triggerOnce: true,
   });
@@ -115,11 +146,11 @@ const SectionOne = () => {
             <span className="text-slate-500 text-sm">Basic Data Analysis</span>
           </StyledIconText>
         </div>
-        <Button className="bg-[#3a1b05] text-white w-full hover:bg-[#995b2f]">
+        <div className="h-96"></div>
+        {/* <Button className="bg-[#3a1b05] text-white w-full hover:bg-[#995b2f] ">
           Choose plan
-        </Button>
+        </Button> */}
       </StyledCard>
-
       <StyledCard
         ref={ref}
         variants={variants}
@@ -181,12 +212,20 @@ const SectionOne = () => {
             </span>
           </StyledIconText>
         </div>
-        <Button className="bg-[#3a1b05] text-white w-full hover:bg-[#995b2f]">
+        <Button
+          className="bg-[#3a1b05] text-white w-full hover:bg-[#995b2f]"
+          onClick={() => {
+            const id = plans?.find(
+              (plan) => plan.name.toLowerCase() === 'premium',
+            )?._id;
+            handleClick(id);
+          }}
+        >
           Choose plan
         </Button>
       </StyledCard>
 
-      <StyledCard
+      {/* <StyledCard
         ref={ref}
         variants={variants}
         initial="hidden"
@@ -247,7 +286,7 @@ const SectionOne = () => {
         <Button className="bg-[#3a1b05] text-white w-full hover:bg-[#995b2f]">
           Choose plan
         </Button>
-      </StyledCard>
+      </StyledCard> */}
     </section>
   );
 };

@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useAppContext } from '@/context/Provider';
 import subcriptionPlanApi from '@/apiRequest/subscription-plan/subscription-plan.api';
 import { Button } from '../ui/button';
+import Link from 'next/link';
 const SubscriptionPlan = () => {
   const { mySubscriptions, setMySubscriptions } = useAppContext();
   const getMySubscriptions = async () => {
@@ -27,7 +28,9 @@ const SubscriptionPlan = () => {
       </div>
       {mySubscriptions?.subscriptionType.name === 'Free' ? (
         <div>
-          <Button variant="blueLink">Upgrade Now</Button>
+          <Link href="/home/pricing">
+            <Button variant="blueLink">Upgrade Now</Button>
+          </Link>
         </div>
       ) : (
         <div></div>
