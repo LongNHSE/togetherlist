@@ -82,7 +82,7 @@ export default function AccountSettings() {
                 {user?.avatar ? (
                   <Image
                     src={
-                      `${process.env.NEXT_PUBLIC_IMAGE_API_URL}/` + user.avatar
+                      `${process.env.NEXT_PUBLIC_IMAGE_API_URL}/` + user?.avatar
                     }
                     height={600}
                     width={600}

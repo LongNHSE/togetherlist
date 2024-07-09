@@ -2,7 +2,7 @@
 
 const nextConfig = {
   images: {
-    domains: [process.env.NEXT_PUBLIC_IMAGE_DOMAINS],
+    domains: ['localhost', 'togetherlistbe.id.vn'],
   },
   async redirects() {
     return [
