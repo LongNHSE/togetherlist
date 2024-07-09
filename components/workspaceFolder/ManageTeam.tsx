@@ -4,7 +4,7 @@ import { Infinity } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Search } from '@/components/ui/searchButton';
 import { TriangleAlert, X } from 'lucide-react';
-import AddMember from '@/components/workspace/AddMember';
+import AddMember from '@/components/workspaceFolder/AddMember';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useAppContext } from '@/context/Provider';
