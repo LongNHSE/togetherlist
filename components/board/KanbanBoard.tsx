@@ -106,6 +106,9 @@ export default function KanbanBoard() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setSection('');
+      setSectionOpen(false);
     }
   };
 
@@ -369,7 +372,10 @@ export default function KanbanBoard() {
                   <th></th> {/* Empty header for section */}
                   {board?.taskStatus?.map((lane: any, index) => {
                     return (
-                      <th className="text-center text-lg text-teal-950" key={index}>
+                      <th
+                        className="text-center text-lg text-teal-950"
+                        key={index}
+                      >
                         <div className="flex justify-center ml-8 w-64 mb-1 border-2 border-gray-400 rounded-lg">
                           {index !== 0 ? (
                             <button
