@@ -51,7 +51,7 @@ const ListMember = () => {
       <div className="flex flex-row w-auto h-auto ml-9 space-x-1">
         {members.length > 0 ? (
           members.map((member: any) => (
-            <TooltipProvider delayDuration={100} key={member._id}>
+            <TooltipProvider delayDuration={100} key={member?._id}>
               <Tooltip>
                 <TooltipTrigger>
                   <Avatar className="w-10 h-10 relative z-10 hover:scale-120 hover:-translate-y-1 transition duration-30 rounded-full">
@@ -62,7 +62,9 @@ const ListMember = () => {
                     </AvatarFallback>
                   </Avatar>
                 </TooltipTrigger>
-                <TooltipContent side="bottom">{member.username}</TooltipContent>
+                <TooltipContent side="bottom">
+                  {member?.username}
+                </TooltipContent>
               </Tooltip>
             </TooltipProvider>
           ))

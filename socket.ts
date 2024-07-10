@@ -1,4 +1,9 @@
 'use client';
 import { io } from 'socket.io-client';
+const URL = 'http://localhost:8000';
 
-export const socket = io();
+const socket = io(URL, {
+  withCredentials: true,
+});
+
+export { socket };

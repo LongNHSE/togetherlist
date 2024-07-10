@@ -8,7 +8,7 @@ interface EmojiPickerProps {
   onChange: (value: string) => void;
 }
 
-const EmojiPicker = () => {
+const EmojiPicker = ({ onChange }: EmojiPickerProps) => {
   return (
     <Popover>
       <PopoverTrigger>
@@ -20,7 +20,7 @@ const EmojiPicker = () => {
           theme="light"
           data={data}
           maxFrequentRows={1}
-          //     onEmojiSelect={(emoji: any) => onChange(emoji.native)}
+          onEmojiSelect={(emoji: any) => onChange(emoji.native)}
         />
       </PopoverContent>
     </Popover>

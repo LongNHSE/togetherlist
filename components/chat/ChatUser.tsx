@@ -1,14 +1,12 @@
-import React from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { formatChatLength } from '@/constants/FormatChatLength';
+import { Avatar, AvatarImage } from '../ui/avatar';
 
 interface ChatUserProps {
   avatar: string;
   name: string;
-  messageContent: string;
+  // messageContent: string;
 }
 
-const ChatUser = ({ avatar, name, messageContent }: ChatUserProps) => {
+const ChatUser = ({ avatar, name }: ChatUserProps) => {
   return (
     <div className="grid grid-cols-[1fr_4fr] pb-4 pt-2 hover:bg-slate-200 cursor-pointer">
       <div>
@@ -24,9 +22,9 @@ const ChatUser = ({ avatar, name, messageContent }: ChatUserProps) => {
       </div>
       <div>
         <h1 className="text-md font-semibold">{name}</h1>
-        <span className="text-slate-500 text-sm">
+        {/* <span className="text-slate-500 text-sm">
           {formatChatLength(messageContent)}
-        </span>
+        </span> */}
       </div>
     </div>
   );

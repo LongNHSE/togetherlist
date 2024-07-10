@@ -1,57 +1,38 @@
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
+import React from 'react';
 
-const ChatSidebarPagination = ({ users, onPageChange, currentPage }: any) => {
-  const usersPerPage = 10;
-  const totalPages = Math.ceil(users.length / usersPerPage);
+interface ChatSidebarPaginationProps {
+  items: any[];
+  currentPage: number;
+  onPageChange: (pageNumber: number) => void;
+}
+
+const ChatSidebarPagination = ({
+  items,
+  currentPage,
+  onPageChange,
+}: ChatSidebarPaginationProps) => {
+  const totalPages = Math.ceil(items.length / 10);
+
+  const handlePageClick = (pageNumber: number) => {
+    onPageChange(pageNumber);
+  };
+
   return (
-    <>
-      {totalPages > 1 && (
-        <div className="border-t border-slate-300 py-2">
-          <Pagination>
-            <PaginationContent className="flex items-center">
-              <PaginationItem>
-                <PaginationPrevious
-                  href="#"
-                  onClick={() =>
-                    currentPage > 1 && onPageChange(currentPage - 1)
-                  }
-                  className={currentPage > 1 ? '' : 'invisible'}
-                />
-              </PaginationItem>
-
-              {[...Array(totalPages)].map((_, i) => (
-                <PaginationItem key={i}>
-                  <PaginationLink
-                    href="#"
-                    isActive={currentPage === i + 1}
-                    onClick={() => onPageChange(i + 1)}
-                  >
-                    {i + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-
-              <PaginationItem>
-                <PaginationNext
-                  href="#"
-                  onClick={() =>
-                    currentPage < totalPages && onPageChange(currentPage + 1)
-                  }
-                  className={currentPage < totalPages ? '' : 'invisible'}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
-      )}
-    </>
+    <div className="flex justify-center py-3">
+      {Array.from({ length: totalPages }, (_, index) => (
+        <button
+          key={index}
+          onClick={() => handlePageClick(index + 1)}
+          className={`px-2 py-1 mx-1 ${
+            currentPage === index + 1
+              ? 'bg-blue-500 text-white'
+              : 'bg-gray-200 text-black'
+          }`}
+        >
+          {index + 1}
+        </button>
+      ))}
+    </div>
   );
 };
 

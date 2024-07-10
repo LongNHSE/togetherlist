@@ -1,53 +1,50 @@
 'use client';
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Avatar, AvatarImage } from '../ui/avatar';
 import ChatMessageBottomBar from './ChatMessageBottomBar';
+import { Message } from '@/lib/schema/message';
 
-const ChatList = () => {
-  const [currentUser, setCurrentUser] = useState('Guest');
+interface ChatListProps {
+  initialMessages?: Message[];
+  sendMessage: (newMessage: Message) => void;
+}
+
+const ChatList = ({ initialMessages = [], sendMessage }: ChatListProps) => {
+  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  useEffect(() => {
+    setMessages(initialMessages);
+  }, [initialMessages]);
   return (
-    <div className="w-full overflow-y-auto overflow-x-hidden h-[72vh] justify-between flex flex-col">
-      <div>
-        <div className="flex items-center gap-3">
-          <div>
-            <Avatar className="rounded">
-              <AvatarImage
-                src="https://randomuser.me/api/portraits/men/1.jpg"
-                alt="@shadcn"
-                width={10}
-                height={10}
-                className="w-10 h-10 rounded-full "
-              />
-            </Avatar>
+    <div className="w-full overflow-y-auto overflow-x-hidden h-[72vh] justify-between flex flex-col pt-3 ">
+      <div className="px-3">
+        {messages.map((msg, index) => (
+          <div
+            key={index}
+            className={`flex items-center gap-3 ${
+              msg.name === 'Test' ? 'flex-row-reverse ml-3 mt-5' : ''
+            }`}
+          >
+            <div>
+              <Avatar className="rounded">
+                <AvatarImage
+                  src={msg.avatar}
+                  alt={msg.name}
+                  width={10}
+                  height={10}
+                  className={`w-10 h-10 rounded-full ${
+                    msg.name === 'Test' ? 'border-2 border-blue-500' : ''
+                  }`}
+                />
+              </Avatar>
+            </div>
+            <div className="border px-3 py-3 rounded-full border-slate-400">
+              <span className="text-black text-sm">{msg.message}</span>
+            </div>
           </div>
-          <div className="border px-3 py-3 rounded-full border-slate-400">
-            <span className="text-black text-sm">
-              Good afternoon! I hope you're all enjoying your day.
-            </span>
-          </div>
-        </div>
-
-        <div className="flex items-center flex-row-reverse gap-3 ml-8 mt-5">
-          <div>
-            <Avatar className="rounded">
-              <AvatarImage
-                src="https://randomuser.me/api/portraits/women/1.jpg"
-                alt="@guest"
-                width={10}
-                height={10}
-                className="w-10 h-10 rounded-full border-2 border-blue-500"
-              />
-            </Avatar>
-          </div>
-          <div className="border  py-3 px-3 rounded-full border-slate-400  text-black text-sm ">
-            Good afternoon! I hope you&apos;re all enjoying your day. It&apos;s
-            a beautiful day outside, isn&apos;t it? Remember to take breaks and
-            hydrate. Happy coding!
-          </div>
-        </div>
+        ))}
       </div>
 
-      <ChatMessageBottomBar />
+      <ChatMessageBottomBar sendMessage={sendMessage} />
     </div>
   );
 };
