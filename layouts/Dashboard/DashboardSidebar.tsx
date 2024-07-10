@@ -7,6 +7,7 @@ import {
   Home,
   LayoutDashboard,
   Network,
+  UserRoundCog,
   UsersRound,
 } from 'lucide-react';
 import Logo from '@/components/Logo';
@@ -139,6 +140,14 @@ const DashboardSidebar = () => {
             icon={<Calendar className="mr-3" />}
           >
             Calendar
+          </NavLink>
+          <NavLink
+            to="/workspace/admin"
+            className="p-4 flex items-cente hover:opacity-70 cursor-pointer transition duration-300"
+            activeClassName="bg-[#3A1B05] text-white"
+            icon={<UserRoundCog className="mr-3" />}
+          >
+            Admin
           </NavLink>
         </div>
       </nav>
