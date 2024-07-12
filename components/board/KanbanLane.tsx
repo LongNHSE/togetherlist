@@ -59,7 +59,7 @@ export default function KanbanLane({
             asChild
             onClick={() => setIsPopoverOpen(!isPopoverOpen)}
           >
-            <SquarePlus className="mr-2" />
+            <button><SquarePlus className="mr-2" /></button>
           </PopoverTrigger>
           <PopoverContent className="w-72">
             <div className="flex flex-row gap-4 justify-center mx-auto">

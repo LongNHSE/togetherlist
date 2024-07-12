@@ -32,6 +32,8 @@ const buttonVariants = cva(
         lg: 'h-11 rounded-md px-8',
         icon: 'h-10 w-10',
         link: 'px-1',
+        addMemberButton:
+          'h-[40px] px-4 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90',
       },
     },
     defaultVariants: {

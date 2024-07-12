@@ -22,7 +22,7 @@ const NavLink = ({
   ...props
 }: NavLinkProps) => {
   const asPath = usePathname();
-  const isActive: boolean = asPath === to;
+  const isActive: boolean = asPath.includes(to);
   const className: NavLinkProps['activeClassName'] = isActive
     ? activeClassName
     : '';

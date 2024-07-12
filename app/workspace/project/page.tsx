@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     'Welcome to Together List, your collaborative task management app.',
 };
 
-const SectionTwo = dynamic(() => import('@/components/workspace/SectionTwo'), {
+const SectionTwo = dynamic(() => import('@/components/Workspace/SectionTwo'), {
   ssr: false,
   loading: () => <LoadingMini />,
 });

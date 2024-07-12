@@ -9,12 +9,15 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { useAppContext } from '@/context/Provider';
 import memberApiRequest from '@/apiRequest/member/member.api';
-import { UserRoundPlus } from 'lucide-react';
+import LoadingSupperMini from './workspaceFolder/LoadingSupperMini';
+import AddMember from './workspaceFolder/AddMember';
 
 const ListMember = () => {
-  const { members, setMembers, currentWorkspace } = useAppContext();
+  const { members, setMembers, currentWorkspace, loading, setLoading } =
+    useAppContext();
 
   const getMember = async () => {
+    setLoading(true);
     try {
       if (!currentWorkspace) return;
       const res = await memberApiRequest.getMemberList(currentWorkspace._id);
@@ -25,38 +28,59 @@ const ListMember = () => {
         lastName: mb.member.lastName,
         email: mb.member.email,
         _id: mb.member._id,
+        role: mb.role,
+        memberWorkspaceId: mb._id,
+        workspaceId: mb.workspaceId,
       }));
       setMembers(memberData);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const getOwner = async () => {
+    setLoading(true);
     try {
       if (!currentWorkspace) return;
       const res = await memberApiRequest.getOwner(currentWorkspace._id);
-      setMembers((prev: any) => [...prev, res.data.owner]);
+      setMembers((prev: any) => [...prev, res?.data?.owner]);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     getMember();
-    getOwner();
+    // getOwner();
   }, [currentWorkspace]);
   return (
     <div className="flex flex-row">
       <div className="flex flex-row w-auto h-auto ml-9 space-x-1">
-        {members.length > 0 ? (
+        {loading ? (
+          <LoadingSupperMini />
+        ) : members.length > 0 ? (
           members.map((member: any) => (
             <TooltipProvider delayDuration={100} key={member?._id}>
               <Tooltip>
                 <TooltipTrigger>
-                  <Avatar className="w-10 h-10 relative z-10 hover:scale-120 hover:-translate-y-1 transition duration-30 rounded-full">
-                    <AvatarImage src={member?.avatar} alt={member?.username} />
-                    <AvatarFallback className="w-10 h-10 bg-orange-500">
+                  <Avatar className="w-10 h-10 relative z-10 hover:scale-120 hover:-translate-y-1 transition duration-30 rounded-full border-2 border-dark_brown">
+                    {member.avatar ? (
+                      <AvatarImage
+                        src={
+                          `${process.env.NEXT_PUBLIC_IMAGE_API_URL}/` +
+                          member?.avatar
+                        }
+                        alt={member.username}
+                      />
+                    ) : (
+                      <AvatarImage src={member?.avatar} alt={member.username} />
+                    )}
+
+                    <AvatarFallback className="w-10 h-10 bg-orange-300">
                       {member?.firstName[0]}
                       {member?.lastName[0]}
                     </AvatarFallback>
@@ -72,17 +96,8 @@ const ListMember = () => {
           <div>No members found</div>
         )}
       </div>
-      <div className="flex bg-slate-300 p-2 rounded-full hover:-translate-y-1 transition duration-30 mx-9">
-        <TooltipProvider delayDuration={100}>
-          <Tooltip>
-            <TooltipTrigger>
-              <UserRoundPlus />
-            </TooltipTrigger>
-            <TooltipContent side="bottom" className="mt-3">
-              Add member
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+      <div>
+        <AddMember loadMember={() => getMember()} />
       </div>
     </div>
   );

@@ -73,7 +73,7 @@ const SectionTwo = () => {
   return loading ? (
     <LoadingMini />
   ) : board && board.length > 0 ? (
-    <section className="flex flex-col justify-between  h-[80vh]">
+    <section className="flex flex-col justify-between h-[80vh]">
       <ConfirmDelete
         isOpen={deleteBoard}
         closeModal={() => setDeleteBoard(false)}
@@ -83,9 +83,9 @@ const SectionTwo = () => {
       {/* Section One */}
       <div className="flex flex-col gap-3">
         <SectionOne loadBoard={loadBoard} />
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 sm:grid-cols-1">
           {board.map((item, index) => (
-            <Link key={index} href={`board/${item._id}`}>
+            <Link key={index} href={`/workspace/board/${item._id}`}>
               <div className="hover:-translate-y-2 transform transition">
                 <WorkspaceCard
                   board={item}
@@ -96,7 +96,7 @@ const SectionTwo = () => {
           ))}
         </div>
       </div>
-      {board && <SectionThree />}
+      {/* {board && <SectionThree />} */}
     </section>
   ) : (
     <div className="flex flex-col justify-center items-center gap-8">

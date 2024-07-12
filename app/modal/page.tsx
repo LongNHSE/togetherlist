@@ -10,9 +10,10 @@ export const metadata: Metadata = {
 
 export default function ModalPage() {
   return (
-    <Layout>
-      <Modal />
-      {/* <ConfirmDelete/> */}
-    </Layout>
+    <div></div>
+    // <Layout>
+    //   {/* <Modal /> */}
+    //   {/* <ConfirmDelete/> */}
+    // </Layout>
   );
 }

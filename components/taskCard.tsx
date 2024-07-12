@@ -33,21 +33,25 @@ import { set } from 'date-fns';
 import { stat } from 'fs';
 import { useAppContext } from '@/context/Provider';
 import taskApiRequest from '@/apiRequest/task/task.api';
+import Modal from './modal/Modal';
 
 export default function TaskCard({
   taskInput,
   deleteTask,
   updateTask,
+  setOpenModal,
 }: {
   taskInput: TaskType;
   deleteTask: (id: string | undefined) => void;
   updateTask: (id: string, body: any) => void;
+  setOpenModal: any;
 }) {
   const inputRef = React.useRef(null);
   const { members } = useAppContext();
 
   const [open, setOpen] = React.useState(false);
   const [task, setTask] = React.useState(taskInput);
+  // const [openModal, setOpenModal] = React.useState(false);
   const [editTask, setEditTask] = React.useState(false);
   const [taskName, setTaskName] = React.useState(taskInput.name);
 
@@ -126,7 +130,10 @@ export default function TaskCard({
             />
           </div>
           <div className="flex flex-row gap-x-2 mb-3 -translate-y-1">
-            <div className="bg-blue-400 rounded-md px-1 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div
+              className="bg-blue-400 rounded-md px-1 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              onClick={() => setOpenModal(true)}
+            >
               <Ellipsis size={15} color="white" />
             </div>
             <div
@@ -152,12 +159,33 @@ export default function TaskCard({
                           e.stopPropagation();
                         }}
                       >
-                        <Avatar>
+                        {/* <Avatar>
                           <AvatarImage
                             src={task?.assignee?.avatar}
                             alt="@shadcn"
                           />
                           <AvatarFallback className="w-10 h-10 bg-orange-500">
+                            {task?.assignee?.firstName[0]}
+                            {task?.assignee?.lastName[0]}
+                          </AvatarFallback>
+                        </Avatar> */}
+                        <Avatar className="w-10 h-10 relative z-10 hover:scale-120 hover:-translate-y-1 transition duration-30 rounded-full border-2 border-dark_brown">
+                          {task?.assignee?.avatar ? (
+                            <AvatarImage
+                              src={
+                                `${process.env.NEXT_PUBLIC_IMAGE_API_URL}/` +
+                                task?.assignee?.avatar
+                              }
+                              alt={task?.assignee?.avatar}
+                            />
+                          ) : (
+                            <AvatarImage
+                              src={task?.assignee?.avatar}
+                              alt={task?.assignee?.avatar}
+                            />
+                          )}
+
+                          <AvatarFallback className="w-10 h-10 bg-orange-300">
                             {task?.assignee?.firstName[0]}
                             {task?.assignee?.lastName[0]}
                           </AvatarFallback>
@@ -193,9 +221,27 @@ export default function TaskCard({
                               : 'opacity-0',
                           )}
                         />
-                        <Avatar className="w-8 h-8">
+                        {/* <Avatar className="w-8 h-8">
                           <AvatarImage src={mb.avatar} alt="@shadcn" />
                           <AvatarFallback className="w-10 h-10 bg-orange-500">
+                            {mb?.firstName[0]}
+                            {mb?.lastName[0]}
+                          </AvatarFallback>
+                        </Avatar> */}
+                        <Avatar className="w-10 h-10 relative z-10 hover:scale-120 hover:-translate-y-1 transition duration-30 rounded-full border-2 border-dark_brown">
+                          {mb?.avatar ? (
+                            <AvatarImage
+                              src={
+                                `${process.env.NEXT_PUBLIC_IMAGE_API_URL}/` +
+                                mb?.avatar
+                              }
+                              alt={mb?.avatar}
+                            />
+                          ) : (
+                            <AvatarImage src={mb?.avatar} alt={mb?.avatar} />
+                          )}
+
+                          <AvatarFallback className="w-10 h-10 bg-orange-300">
                             {mb?.firstName[0]}
                             {mb?.lastName[0]}
                           </AvatarFallback>

@@ -1,32 +1,61 @@
 'use client';
-import React from 'react';
-import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer } from 'recharts';
+import React, { useState } from 'react';
+import {
+  PieChart,
+  Pie,
+  Legend,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+} from 'recharts';
+import EmptyPage from '../EmptyPage';
 
-const ReportPieChart = () => {
-  const data01 = [
-    { name: 'Group A', value: 400 },
-    { name: 'Group B', value: 300 },
-    { name: 'Group C', value: 300 },
-    { name: 'Group D', value: 200 },
-    { name: 'Group E', value: 278 },
-    { name: 'Group F', value: 189 },
-  ];
-  return (
+const ReportPieChart = ({ board }: { board: any }) => {
+  const [data01, setData01] = useState<any>([]);
+  React.useEffect(() => {
+    if (board && board.statuses) {
+      const data = board?.statuses.map((list: any) => ({
+        name: list.name,
+        color: list.color,
+        value: Math.round(list.value * 0.01 * board.totalTask),
+      }));
+      console.log(data);
+      if (data[0].name === undefined && data[0].color === undefined) {
+        setData01(null);
+      } else {
+        data.forEach((item: any, index: number) => {
+          if (item.name === undefined && item.color === undefined) {
+            data.splice(index, 1);
+          }
+        });
+        setData01(data);
+      }
+    }
+  }, [board]);
+  // Corrected code snippet
+  return data01 ? (
     <ResponsiveContainer width="100%" height={400}>
       <PieChart>
         <Pie
-          dataKey="value"
-          isAnimationActive={false}
           data={data01}
+          dataKey="value"
+          nameKey="name"
           cx="50%"
           cy="50%"
           outerRadius={150}
-          fill="#8884d8"
           label
-        />
+        >
+          {data01.map((entry: any, index: number) => (
+            <Cell key={`cell-${index}`} fill={entry.color} />
+          ))}
+        </Pie>
         <Tooltip />
       </PieChart>
     </ResponsiveContainer>
+  ) : (
+    <div>
+      <EmptyPage subject="data" />
+    </div>
   );
 };
 

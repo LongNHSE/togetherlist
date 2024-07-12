@@ -1,5 +1,5 @@
 'use client';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   DndContext,
   rectIntersection,
@@ -9,26 +9,9 @@ import {
   DragEndEvent,
 } from '@dnd-kit/core';
 import KanbanLane from './KanbanLane';
-import {
-  Check,
-  Plus,
-  UserRoundPlus,
-  X,
-  SquarePlus,
-  ChevronLeft,
-  ChevronRight,
-  Trash,
-  Delete,
-} from 'lucide-react';
+import { Check, Plus, X, ChevronLeft, ChevronRight, Trash } from 'lucide-react';
 import { Search } from '@/components/ui/searchButton';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ConfirmDelete } from '@/components/modal/ConfirmDelete';
-import {
-  TooltipProvider,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { toast } from '@/components/ui/use-toast';
 import {
   Popover,
@@ -42,14 +25,10 @@ import { BoardType } from '@/lib/schema/board/board.schema';
 import { SectionType } from '@/lib/schema/board/section.schema';
 import taskApiRequest from '@/apiRequest/task/task.api';
 import sectionApiRequest from '@/apiRequest/section/section.api';
-import { set } from 'date-fns';
-import { TaskType } from '@/lib/schema/task/task.schema';
 import { TaskStatusType } from '@/lib/schema/board/task-status.schema';
 import { useAppContext } from '@/context/Provider';
 
 export default function KanbanBoard() {
-  const { members } = useAppContext();
-
   const boardId = useParams().boardId as string;
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -127,6 +106,9 @@ export default function KanbanBoard() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setSection('');
+      setSectionOpen(false);
     }
   };
 
@@ -308,6 +290,18 @@ export default function KanbanBoard() {
       issue.tasks.some((t: any) => t._id === task._id),
     );
 
+    // Check if the task is being moved within the same issue and lane
+    if (
+      sourceIssue &&
+      sourceIssue.name === targetIssue &&
+      task.status === targetLane
+    ) {
+      // console.log(
+      //   'Task moved within the same issue and lane. No action required.',
+      // );
+      return; // Exit the function early
+    }
+
     // Remove the task from the source issue
     if (sourceIssue) {
       sourceIssue.tasks = sourceIssue.tasks.filter(
@@ -339,10 +333,10 @@ export default function KanbanBoard() {
 
   useEffect(() => {
     sortStatuses();
-  }, [board.taskStatus]);
+  }, [board?.taskStatus]);
 
   return (
-    <div>
+    <div className="">
       {/* Use for delete Task */}
       <ConfirmDelete
         isOpen={deleteModal}
@@ -360,43 +354,11 @@ export default function KanbanBoard() {
       <div className="flex flex-row justify-between mt-5">
         <div className="flex flex-row">
           <Search placeholder="Search" />
-          {/* <div className="flex flex-row-reverse ml-2 space-x-reverse -space-x-1.5">
-            {members.map((member) => (
-              <TooltipProvider delayDuration={100} key={member._id}>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Avatar className="w-10 h-10 relative z-10 hover:scale-120 hover:-translate-y-1 transition duration-30">
-                      <AvatarImage src={member.avatar} alt={member.username} />
-                      <AvatarFallback className="w-10 h-10">
-                        {member.firstName[0]}
-                        {member.lastName[0]}
-                      </AvatarFallback>
-                    </Avatar>
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">
-                    {member.username}
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ))}
-          </div> */}
-          {/* <div className="flex ml-2 bg-slate-300 p-2 rounded-full hover:-translate-y-1 transition duration-30">
-            <TooltipProvider delayDuration={100}>
-              <Tooltip>
-                <TooltipTrigger>
-                  <UserRoundPlus />
-                </TooltipTrigger>
-                <TooltipContent side="bottom" className="mt-3">
-                  Add member
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div> */}
         </div>
       </div>
 
       {/* Board */}
-      <div className="flex flex-row my-5">
+      <div className="flex flex-row my-5 overflow-auto ">
         <DndContext
           sensors={sensors}
           collisionDetection={rectIntersection}
@@ -408,30 +370,33 @@ export default function KanbanBoard() {
               <thead>
                 <tr>
                   <th></th> {/* Empty header for section */}
-                  {board.taskStatus?.map((lane: any, index) => {
+                  {board?.taskStatus?.map((lane: any, index) => {
                     return (
-                      <th className="text-center text-2xl" key={index}>
-                        <div className="flex flex-row justify-center mb-1">
+                      <th
+                        className="text-center text-lg text-teal-950"
+                        key={index}
+                      >
+                        <div className="flex justify-center ml-8 w-64 mb-1 border-2 border-gray-400 rounded-lg">
                           {index !== 0 ? (
-                            <div
-                              className="mt-1 border-2 rounded-md border-black"
+                            <button
+                              className="text-teal-600 hover:text-pink-500"
                               onClick={() =>
                                 statusIndexHandler(lane, lane.index - 1)
                               }
                             >
                               <ChevronLeft />
-                            </div>
+                            </button>
                           ) : null}
                           <div className="mx-10">{lane.name}</div>
                           {index !== board?.taskStatus?.length - 1 ? (
-                            <div
-                              className="mt-1 border-2 rounded-md border-black"
+                            <button
+                              className=" text-teal-600 hover:text-pink-500"
                               onClick={() =>
                                 statusIndexHandler(lane, lane.index + 1)
                               }
                             >
                               <ChevronRight />
-                            </div>
+                            </button>
                           ) : null}
                         </div>
                       </th>
@@ -442,11 +407,11 @@ export default function KanbanBoard() {
               <tbody className="h-full">
                 {board?.sections?.map((issue: any, index) => {
                   const issueElement = (
-                    <tr key={issue.name} className="">
+                    <tr key={issue.name} className="text-teal-950">
                       <td className="h-96">
-                        <div className="w-36 flex justify-center h-full bg-amber-500 border-b-2 p-3 rounded-sm">
+                        <div className="w-36 flex justify-center h-full bg-cyan-400 border-b-2 p-3 rounded-sm">
                           <div className="flex flex-col group">
-                            <h2 className="text-2xl font-medium text-center ">
+                            <h2 className="text-xl font-semibold text-center  ">
                               {issue.name}
                             </h2>
                             <div
@@ -463,7 +428,7 @@ export default function KanbanBoard() {
                       </td>
                       {board.taskStatus?.map((lane: any) => {
                         const tasks: any = issue.tasks?.filter(
-                          (task: any) => task.status === lane._id,
+                          (task: any) => task?.status === lane._id,
                         );
                         const laneElement = (
                           <td
