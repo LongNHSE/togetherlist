@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import DashboardSidebar from '@/layouts/AdminDashboard/DashboardSidebar';
+import DashboardHeader from '@/layouts/AdminDashboard/DashboardHeader';
 
 export default function RootLayout({
   children,
@@ -12,7 +13,7 @@ export default function RootLayout({
         <DashboardSidebar />
       </div>
       <div className="flex flex-col flex-grow h-screen overflow-hidden">
-        {/* <DashboardHeader /> */}
+        <DashboardHeader />
         <div className="flex-grow overflow-auto px-6">{children}</div>
       </div>
     </div>
