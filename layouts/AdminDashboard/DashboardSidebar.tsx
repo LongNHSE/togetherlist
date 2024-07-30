@@ -4,10 +4,7 @@ import {
   Calendar,
   ChevronLeft,
   ChevronRight,
-  Home,
-  LayoutDashboard,
-  MessageCircleMore,
-  Network,
+  LucideLineChart,
   UserRoundCog,
   UsersRound,
 } from 'lucide-react';
@@ -17,8 +14,6 @@ import { set } from 'date-fns';
 
 const DashboardSidebar = () => {
   const [isExpanded, setIsExpanded] = useState(true);
-  const [isTop, setIsTop] = useState(false);
-  const [position, setPosition] = useState(0); // Example state
   const [scrollY, setScrollY] = useState(0);
 
   const toggleSidebar = () => {
@@ -103,44 +98,20 @@ const DashboardSidebar = () => {
         >
           {' '}
           <NavLink
-            to="/workspace/main"
+            to="/admin/general"
             className="p-4 flex items-cente hover:opacity-70 cursor-pointer transition duration-300"
             activeClassName="bg-[#3A1B05] text-white"
-            icon={<Home className="mr-3" />}
+            icon={<LucideLineChart className="mr-3" />}
           >
-            Main
+            General
           </NavLink>
           <NavLink
-            to="/workspace/board"
+            to="/admin/users"
             className="p-4 flex items-cente hover:opacity-70 cursor-pointer transition duration-300"
             activeClassName="bg-[#3A1B05] text-white"
-            icon={<Network className="mr-3" />}
+            icon={<UserRoundCog className="mr-3" />}
           >
-            Boards
-          </NavLink>
-          <NavLink
-            to="/workspace/chat"
-            className="p-4 flex items-cente hover:opacity-70 cursor-pointer transition duration-300"
-            activeClassName="bg-[#3A1B05] text-white"
-            icon={<MessageCircleMore className="mr-3" />}
-          >
-            Chat
-          </NavLink>
-          <NavLink
-            to="/workspace/team"
-            className="p-4 flex items-cente hover:opacity-70 cursor-pointer transition duration-300"
-            activeClassName="bg-[#3A1B05] text-white"
-            icon={<UsersRound className="mr-3" />}
-          >
-            Teams
-          </NavLink>
-          <NavLink
-            to="/workspace/calendar"
-            className="p-4 flex items-cente hover:opacity-70 cursor-pointer transition duration-300"
-            activeClassName="bg-[#3A1B05] text-white"
-            icon={<Calendar className="mr-3" />}
-          >
-            Calendar
+            User Table
           </NavLink>
         </div>
       </nav>
