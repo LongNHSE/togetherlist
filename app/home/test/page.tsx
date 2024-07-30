@@ -1,4 +1,4 @@
-import Chat from '@/components/chat/Chat';
+// import Chat from '@/components/chat/Chat';
 
 export default function TestPage() {
   const statuses = [
@@ -7,5 +7,5 @@ export default function TestPage() {
     { value: 30, colorClass: 'bg-green-500', label: 'Status 3' },
   ];
 
-  return <Chat />;
+  return <></>;
 }
