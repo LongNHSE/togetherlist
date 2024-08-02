@@ -98,20 +98,20 @@ const DashboardSidebar = () => {
         >
           {' '}
           <NavLink
-            to="/admin/general"
-            className="p-4 flex items-cente hover:opacity-70 cursor-pointer transition duration-300"
-            activeClassName="bg-[#3A1B05] text-white"
-            icon={<LucideLineChart className="mr-3" />}
-          >
-            General
-          </NavLink>
-          <NavLink
             to="/admin/users"
             className="p-4 flex items-cente hover:opacity-70 cursor-pointer transition duration-300"
             activeClassName="bg-[#3A1B05] text-white"
             icon={<UserRoundCog className="mr-3" />}
           >
             User Table
+          </NavLink>
+          <NavLink
+            to="/admin/general"
+            className="p-4 flex items-cente hover:opacity-70 cursor-pointer transition duration-300"
+            activeClassName="bg-[#3A1B05] text-white"
+            icon={<LucideLineChart className="mr-3" />}
+          >
+            General
           </NavLink>
         </div>
       </nav>

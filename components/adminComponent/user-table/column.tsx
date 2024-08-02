@@ -1,8 +1,11 @@
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import { UserType } from '@/lib/schema/user.schema';
+import { formatDateTo, fortmatDate } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown } from 'lucide-react';
 
 export const column: ColumnDef<UserType>[] = [
   {
@@ -65,6 +68,50 @@ export const column: ColumnDef<UserType>[] = [
           className={`border-2 rounded-3xl align-middle text-center  ${getStyle()}`}
         >
           {sub}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: 'subscriptionPlan.from',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="font-bold"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          From
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return <div>{fortmatDate(row.original.subscriptionPlan.createdAt)}</div>;
+    },
+  },
+  {
+    accessorKey: 'subscriptionPlan.to',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="font-bold"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          To
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div>
+          {row.original.subscriptionPlan.to ? (
+            fortmatDate(row.original.subscriptionPlan.to)
+          ) : (
+            <div></div>
+          )}
         </div>
       );
     },
