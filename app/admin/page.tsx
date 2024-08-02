@@ -7,7 +7,7 @@ const Admin = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/admin/general');
+    router.push('/admin/users');
   }, [router]);
 
   return null; // or a loading indicator if preferred

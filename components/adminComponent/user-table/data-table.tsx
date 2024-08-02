@@ -8,6 +8,8 @@ import {
   getPaginationRowModel,
   getFilteredRowModel,
   useReactTable,
+  SortingState,
+  getSortedRowModel,
 } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -36,6 +38,7 @@ export function DataTable<TData extends UserType, TValue>({
   );
   const [numberOfPremium, setNumberOfPremium] = useState<number>(0);
   const [numberOfFree, setNumberOfFree] = useState<number>(0);
+  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
     data,
@@ -44,8 +47,11 @@ export function DataTable<TData extends UserType, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     state: {
       columnFilters,
+      sorting,
     },
   });
   const countNumber = () => {
