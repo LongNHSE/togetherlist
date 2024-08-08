@@ -23,6 +23,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import React, { useEffect, useState } from 'react';
+import { formatPrice } from '@/lib/utils';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -97,7 +98,8 @@ export function DataTable<TData extends UserType, TValue>({
         </div>
         <div className="flex flex-col space-y-5">
           <div>Number of Free user: {numberOfFree}</div>
-          <div>Number of Premium user: {numberOfPremium}</div>
+          <div>Number of Premium user: {numberOfPremium - 1}</div>
+          <div>Revenue: {formatPrice((numberOfPremium - 1) * 19000)}VND</div>
         </div>
       </div>
       <div className="rounded-md border">
