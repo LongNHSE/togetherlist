@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { SubscriptionPlanSchema } from './subscription/subscriptionPlan.schema';
 
 export const UserSchema = z.object({
   _id: z.string().optional(),
@@ -14,6 +15,7 @@ export const UserSchema = z.object({
   gender: z.string().optional(),
   refreshToken: z.string().optional(),
   bio: z.string().optional(),
+  subscriptionPlan: SubscriptionPlanSchema,
 });
 
 export type UserType = z.infer<typeof UserSchema>;

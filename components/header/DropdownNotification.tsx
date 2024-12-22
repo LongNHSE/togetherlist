@@ -34,7 +34,7 @@ const DropdownNotification = () => {
     const notification: NotificationType[] = result.data;
     setNotification(notification);
     setUnreadCount(
-      notification.filter((item) => item.status === 'unread').length,
+      notification?.filter((item) => item.status === 'unread').length,
     );
   };
 

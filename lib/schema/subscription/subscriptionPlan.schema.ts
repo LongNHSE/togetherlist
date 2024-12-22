@@ -8,6 +8,7 @@ export const SubscriptionPlanSchema = z.object({
   from: z.date(),
   to: z.date().optional(),
   status: z.string().default('active'),
+  createdAt: z.date(),
 });
 
 export type SubscriptionPlan = z.infer<typeof SubscriptionPlanSchema>;
