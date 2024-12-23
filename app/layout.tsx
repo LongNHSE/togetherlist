@@ -3,6 +3,8 @@ import { Montserrat } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import Provider from '@/context/Provider';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import React from 'react';
 const inter = Montserrat({ subsets: ['latin'] });
 
 export const metadata: Metadata = {

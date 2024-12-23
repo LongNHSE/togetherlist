@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 import { WorkspaceType as Workspace } from '@/lib/schema/workspace/workspace.schema';
 import { SubscriptionPlan } from '@/lib/schema/subscription/subscriptionPlan.schema';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 interface User {
   _id: string;
   email: string;
@@ -34,6 +35,8 @@ export default function Provider({ children }: { children: React.ReactNode }) {
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(
     null,
   );
+  const [queryClient] = useState(() => new QueryClient());
+
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [mySubscriptions, setMySubscriptions] = useState<any>(null);
@@ -79,7 +82,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
         clearAll,
       }}
     >
-      {children}
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </AppContext.Provider>
   );
 }
