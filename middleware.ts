@@ -28,41 +28,41 @@ interface DecodedToken {
 }
 
 export function middleware(req: NextRequest) {
-  const cookiess = getCookies({ cookies });
+  // const cookiess = getCookies({ cookies });
 
-  // Get the path of the request
-  const path = req.nextUrl.pathname;
+  // // Get the path of the request
+  // const path = req.nextUrl.pathname;
 
-  // Check if the path is a public path
-  // const isPublicRoute = publicPath.includes(path);
-  const isPublicRoute = publicPath.some((publicPath) => {
-    const regex = new RegExp(`^${publicPath.replace('*', '.*')}$`);
-    return regex.test(path);
-  });
-  // Check if the path is a auth path
-  const isAuthRoute = authPath.some((authPath) => {
-    const regex = new RegExp(`^${authPath.replace('*', '.*')}$`);
-    return regex.test(path);
-  });
+  // // Check if the path is a public path
+  // // const isPublicRoute = publicPath.includes(path);
+  // const isPublicRoute = publicPath.some((publicPath) => {
+  //   const regex = new RegExp(`^${publicPath.replace('*', '.*')}$`);
+  //   return regex.test(path);
+  // });
+  // // Check if the path is a auth path
+  // const isAuthRoute = authPath.some((authPath) => {
+  //   const regex = new RegExp(`^${authPath.replace('*', '.*')}$`);
+  //   return regex.test(path);
+  // });
 
-  const isAdminRoute = matchPath(adminPath, path);
+  // const isAdminRoute = matchPath(adminPath, path);
 
-  //Get cookie
-  const cookie = cookiess?.clientSessionToken;
+  // //Get cookie
+  // const cookie = cookiess?.clientSessionToken;
 
-  if (!isPublicRoute && !cookie) {
-    return NextResponse.redirect(new URL('/auth', req.nextUrl));
-  }
+  // if (!isPublicRoute && !cookie) {
+  //   return NextResponse.redirect(new URL('/auth', req.nextUrl));
+  // }
 
-  if (cookie) {
-    const decoded = jwtDecode<DecodedToken>(cookie);
-    if (isAuthRoute) {
-      return NextResponse.redirect(new URL('/workspace', req.nextUrl));
-    }
-    if (isAdminRoute && decoded.role !== 'admin') {
-      return NextResponse.redirect(new URL('/workspace', req.nextUrl));
-    }
-  }
+  // if (cookie) {
+  //   const decoded = jwtDecode<DecodedToken>(cookie);
+  //   if (isAuthRoute) {
+  //     return NextResponse.redirect(new URL('/workspace', req.nextUrl));
+  //   }
+  //   if (isAdminRoute && decoded.role !== 'admin') {
+  //     return NextResponse.redirect(new URL('/workspace', req.nextUrl));
+  //   }
+  // }
 
   return NextResponse.next();
 }

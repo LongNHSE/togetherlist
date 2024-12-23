@@ -27,7 +27,7 @@ export default function AccountSettings() {
   const changeProfilePicture = async () => {
     try {
       const formData = new FormData();
-
+      console.log(avatar);
       formData.append('file', avatar);
       // const result = await fetch(
       //   `${process.env.NEXT_PUBLIC_API_URL}/users/avatar`,
@@ -67,6 +67,7 @@ export default function AccountSettings() {
             <Label className="text-lg truncate" htmlFor="picture">
               Your profile picture
             </Label>
+            <input type="file"></input>
             <div className="relative w-40 h-40 border-2 border-gray-400  border-dashed rounded-md">
               <input
                 id="picture"

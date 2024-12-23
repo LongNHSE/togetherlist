@@ -17,6 +17,7 @@ import { NotificationType } from '@/lib/schema/notification/notification.schema'
 import { Arrow, DropdownMenuSub } from '@radix-ui/react-dropdown-menu';
 import { ArrowRight } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { useSocket } from '@/hooks/auth/useSocket';
 
 const DropdownNotification = () => {
   const [tokenValid, setTokenValid] = React.useState(false);
@@ -28,6 +29,7 @@ const DropdownNotification = () => {
   const [unreadCount, setUnreadCount] = React.useState(0);
   const [timePast, setTimePast] = React.useState(0);
   const hasRun = React.useRef(false);
+  const { onEvent, offEvent } = useSocket();
 
   const getMyNotifications = async () => {
     const result = await notificationApiRequest.getMyNotifications(page, limit);
@@ -59,42 +61,45 @@ const DropdownNotification = () => {
       );
     }
   };
+  const SOCKET_SERVER_URL = 'http://localhost:8000/notification';
 
-  const connectSocket = () => {
-    const url = process.env.NEXT_PUBLIC_API_URL + '/' + 'notification';
-    authApiRequest
-      .isTokenValid()
-      .then((res) => {
-        setTokenValid(true);
-        const token = getCookie('clientSessionToken');
-        socket = io(url, {
-          extraHeaders: {
-            token: token as string,
-          },
-        });
-        socket.on('connect', () => {
-          console.log('Connected to server');
-        });
+  // const connectSocket = () => {
+  //   const url = SOCKET_SERVER_URL;
+  //   console.log(url);
+  //   socket = io(url, {
+  //     // extraHeaders: {
+  //     //   token: token as string,
+  //     // },
+  //   });
+  //   // authApiRequest
+  //   //   .isTokenValid()
+  //   //   .then((res) => {
+  //   //     setTokenValid(true);
+  //   //     const token = getCookie('clientSessionToken');
 
-        socket.on('notification', (data: NotificationType) => {
-          setNotification((currentNotifications: NotificationType[]) => {
-            return [data, ...currentNotifications];
-          });
-          setUnreadCount((currentUnreadCount) => {
-            return currentUnreadCount + 1;
-          });
-        });
-      })
-      .catch((err) => {
-        setTokenValid(false);
-      })
-      .finally(() => {});
-  };
+  //   //     // socket.on('connect', () => {
+  //   //     //   console.log('Connected to server');
+  //   //     // });
+
+  //   //     // socket.on('notification', (data: NotificationType) => {
+  //   //     //   setNotification((currentNotifications: NotificationType[]) => {
+  //   //     //     return [data, ...currentNotifications];
+  //   //     //   });
+  //   //     //   setUnreadCount((currentUnreadCount) => {
+  //   //     //     return currentUnreadCount + 1;
+  //   //     //   });
+  //   //     // });
+  //   //   })
+  //   //   .catch((err) => {
+  //   //     setTokenValid(false);
+  //   //   })
+  //   //   .finally(() => {});
+  // };
 
   React.useEffect(() => {
     if (!hasRun.current) {
       getMyNotifications();
-      connectSocket();
+      onEvent('notification', updateNotification);
       hasRun.current = true;
     }
     return () => {

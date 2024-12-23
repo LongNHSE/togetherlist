@@ -104,7 +104,6 @@ const requestFile = async (
   options?: CustomOption | undefined,
   retryCount = 0,
 ): Promise<any> => {
-  console.log(options?.body);
   const sessionToken = getCookie('clientSessionToken');
   const body = options?.body ? JSON.stringify(options.body) : undefined;
 
