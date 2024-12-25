@@ -30,7 +30,7 @@ export const useGetMyRoomChat = ({
       return response.data;
     },
   });
-  let myRoomList = data?.data;
+  let myRoomList: RoomChat[] = data?.data;
 
   return {
     data: myRoomList,

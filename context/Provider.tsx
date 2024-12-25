@@ -4,19 +4,11 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { WorkspaceType as Workspace } from '@/lib/schema/workspace/workspace.schema';
 import { SubscriptionPlan } from '@/lib/schema/subscription/subscriptionPlan.schema';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-interface User {
-  _id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-  username: string;
-  avatar: string;
-}
+import { UserType as UserInterface } from '@/lib/schema/user.schema';
 
 interface AppContextType {
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  user: UserInterface | null;
+  setUser: React.Dispatch<React.SetStateAction<UserInterface | null>>;
   currentWorkspace: Workspace | null;
   setCurrentWorkspace: React.Dispatch<React.SetStateAction<Workspace | null>>;
   loading: boolean;
@@ -31,7 +23,7 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export default function Provider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserInterface | null>(null);
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(
     null,
   );

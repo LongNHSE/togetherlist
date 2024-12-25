@@ -1,13 +1,18 @@
 import React from 'react';
 import { Avatar, AvatarImage } from '../ui/avatar';
 import { Phone, Video } from 'lucide-react';
+import { RoomChat } from '@/types/RoomChat';
 
-const ChatMessageHeader = () => {
+interface ChatMessageHeaderProps {
+  roomChat: RoomChat;
+}
+
+const ChatMessageHeader = ({ roomChat }: ChatMessageHeaderProps) => {
   return (
     <div className="py-2 px-5 flex items-center justify-between h-20 border-b border-slate-300">
       <div className="flex items-center gap-4">
         <div>
-          <Avatar>
+          {/* <Avatar>
             <AvatarImage
               src="https://randomuser.me/api/portraits/men/1.jpg"
               alt="@shadcn"
@@ -15,11 +20,11 @@ const ChatMessageHeader = () => {
               height={10}
               className="w-10 h-10 rounded-full "
             />
-          </Avatar>
+          </Avatar> */}
         </div>
 
         <div>
-          <h1 className="text-lg font-semibold ">John Doe</h1>
+          <h1 className="text-lg font-semibold ">{roomChat.name}</h1>
           <span className="text-slate-500 text-sm">Active 2 mins ago</span>
         </div>
       </div>

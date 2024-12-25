@@ -1,11 +1,13 @@
+'use client';
 import { FileImage, Paperclip, SendHorizontal, ThumbsUp } from 'lucide-react';
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Textarea } from '../ui/textarea';
 import EmojiPicker from '../EmojiPicker';
-import { Message } from '@/lib/schema/message';
+import { Message } from '@/types/Message';
+import { useAppContext } from '@/context/Provider';
 
 interface ChatBottombarProps {
-  sendMessage: (newMessage: Message) => void;
+  sendMessage: (newMessage: string) => void;
 }
 
 const ChatMessageBottomBar = ({ sendMessage }: ChatBottombarProps) => {
@@ -18,26 +20,20 @@ const ChatMessageBottomBar = ({ sendMessage }: ChatBottombarProps) => {
 
   const handleSend = () => {
     if (message.trim()) {
-      const newMessage: Message = {
-        id: Date.now(), // Unique ID for the message
-        name: 'Test',
-        avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
-        message,
-      };
-      sendMessage(newMessage);
+      sendMessage(message);
       setMessage('');
     }
   };
 
   const handleThumbsUp = () => {
-    const newMessage: Message = {
-      id: Date.now(), // Unique ID for the message
-      name: 'Test',
-      avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
-      message: '👍',
-    };
-    sendMessage(newMessage);
-    setMessage('');
+    // const newMessage: Message = {
+    //   id: Date.now(), // Unique ID for the message
+    //   name: 'Test',
+    //   avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
+    //   message: '👍',
+    // };
+    // sendMessage(newMessage);
+    // setMessage('');
   };
 
   return (

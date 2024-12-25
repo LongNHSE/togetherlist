@@ -1,41 +1,32 @@
 'use client';
-import { EllipsisVertical, SquarePen } from 'lucide-react';
 import ChatUser from '@/components/chat/ChatUser';
-import { useEffect, useState } from 'react';
 import ChatSidebarPagination from './ChatSidebarPagination';
-import { WorkspaceType } from '@/lib/schema/workspace/workspace.schema';
-import { useAppContext } from '@/context/Provider';
 import { useGetMyRoomChat } from '@/hooks/auth/useGetMyRoomChat';
+import { RoomChat } from '@/types/RoomChat';
+import { Skeleton } from '../ui/skeleton';
 
-const ChatSidebar = () => {
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const { currentWorkspace, setCurrentWorkspace, members, setMembers } =
-  //   useAppContext();
-  // const workspacesPerPage = 10;
+interface ChatSidebarParams {
+  roomChatData: RoomChat[];
+  isRoomChatDataLoading: boolean;
+  isRoomChatDataError: boolean;
+  selectCurrentRoom: (currentActiveRoom: RoomChat) => void;
+}
 
-  // useEffect(() => {
-  //   if (currentWorkspace) {
-  //     console.log('Current workspace:', currentWorkspace);
-  //     setMembers(currentWorkspace.members);
-  //   }
-  // }, [currentWorkspace]);
-
-  // const handlePageChange = (pageNumber: number) => {
-  //   if (currentWorkspace) {
-  //     const totalPages = Math.ceil(1 / workspacesPerPage);
-  //     if (pageNumber >= 1 && pageNumber <= totalPages) {
-  //       setCurrentPage(pageNumber);
-  //     }
-  //   }
-  // };
-
-  const { data, isLoading, isError } = useGetMyRoomChat({});
-
-  if (isLoading) {
-    return <div>Loading...</div>;
+const ChatSidebar = ({
+  roomChatData,
+  isRoomChatDataLoading,
+  isRoomChatDataError,
+  selectCurrentRoom,
+}: ChatSidebarParams) => {
+  if (isRoomChatDataLoading) {
+    return (
+      <section className="border-r border-slate-200 px-4 flex flex-col h-screen">
+        <Skeleton className="w-[100px] h-[20px] rounded-full" />
+      </section>
+    );
   }
 
-  if (isError) {
+  if (isRoomChatDataError) {
     return <div>Error</div>;
   }
 
@@ -54,20 +45,18 @@ const ChatSidebar = () => {
       </div>
 
       <div className="flex flex-col gap-3 h-[65vh] overflow-y-auto">
-        {/* {members.map((member: any) => (
-          <ChatUser
-            key={member._id}
-            avatar={member.avatar || 'https://github.com/shadcn.png'}
-            name={member.username}
-          />
-        ))} */}
+        {roomChatData.map((roomChat: RoomChat) => (
+          <div key={roomChat._id} onClick={() => selectCurrentRoom(roomChat)}>
+            <ChatUser members={roomChat.members} name={roomChat.name} />
+          </div>
+        ))}
       </div>
 
-      <ChatSidebarPagination
-        items={[data]}
+      {/* <ChatSidebarPagination
+        items={[roomChatData]}
         onPageChange={() => {}}
         currentPage={1}
-      />
+      /> */}
     </section>
   );
 };

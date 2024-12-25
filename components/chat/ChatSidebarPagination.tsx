@@ -12,7 +12,7 @@ const ChatSidebarPagination = ({
   onPageChange,
 }: ChatSidebarPaginationProps) => {
   const totalPages = Math.ceil(items.length / 10);
-
+  console.log(items);
   const handlePageClick = (pageNumber: number) => {
     onPageChange(pageNumber);
   };

@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { SubscriptionPlanSchema } from './subscription/subscriptionPlan.schema';
 
 export const UserSchema = z.object({
-  _id: z.string().optional(),
+  _id: z.string(),
   firstName: z.string(),
   lastName: z.string(),
   username: z.string(),

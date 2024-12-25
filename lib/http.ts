@@ -78,7 +78,11 @@ const request = async (
     const data = await res.json();
     if (data.statusCode === 401) {
       if (retryCount >= 3) {
-        throw new Error('Falied to refresh token!!');
+        deleteCookie('clientSessionToken');
+        deleteCookie('refreshToken');
+        localStorage.removeItem('user');
+        window.location.href = '/auth';
+        throw new Error('Failed to refresh token!!');
       }
       await refreshToken();
       return request(method, url, options, retryCount + 1);
@@ -88,7 +92,7 @@ const request = async (
   } catch (error: any) {
     if (error.response && error.response.status === 401) {
       if (retryCount >= 3) {
-        throw new Error('Falied to refresh token!!');
+        throw new Error('Failed to refresh token!!');
       }
       await refreshToken();
       return request(method, url, options, retryCount + 1);
@@ -126,7 +130,11 @@ const requestFile = async (
     const data = await res.json();
     if (data.statusCode === 401) {
       if (retryCount >= 3) {
-        throw new Error('Falied to refresh token!!');
+        deleteCookie('clientSessionToken');
+        deleteCookie('refreshToken');
+        localStorage.removeItem('user');
+        window.location.href = '/auth';
+        throw new Error('Failed to refresh token!!');
       }
       await refreshToken();
       return request(method, url, options, retryCount + 1);

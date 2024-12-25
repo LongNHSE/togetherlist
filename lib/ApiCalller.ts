@@ -18,7 +18,7 @@ function handleRequestInterceptors(config: InternalAxiosRequestConfig<any>) {
 
 async function handleResponseError(error: any) {
   const originalRequest = error.config;
-  const refreshToken =Cookies.get('refreshToken');
+  const refreshToken = Cookies.get('refreshToken');
 
   if (!refreshToken) {
     deleteCookie('clientSessionToken');
@@ -63,7 +63,7 @@ const axiosPublic = () => {
 
 const axiosPrivate = () => {
   const axiosInstance = axios.create({
-    baseURL: API_URL,
+    baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
