@@ -24,14 +24,14 @@ async function handleResponseError(error: any) {
     deleteCookie('clientSessionToken');
     deleteCookie('refreshToken');
     localStorage.removeItem('user');
-    window.location.href = '/login';
+    window.location.href = '/auth';
   }
   if (
     error.response?.status === HttpStatusCode.Unauthorized &&
     !originalRequest._retry
   ) {
     originalRequest._retry = true;
-    const newToken = await axiosPublic().post('/auth/refresh-token', {
+    const newToken = await axiosPrivate().post('/auth/refresh-token', {
       refreshToken,
     });
     if (newToken) {
@@ -45,7 +45,7 @@ async function handleResponseError(error: any) {
       deleteCookie('clientSessionToken');
       deleteCookie('refreshToken');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+      window.location.href = '/auth';
     }
     return Promise.reject(error);
   }

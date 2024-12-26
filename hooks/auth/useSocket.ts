@@ -1,128 +1,79 @@
 import { getCookie } from 'cookies-next';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
-// import Cookies from 'js-cookie';
-// import { useRefreshToken } from '@/hooks/useRefreshToken';
 
-const SOCKET_SERVER_URL = 'http://localhost:8000/notification';
+const SOCKET_SERVER_URL = 'http://localhost:8000';
 
 interface UseSocket {
-  onEvent: (event: string, callback: (data: any) => void) => void;
-  offEvent: (event: string) => void;
+  onEvent: (
+    namespace: string,
+    event: string,
+    callback: (data: any) => void,
+  ) => void;
+  offEvent: (namespace: string, event: string) => void;
   socket: Socket | null;
-  isSocketConnected: boolean; // New state to track the connection status
+  isSocketConnected: boolean; // Track the connection status
 }
 
-export const useSocket = (): UseSocket => {
+export const useSocket = (namespace: string): UseSocket => {
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [isSocketConnected, setIsSocketConnected] = useState(false); // Track connection state
+  const [isSocketConnected, setIsSocketConnected] = useState(false);
   const eventHandlers = useRef<Record<string, (data: any) => void>>({});
 
-  const connectSocket = async () => {
-    // let token = Cookies.get('accessToken');
-
-    // if (!token) {
-    //   const newToken = await useRefreshToken();
-    //   if (!newToken) return;
-    //   token = Cookies.get('accessToken');
-    // }
+  const connectSocket = async (namespace: string) => {
     const token = getCookie('clientSessionToken');
-
-    const newSocket = io(SOCKET_SERVER_URL, {
-      host: 'localhost',
+    const newSocket = io(`${SOCKET_SERVER_URL}${namespace}`, {
       transports: ['websocket'],
       extraHeaders: {
         token: `${token}`,
       },
     });
     newSocket.on('connect', () => {
-      console.log('Socket connected');
-      setIsSocketConnected(true); // Set connection status to true
+      console.log(`Socket connected to namespace: ${namespace}`);
+      setIsSocketConnected(true);
     });
-
-    // newSocket.on('connect_error', async (err) => {
-    //   console.error('Socket connection error:', err.message);
-
-    //   if (err.message === 'Invalid token') {
-    //     // Refresh token and reconnect
-    //     const newToken = await useRefreshToken();
-    //     if (newToken) {
-    //       newSocket.auth = { token: `Bearer ${newToken}` };
-    //       newSocket.connect(); // Reconnect with new token
-    //     }
-    //   }
-    // });
-
     newSocket.on('disconnect', () => {
-      setIsSocketConnected(false); // Set connection status to false
+      console.log(`Socket disconnected from namespace: ${namespace}`);
+      setIsSocketConnected(false);
     });
-
     setSocket(newSocket);
   };
 
-  // const onEvent = (event: string, callback: (data: any) => void) => {
-  //   if (!socket || !isSocketConnected) {
-  //     console.log(`Socket not ready for event: ${event}`);
-  //     return;
-  //   }
-
-  //   // Avoid duplicate listeners
-  //   if (eventHandlers.current[event]) {
-  //     console.log(`Event ${event} is already bound.`);
-  //     return;
-  //   }
-
-  //   console.log(`Listening to event: ${event}`);
-  //   eventHandlers.current[event] = callback;
-  //   socket.on(event, callback);
-  // };
-
-  // const offEvent = (event: string) => {
-  //   if (!socket || !isSocketConnected) {
-  //     return;
-  //   }
-
-  //   // Remove the event listener and clean up the stored handler
-  //   const handler = eventHandlers.current[event];
-  //   if (handler) {
-  //     socket.off(event, handler);
-  //     delete eventHandlers.current[event];
-  //   }
-  // };
-
   const onEvent = useCallback(
-    (event: string, callback: (data: any) => void) => {
+    (namespace: string, event: string, callback: (data: any) => void) => {
       if (!socket || !isSocketConnected) return;
 
-      if (eventHandlers.current[event]) return;
+      const eventKey = `${namespace}-${event}`;
+      if (eventHandlers.current[eventKey]) return;
 
-      eventHandlers.current[event] = callback;
+      eventHandlers.current[eventKey] = callback;
       socket.on(event, callback);
     },
     [socket, isSocketConnected],
   );
 
   const offEvent = useCallback(
-    (event: string) => {
+    (namespace: string, event: string) => {
       if (!socket || !isSocketConnected) return;
-
-      const handler = eventHandlers.current[event];
+      const eventKey = `${namespace}-${event}`;
+      const handler = eventHandlers.current[eventKey];
       if (handler) {
         socket.off(event, handler);
-        delete eventHandlers.current[event];
+        delete eventHandlers.current[eventKey];
       }
     },
     [socket, isSocketConnected],
   );
 
+  // Effect to handle the socket connection and cleanup
   useEffect(() => {
-    connectSocket();
+    connectSocket('/notification'); // Default to /notification namespace
     return () => {
       if (socket) {
         socket.disconnect();
       }
     };
-  }, []);
+  }, []); // You can update this to handle dynamic namespaces if needed
 
   return { onEvent, offEvent, socket, isSocketConnected };
 };

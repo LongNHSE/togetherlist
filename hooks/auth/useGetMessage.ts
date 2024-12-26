@@ -1,7 +1,10 @@
-import { getRoomMessages } from '@/apiRequest/messages/messages.api';
+import {
+  getRoomMessages,
+  sendMessage,
+} from '@/apiRequest/messages/messages.api';
 import { ApiResponse } from '@/types/ApiResponse';
 import { Message } from '@/types/Message';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 export const useGetMessage = (roomId: string) => {
@@ -21,4 +24,18 @@ export const useGetMessage = (roomId: string) => {
     isLoading,
     isError,
   };
+};
+
+export const useSendMessage = () => {
+  return useMutation({
+    mutationFn: async ({
+      roomChatId,
+      message,
+    }: {
+      roomChatId: string;
+      message: string;
+    }) => {
+      return sendMessage(roomChatId, message);
+    },
+  });
 };

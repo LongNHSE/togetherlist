@@ -5,6 +5,7 @@ import ChatMessageBottomBar from './ChatMessageBottomBar';
 import { Message } from '@/types/Message';
 import { RoomChat } from '@/types/RoomChat';
 import { useAppContext } from '@/context/Provider';
+import { useSendMessage } from '@/hooks/auth/useGetMessage';
 
 interface ChatListProps {
   initialMessages?: Message[];
@@ -14,6 +15,7 @@ interface ChatListProps {
 
 const ChatList = ({ initialMessages = [], roomChat }: ChatListProps) => {
   const { user } = useAppContext();
+  const { mutateAsync } = useSendMessage();
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
@@ -24,19 +26,17 @@ const ChatList = ({ initialMessages = [], roomChat }: ChatListProps) => {
     }
   }, [messages]);
 
-  const sendMessage = (newMessage: string) => {
-    if (user) {
-      const newMessageModel: Message = {
-        sender: user,
-        content: newMessage,
-        roomChat: roomChat,
-      };
-      setMessages([...messages, newMessageModel]);
-    }
+  const sendMessage = async (newMessage: string) => {
+    await mutateAsync({
+      roomChatId: roomChat._id,
+      message: newMessage,
+    });
   };
+
   useEffect(() => {
     setMessages(initialMessages);
   }, [initialMessages]);
+  
   return (
     <div className="flex flex-col h-[70vh]">
       <div

@@ -14,7 +14,7 @@ const publicPath = [
   '/home/*',
   '/',
   '/auth',
-  '/auth/login',
+  '/auth/auth',
   '/auth/*',
   '/auth/signup',
   '/auth/forgot-password',

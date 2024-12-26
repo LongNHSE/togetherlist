@@ -1,69 +1,83 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ChatMessageHeader from './ChatMessageHeader';
 import ChatList from './ChatList';
-import { Message } from '@/lib/schema/message';
-import { socket } from '../../socket';
 import { RoomChat } from '@/types/RoomChat';
 import { useGetMessage } from '@/hooks/auth/useGetMessage';
 import { Skeleton } from '../ui/skeleton';
+import { io, Socket } from 'socket.io-client';
+import { getCookie } from 'cookies-next';
+import { Message } from '@/types/Message';
 
 interface MessageProps {
   roomChat: RoomChat;
 }
 
+const SOCKET_SERVER_URL = 'http://localhost:8000';
+
 const ChatMessage = ({ roomChat }: MessageProps) => {
   const { data, isLoading, isError } = useGetMessage(roomChat._id);
+  const token = getCookie('clientSessionToken');
+  const [messages, setMessages] = useState<Message[]>([]);
 
-  // useEffect(() => {
-  //   console.log('Initializing socket events');
-  //   function onConnect() {
-  //     console.log('Connected to socket');
-  //     setIsConnected(true);
-  //     setTransport(socket.io.engine.transport.name);
+  // Use useRef to keep the socket instance persistent across re-renders
+  const socketRef = useRef<Socket | null>(null);
 
-  //     socket.io.engine.on('upgrade', (transport) => {
-  //       console.log('Transport upgraded to:', transport.name);
-  //       setTransport(transport.name);
-  //     });
+  useEffect(() => {
+    const socketInstance = io(`${SOCKET_SERVER_URL}/room_chat`, {
+      transports: ['websocket'],
+      extraHeaders: {
+        token: `${token}`,
+      },
+    });
 
-  //     // Join a workspace (replace with actual workspaceId and memberId)
-  //     socket.emit('joinWorkspace', {
-  //       workspaceId: '667a3b159bcf24779a885ce2',
-  //       memberId: '667a38f49bcf24779a885be9',
-  //     });
+    socketRef.current = socketInstance;
 
-  //     socket.on('receiveMessage', (message: Message) => {
-  //       setMessages((prevMessages) => [...prevMessages, message]);
-  //     });
-  //   }
+    return () => {
+      socketInstance.disconnect(); // Cleanup on component unmount
+    };
+  }, [token]);
 
-  //   function onDisconnect() {
-  //     console.log('Disconnected from socket');
-  //     setIsConnected(false);
-  //     setTransport('N/A');
-  //   }
+  useEffect(() => {
+    if (socketRef.current) {
+      joinRoom();
+      onEventListenNewMessage();
+    }
+  }, [roomChat._id]);
 
-  //   socket.on('connect', onConnect);
-  //   socket.on('disconnect', onDisconnect);
+  useEffect(() => {
+    if (data) {
+      setMessages(data);
+    }
+  }, [data]);
 
-  //   return () => {
-  //     console.log('Cleaning up socket events');
-  //     socket.off('connect', onConnect);
-  //     socket.off('disconnect', onDisconnect);
-  //     socket.off('receiveMessage');
-  //   };
-  // }, []);
+  const updateMessage = (newMessage: Message) => {
+    console.log(newMessage);
+    setMessages((prevMessages) => {
+      // Prevent adding duplicate messages by checking if the message already exists
+      if (prevMessages.find((msg) => msg._id === newMessage._id)) {
+        return prevMessages;
+      }
+      return [...prevMessages, newMessage];
+    });
+  };
 
-  // const sendMessage = (newMessage: Message) => {
-  //   socket.emit('sendMessage', newMessage);
-  //   setMessages([...messages, newMessage]);
-  // };
+  const joinRoom = () => {
+    socketRef.current?.emit('joinRoom', roomChat._id);
+  };
+
+  const onEventListenNewMessage = () => {
+    if (socketRef.current) {
+      socketRef.current.on('sendMessage', (newMessage: Message) => {
+        updateMessage(newMessage);
+      });
+    }
+  };
 
   if (isLoading) {
     return (
       <section>
-        <Skeleton></Skeleton>
+        <Skeleton />
       </section>
     );
   }
@@ -75,7 +89,7 @@ const ChatMessage = ({ roomChat }: MessageProps) => {
         <ChatMessageHeader roomChat={roomChat} />
       </div>
       {/* Messages */}
-      <ChatList initialMessages={data} roomChat={roomChat} />
+      <ChatList initialMessages={messages} roomChat={roomChat} />
     </section>
   );
 };

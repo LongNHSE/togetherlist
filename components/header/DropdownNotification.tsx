@@ -29,7 +29,7 @@ const DropdownNotification = () => {
   const [unreadCount, setUnreadCount] = React.useState(0);
   const [timePast, setTimePast] = React.useState(0);
   const hasRun = React.useRef(false);
-  const { onEvent, offEvent } = useSocket();
+  const { onEvent, offEvent } = useSocket('/notification');
 
   const getMyNotifications = async () => {
     const result = await notificationApiRequest.getMyNotifications(page, limit);
@@ -61,7 +61,6 @@ const DropdownNotification = () => {
       );
     }
   };
-  const SOCKET_SERVER_URL = 'http://localhost:8000/notification';
 
   // const connectSocket = () => {
   //   const url = SOCKET_SERVER_URL;
@@ -99,7 +98,7 @@ const DropdownNotification = () => {
   React.useEffect(() => {
     if (!hasRun.current) {
       getMyNotifications();
-      onEvent('notification', updateNotification);
+      onEvent('/notification', 'notification', updateNotification);
       hasRun.current = true;
     }
     return () => {

@@ -30,7 +30,7 @@ const refreshToken = async () => {
       deleteCookie('refreshToken');
       localStorage.removeItem('user');
       localStorage.clear();
-      window.location.href = '/login';
+      window.location.href = '/auth';
       throw new Error('Authorization failed');
     } else {
       setCookie('clientSessionToken', data.accessToken);
